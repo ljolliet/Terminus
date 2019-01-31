@@ -1,0 +1,53 @@
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  color: white;
+  font-family: monospace;
+  font-size: 15px;
+}
+
+div#console {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  max-height: 100%;
+  width: 60%;
+  max-width: 60%;
+  display: inline-block;
+  word-wrap: break-word;
+}
+
+div#side-panel {
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 40%;
+  border-left: 1px red dashed;
+}
+
+div#console div.message {
+  margin-bottom: 10px;
+}
+
+div#console #div-input-text {
+  position: absolute;
+  bottom: 0;
+}
+
+div#console #div-input-text span {
+  float: left;
+}
+
+span#cursor.visible {
+  background-color: white;
+  color: black;
+}
+
+span#cursor {
+  margin: 0;
+  padding: 0;
+}
