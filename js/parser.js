@@ -57,18 +57,11 @@ class Parser{
     }
 
     /**
-     * @returns the main command.
+     * TODO: doc
+     * @returns all the commands parsed.
      */
-    getMainCommand(){
-        return this.mainCmd;
-    }
-
-    /**
-     * @returns an array with all the command arguments.
-     * The size is 0 if there is no arguments.
-     */
-    getArguments(){
-        return this.arguments;
+    getCommands(){
+        return this.commands;
     }
 }
 
