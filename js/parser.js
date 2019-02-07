@@ -29,8 +29,11 @@ class Parser{
                 console.log("[Parser] The command is empty");
             }
         }else{
+            // We use a regex to remove the tabs, the new lines, and extra spaces
+            let fixedCommand = this.command.replace(/\s\s+/g, ' ');
+
             // We devide the command in multiple commands if there was a pipe
-            let cmds = this.command.split("|");
+            let cmds = fixedCommand.split("|");
             
             // For each commands between the pipe, we will add its details to the array
             for(let i = 0; i < cmds.length ; i ++){
