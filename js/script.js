@@ -4,13 +4,41 @@
 
 })()
 
+var blinkingCursor;
+var consoleFocused = false;
+
 /**
- * List of available characters
+ * Focus detector for the console
+ * The cursor begin to blink
+ * and the textarea is now focused
  */
-const BACKSPACE = 8;
-const TAB = 9;
-const ENTER = 13;
-// Shift = 16 | CapsLock = 20
+document.getElementById("console").addEventListener("click", function(event) {
+  /**
+   * Blink method for the cursor
+   */
+  clearInterval(blinkingCursor);
+  var cursor = document.getElementById('cursor');
+  blinkingCursor = window.setInterval(function() {
+      if(cursor.classList.contains('visible'))
+        cursor.classList.remove('visible');
+      else
+        cursor.classList.add('visible');
+  }, 500); 
+
+  document.getElementsByClassName("textInput")[0].focus();
+  consoleFocused = true;
+});
+
+/**
+ * Unfocus the textarea
+ * and the cursor disappear
+ */
+document.getElementById("side-panel").addEventListener("click", function(event) {
+  document.getElementById('cursor').classList.remove('visible');
+  clearInterval(blinkingCursor);
+  consoleFocused = false;
+});
+
 
 var inputTextFirst  = document.getElementById("input-text-first");
 var cursor  = document.getElementById("cursor");
@@ -19,75 +47,70 @@ var inputTextSecond = document.getElementById("input-text-second");
 /**
  * Detect keyboard events
  */
-window.addEventListener("keydown", function(event) {
-  var code  = event.keyCode;
-  var input = event.key;
+document.getElementsByClassName("textInput")[0].addEventListener("keydown", function(event) {
+  console.log(event.keyCode);
+  if (consoleFocused) {
+    var code  = event.keyCode;
+    var input = event.key;
 
-  var size1 = inputTextFirst.innerHTML.length;
-  var size2 = inputTextSecond.innerHTML.length;
+    var size1 = inputTextFirst.innerText.length;
+    var size2 = inputTextSecond.innerText.length;
 
-  if (code == 8) // BACKSPACE
-  inputTextFirst.innerHTML = inputTextFirst.innerHTML.substring(0, size1-1);
+    if (code == 8) // BACKSPACE
+    inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
 
-  else if (code == 13) { // ENTER
-    var msg = document.getElementById("chevron").innerText;
-    if (size1 > 0)
-      msg += inputTextFirst.innerHTML;
-    if (cursor.innerHTML != '&nbsp;')
-      msg += cursor.innerHTML;
-    if (size2 > 0)
-      msg += inputTextSecond.innerHTML;
-
-    printMessage(msg);
-    inputTextFirst.innerHTML = "";
-    cursor.innerHTML = '&nbsp;';
-    inputTextSecond.innerHTML = "";
-  }
-
-  else if (code == 37) { // LEFT ARROW
-    if (size1 > 0) {
+    else if (code == 13) { // ENTER
+      var msg = document.getElementById("chevron").innerText;
+      if (size1 > 0)
+        msg += inputTextFirst.innerText;
       if (cursor.innerHTML != '&nbsp;')
-        inputTextSecond.innerHTML = cursor.innerHTML + inputTextSecond.innerHTML;
-      cursor.innerHTML = inputTextFirst.innerHTML.substring(size1-1, size1);
-      inputTextFirst.innerHTML = inputTextFirst.innerHTML.substring(0, size1-1);
-    }
-  }
+        msg += cursor.innerText;
+      if (size2 > 0)
+        msg += inputTextSecond.innerText;
 
-  else if (code == 39) { // RIGHT ARROW
-    if (size2 > 0) {
-      if (cursor.innerHTML != '&nbsp;')
-        inputTextFirst.innerHTML += cursor.innerHTML;
-      cursor.innerHTML = inputTextSecond.innerHTML.substring(0, 1);
-      inputTextSecond.innerHTML = inputTextSecond.innerHTML.substring(1, size2);
-    }
-    else if (size2 == 0) {
-      if (cursor.innerHTML != '&nbsp;')
-        inputTextFirst.innerHTML += cursor.innerHTML;
+      printMessage(msg);
+      inputTextFirst.innerHTML = "";
       cursor.innerHTML = '&nbsp;';
+      inputTextSecond.innerHTML = "";
     }
+
+    else if (code == 37) { // LEFT ARROW
+      if (size1 > 0) {
+        inputTextSecond.innerText = cursor.innerText + inputTextSecond.innerText;
+        cursor.innerText = inputTextFirst.innerText.substring(size1-1, size1);
+        inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
+      }
+    }
+
+    else if (code == 39) { // RIGHT ARROW
+      if (size2 > 0) {
+        inputTextFirst.innerText += cursor.innerText;
+        cursor.innerText = inputTextSecond.innerText.substring(0, 1);
+        inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
+      }
+      else if (size2 == 0) {
+        if (cursor.innerHTML != '&nbsp;')
+          inputTextFirst.innerHTML += cursor.innerHTML;
+        cursor.innerHTML = '&nbsp;';
+      }
+    }
+
+    else if (code == 32) { // SPACE
+      // Transform the normal space in an unbreakable space
+      inputTextFirst.innerHTML += '&nbsp;';
+    }
+
+    else if (input.length == 1) // letter, digit and others
+      inputTextFirst.innerHTML += input;
   }
-
-  else if (input.length == 1) // letter, digit and others
-    inputTextFirst.innerHTML += input;
-
 });
-
-/**
- * Blink method for the cursor
- */
-var cursor = document.getElementById('cursor');
-var interval = window.setInterval(function(){
-    if(cursor.classList.contains('visible'))
-      cursor.classList.remove('visible');
-    else
-      cursor.classList.add('visible');
-}, 500);
-
 
 /**
    * Print a message on the screen
    */
   function printMessage(message) {
+    message = message.replace('&nbsp;', ' ');
+
     var childDiv = document.createElement("div");
     childDiv.classList.add("message");
     var textNode = document.createTextNode(message);
