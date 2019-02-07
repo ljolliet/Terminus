@@ -20,7 +20,8 @@ class Parser{
     }
 
     /**
-     * It parses the command
+     * It parses the command.
+     * You should use getCommands() to retrieve the command parsed.
      */
     parseCommand(){
         if(this.command.length == 0){
@@ -48,7 +49,7 @@ class Parser{
             }
 
             if(this.verbose){
-                console.log("Command list :" + this.commands);
+                console.log(this.commands);
             }
         }
     }
@@ -95,20 +96,5 @@ class Parser{
      */
     getCommands(){
         return this.commands;
-    }
-}
-
-/**
- * THIS IS A TEST FUNCTION :
- * It retrieves the content of the input of id "input", and parses it.
- * @param {key event} event 
- */
-function runParser(e){
-    if (e.keyCode == 13) {
-        var input = document.getElementById("input");
-        let command = input.value;
-        
-        let parser = new Parser(command, true);
-        parser.parseCommand();
     }
 }
