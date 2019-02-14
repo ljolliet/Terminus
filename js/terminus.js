@@ -106,14 +106,14 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 });
 
 /**
-   * Print a message on the screen
-   */
-  function printMessage(message) {
-    message = message.replace('&nbsp;', ' ');
+ * Print a message on the screen
+ */
+function printMessage(message) {
+  message = message.replace('&nbsp;', ' ');
 
-    var childDiv = document.createElement("div");
-    childDiv.classList.add("message");
-    var textNode = document.createTextNode(message);
-    childDiv.appendChild(textNode);
-    document.getElementById("console-output").appendChild(childDiv);
-  }
+  var childDiv = document.createElement("div");
+  childDiv.classList.add("message");
+  var textNode = document.createTextNode(message);
+  childDiv.appendChild(textNode);
+  document.getElementById("console-output").appendChild(childDiv);
+}
