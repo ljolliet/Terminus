@@ -28,6 +28,11 @@ class Parser{
             if(this.verbose){
                 console.log("[Parser] The command is empty");
             }
+
+            this.commands.push({
+                main: "",
+                args: ""
+            });
         }else{
             // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
             let fixedCommand = this.command.replace("&nbsp;", " ")
@@ -100,7 +105,7 @@ class Parser{
      * 
      * @returns all the commands parsed (list of {main, args}).
      */
-    getCommands(){
+    getCommandList(){
         return this.commands;
     }
 }
