@@ -29,8 +29,11 @@ class Parser{
                 console.log("[Parser] The command is empty");
             }
         }else{
+            // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
+            let fixedCommand = this.command.replace("&nbsp;", " ")
+
             // We use a regex to remove the tabs, the new lines, and extra spaces
-            let fixedCommand = this.command.replace(/\s\s+/g, ' ');
+            fixedCommand = this.command.replace(/\s\s+/g, " ");
 
             // We devide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");
