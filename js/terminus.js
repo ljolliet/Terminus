@@ -59,14 +59,25 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
     if (code == 8) // BACKSPACE
     inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
 
+    else if (code == 46) {
+      if (size2 > 0) {
+        cursor.innerText = inputTextSecond.innerText.substring(0, 1);
+        inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
+      }
+    }
+
     else if (code == 13) { // ENTER
       var msg = document.getElementById("chevron").innerText;
+
       if (size1 > 0)
         msg += inputTextFirst.innerText;
-      if (cursor.innerHTML != '&nbsp;')
-        msg += cursor.innerText;
+      
+      msg += cursor.innerText;
+
       if (size2 > 0)
         msg += inputTextSecond.innerText;
+
+      msg = msg.substring(0, msg.length - 1);
 
       printMessage(msg);
       inputTextFirst.innerHTML = "";
@@ -113,7 +124,7 @@ function printMessage(message) {
 
   var childDiv = document.createElement("div");
   childDiv.classList.add("message");
-  var textNode = document.createTextNode(message);
+  var textNode = document.createTextNode('\'' + message + '\'');
   childDiv.appendChild(textNode);
   document.getElementById("console-output").appendChild(childDiv);
 }
