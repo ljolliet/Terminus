@@ -9,6 +9,17 @@ var CMD_LS      = 4;
 
 class CommandChecker{
 
+    /**
+     * Use the function analyseCommand to check the command.
+     * 
+     * The commands given here is a command object created by the
+     * *getCommandList* function from the *Parser* class.
+     * 
+     * You need to check if commandObj is not null before calling this
+     * function.
+     * 
+     * @param {commandList} commandObj command list that can't be null;
+     */
     constructor(commandObj){
         this.command = commandObj;
         this.analyseCommand();
