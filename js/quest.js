@@ -1,13 +1,21 @@
+
 // Status list
-var TODO = 0;
-var STARTED = 1;
-var DONE = 2;
+const STATUS = {
+    TODO : 0,
+    STARTED : 1,
+    DONE : 2
+};
+
 
 class Quest {
 
     constructor(name) {
         this.name = name;
-        this.status = TODO;
+        this.status = STATUS.TODO;
+        this.endText = "";
+        this.initialText = "";
+        this.commandRequired = [];
+        this.commandRewards = [];
     }
 
     /**
@@ -19,15 +27,15 @@ class Quest {
      */
     getInitialtext() { return this.initialText; }
     /**
-    * @return {Command[] }Command rewards array.
+    * @return {String[] }Command rewards array.
      */
     getCommandRewards() { return this.commandRewards; }
     /**
     * @return {String} Text displayed at the end.
     */
-    getEndText() { return this.endtext; }
+    getEndText() { return this.endText; }
     /**
-     * @return {Command[]} Command array required to finish the quest.
+     * @return {String[]} Command array required to finish the quest.
      */
     getCommandRequired() { return this.commandRequired; }
     /**
@@ -35,11 +43,11 @@ class Quest {
      */
     getStatus() { return this.status; } 
     /**
-     * @param {Command[]} command Add to requirements.
+     * @param {String[]} command Add to requirements.
      */
     addCommandRequired(command) { this.commandRequired.push(command); }
     /**
-     * @param {Command[]} command Add to rewards.
+     * @param {String[]} command Add to rewards.
      */
     addCommandRewards(command) { this.commandRewards.push(command); }
 

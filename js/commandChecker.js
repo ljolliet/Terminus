@@ -1,12 +1,12 @@
 
 // Command list
-var COMMAND_TYPE = {
-    UNKNOWN : -1,
-    EXIT    : 0,
-    HELP    : 1,
-    CD      : 2,
-    CAT     : 3,
-    LS      : 4
+const COMMAND_TYPE = {
+    UNKNOWN: -1,
+    EXIT: 0,
+    HELP: 1,
+    CD: 2,
+    CAT: 3,
+    LS: 4
 };
 
 class CommandChecker{

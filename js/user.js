@@ -2,6 +2,9 @@ class User {
 
     constructor(login) {
         this.login = login;
+        this.items = [];
+        this.trophies = [];
+        this.commandsAuthorized = [];
     }
     /**
      * @return {Item[]} Items owned by the user.
@@ -12,7 +15,7 @@ class User {
      */
     getTrophies() { return this.trophies; }
     /**
-     * @return {Command[]} Commands allowed.
+     * @return {String[]} Commands allowed.
      */
     getCommandsAuthorized() { return this.commandsAuthorized; }
     /**
@@ -24,7 +27,7 @@ class User {
      */
     addTrophy(trophy) { this.trophies.push(trophy); }
     /**
-     * @param {Command} command To add to user allowed commands.
+     * @param {String} command To add to user allowed commands.
      */
     addCommand(command) { this.commandsAuthorized.push(command); }
 

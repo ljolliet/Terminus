@@ -1,10 +1,12 @@
-
-
 class Place {
+
 
 
     constructor(name) {
         this.name = name;
+        this.places = [];
+        this.entities = [];
+        this.quests = [];
     }
     /** 
      * @return {String} Name
@@ -15,7 +17,7 @@ class Place {
      */
     getPlaces() { return this.places; }
     /**
-     * @return {Entities[]} The entities array.
+     * @return {Entity[]} The entities array.
      */
     getEntities() { return this.entities; }
     /**
@@ -33,6 +35,6 @@ class Place {
     /** 
      * @param {Entity} entitie To add in entities array.
      */
-    addQuest(entitie) { this.entities.push(entitie); }
+    addEntity(entitie) { this.entities.push(entitie); }
 
 }

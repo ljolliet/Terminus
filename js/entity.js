@@ -10,12 +10,12 @@ class Entity{
     }
 }
 class PNJ extends Entity{
-    constructor(name,text, type){
+    constructor(name,text){
         super(name,text);
     }
 }
 class Item extends Entity{
-    constructor(name,text, type){
+    constructor(name,text){
         super(name,text);
     }
 }
