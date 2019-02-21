@@ -75,6 +75,7 @@ class CommandChecker{
             this.errorMessage = "Command not found : ''";
             this.isValid = false;
             this.type = CMD_UNKNOWN;
+            return;
         }
         
         // Pipe command
@@ -84,6 +85,7 @@ class CommandChecker{
             this.errorMessage = "Command not found : ''";
             this.isValid = false;
             this.type = CMD_UNKNOWN;
+            return;
         }
 
         // Other commands
