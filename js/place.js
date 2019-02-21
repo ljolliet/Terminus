@@ -7,19 +7,19 @@ class Place {
         this.name = name;
     }
     /** 
-     * @returns {String} Name
+     * @return {String} Name
      */
     getName() { return this.name; }
     /**
-     * @returns {Place[]} The places array.  
+     * @return {Place[]} The places array.  
      */
     getPlaces() { return this.places; }
     /**
-     * @returns {Entities[]} The entities array.
+     * @return {Entities[]} The entities array.
      */
     getEntities() { return this.entities; }
     /**
-     * @returns {Quest[]} The quests array.
+     * @return {Quest[]} The quests array.
      */
     getQuests() { return this.quests; }
     /**
