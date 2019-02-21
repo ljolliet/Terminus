@@ -1,40 +1,73 @@
 class Place {
 
 
-
     constructor(name) {
-        this.name = name;
-        this.places = [];
-        this.entities = [];
-        this.quests = [];
+        this._places = [];
+        this._entities = [];
+        this._quests = [];
+        this._name = name;
     }
-    /** 
+
+    /**
      * @return {String} Name
      */
-    getName() { return this.name; }
+    get name() {
+        return this._name;
+    }
+
     /**
-     * @return {Place[]} The places array.  
+     * @return {Place[]} The places array.
      */
-    getPlaces() { return this.places; }
+    get places() {
+        return this._places;
+    }
+
     /**
      * @return {Entity[]} The entities array.
      */
-    getEntities() { return this.entities; }
+    get entities() {
+        return this._entities;
+    }
+
     /**
      * @return {Quest[]} The quests array.
      */
-    getQuests() { return this.quests; }
+    get quests() {
+        return this._quests;
+    }
+
     /**
      * @param {Place} place To add in places array.
      */
-    addPlace(place) { this.places.push(place); }
+    addPlace(place) {
+        this._places.push(place);
+    }
+
     /**
      * @param {Quest} quest To add in quests array.
      */
-    addQuest(quest) { this.quests.push(quest); }
-    /** 
-     * @param {Entity} entitie To add in entities array.
+    addQuest(quest) {
+        this._quests.push(quest);
+    }
+
+    /**
+     * @param {Entity} entity To add in entities array.
      */
-    addEntity(entitie) { this.entities.push(entitie); }
+    addEntity(entity) {
+        this._entities.push(entity);
+    }
+
+    toString() {
+        let s = this.name + ":\n  places : ";
+        for (let p of this.places)
+            s += p.name + ",";
+        s += "\n entities : ";
+        for (let e of this.entities)
+            s += e.toString() + ",";
+        s += "\n quests : ";
+        for (let q of this.quests)
+            s += q.name + ",";
+        return s;
+    }
 
 }

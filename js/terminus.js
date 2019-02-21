@@ -1,8 +1,8 @@
 (function() {
 
+Main.init();
 
-
-})()
+})();
 
 var blinkingCursor;
 var consoleFocused = false;
@@ -23,7 +23,7 @@ document.getElementById("console").addEventListener("click", function(event) {
         cursor.classList.remove('visible');
       else
         cursor.classList.add('visible');
-  }, 500); 
+  }, 500);
 
   document.getElementsByClassName("textInput")[0].focus();
   consoleFocused = true;
@@ -71,7 +71,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
       if (size1 > 0)
         msg += inputTextFirst.innerText;
-      
+
       msg += cursor.innerText;
 
       if (size2 > 0)

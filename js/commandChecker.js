@@ -1,6 +1,5 @@
-
 // Command list
-const COMMAND_TYPE = {
+var COMMAND_TYPE = {
     UNKNOWN: -1,
     EXIT: 0,
     HELP: 1,
@@ -10,6 +9,7 @@ const COMMAND_TYPE = {
 };
 
 class CommandChecker{
+
 
     /**
      * Use the function analyseCommand to check the command.
