@@ -18,11 +18,12 @@ class CommandChecker{
      * You need to check if commandObj is not null before calling this
      * function.
      * 
-     * @param {commandList} commandObj command list that can't be null;
+     * @param {commandList} commandObj command list (**not null**),
+     * @param {boolean} verbose if true, it write messages on the console.
      */
-    constructor(commandObj){
+    constructor(commandObj, verbose){
         this.command = commandObj;
-        this.analyseCommand();
+        this.verbose = verbose;
     }
 
 
@@ -70,7 +71,7 @@ class CommandChecker{
 
         // Empty command
         if(this.command.length == 0){
-            console.log("The command is empty.");
+            if(this.verbose) console.log("The command is empty.");
 
             this.errorMessage = "Command not found : ''";
             this.isValid = false;
@@ -80,7 +81,7 @@ class CommandChecker{
         
         // Pipe command
         if(this.command.length > 1){
-            console.log("The command is either a pipe command, and it is not supported yet.")
+            if(this.verbose) console.log("The command is either a pipe command, and it is not supported yet.")
             
             this.errorMessage = "Command not found : ''";
             this.isValid = false;
