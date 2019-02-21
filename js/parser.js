@@ -89,6 +89,7 @@ class Parser{
      * - theMainCommand: it is a string containing the main command
      * - theArguments: it is a list of string containing all of the arguments.
      * 
+     * 
      * **Example : The user types ls -la | grep folder**
      * 
      * The output will be :
@@ -103,9 +104,13 @@ class Parser{
      * Then, if the user used one or more pipes, the commands are sorted, and you have to go to the
      * index #1 for the second command, then #2 for the third and so on.
      * 
-     * @returns all the commands parsed (list of {main, args}).
+     * @returns all the commands parsed (list of {main, args}) **never null**.
      */
     getCommandList(){
-        return this.commands;
+        if(this.commands === null){
+            return [];
+        }else{
+            return this.commands;
+        }
     }
 }
