@@ -1,11 +1,13 @@
 
 // Command list
-var CMD_UNKNOWN = -1;
-var CMD_EXIT    = 0;
-var CMD_HELP    = 1;
-var CMD_CD      = 2;
-var CMD_CAT     = 3;
-var CMD_LS      = 4;
+var COMMAND_TYPE = {
+    UNKNOWN : -1,
+    EXIT    : 0,
+    HELP    : 1,
+    CD      : 2,
+    CAT     : 3,
+    LS      : 4
+};
 
 class CommandChecker{
 
@@ -26,7 +28,6 @@ class CommandChecker{
         this.verbose = verbose;
     }
 
-
     /**
      * @returns true if the command is recognized.
      */
@@ -45,11 +46,11 @@ class CommandChecker{
      * 
      * Case (1) :
      * - isCommandValid returns false,
-     * - getCommandType returns CMD_UNKNOWN.
+     * - getCommandType returns COMMAND_TYPE.UNKNOWN.
      * 
      * Case (2) :
      * - isCommandValid returns false,
-     * - getCommandTypes returns something else than CMD_UNKOWN.
+     * - getCommandTypes returns something else than COMMAND_TYPE.UNKOWN.
      * 
      * @returns the error message of the command.
      */
@@ -75,7 +76,7 @@ class CommandChecker{
 
             this.errorMessage = "Command not found : ''";
             this.isValid = false;
-            this.type = CMD_UNKNOWN;
+            this.type = COMMAND_TYPE.UNKNOWN;
             return;
         }
         
@@ -85,7 +86,7 @@ class CommandChecker{
             
             this.errorMessage = "Command not found : ''";
             this.isValid = false;
-            this.type = CMD_UNKNOWN;
+            this.type = COMMAND_TYPE.UNKNOWN;
             return;
         }
 
@@ -95,11 +96,11 @@ class CommandChecker{
                 if(this.command[0].args.length > 0){
                     this.errorMessage = "exit command should not receive arguments.";
                     this.isValid = false;
-                    this.type = CMD_EXIT;
+                    this.type = COMMAND_TYPE.EXIT;
                 }else{
                     this.errorMessage = "";
                     this.isValid = true;
-                    this.type = CMD_EXIT;
+                    this.type = COMMAND_TYPE.EXIT;
                 }
                 break;
 
@@ -107,11 +108,11 @@ class CommandChecker{
                 if(this.command[0].args.length > 0){
                     this.errorMessage = "help command should not receive arguments.";
                     this.isValid = false;
-                    this.type = CMD_HELP;
+                    this.type = COMMAND_TYPE.HELP;
                 }else{
                     this.errorMessage = "";
                     this.isValid = true;
-                    this.type = CMD_HELP;
+                    this.type = COMMAND_TYPE.HELP;
                 }
                 break;
                 
@@ -119,11 +120,11 @@ class CommandChecker{
                 if(this.command[0].args.length > 1){
                     this.errorMessage = "cd expects no or only one argument.";
                     this.isValid = false;
-                    this.type = CMD_CD;
+                    this.type = COMMAND_TYPE.CD;
                 }else{
                     this.errorMessage = "";
                     this.isValid = true;
-                    this.type = CMD_CD;
+                    this.type = COMMAND_TYPE.CD;
                 }
                 break;
                 
@@ -131,15 +132,15 @@ class CommandChecker{
                 if(this.command[0].args.length > 1){
                     this.errorMessage = "cat only expects 1 argument.";
                     this.isValid = false;
-                    this.type = CMD_CAT;
+                    this.type = COMMAND_TYPE.CAT;
                 }else if(this.command[0].args.length == 0){
                     this.errorMessage = "cat expects 1 argument.";
                     this.isValid = false;
-                    this.type = CMD_CAT;
+                    this.type = COMMAND_TYPE.CAT;
                 }else{
                     this.errorMessage = "";
                     this.isValid = true;
-                    this.type = CMD_CAT;
+                    this.type = COMMAND_TYPE.CAT;
                 }
             break;
 
@@ -147,18 +148,18 @@ class CommandChecker{
                 if(this.command[0].args.length != 0){
                     this.errorMessage = "ls does not expect any argument.";
                     this.isValid = false;
-                    this.type = CMD_LS;
+                    this.type = COMMAND_TYPE.LS;
                 }else{
                     this.errorMessage = "";
                     this.isValid = true;
-                    this.type = CMD_LS;
+                    this.type = COMMAND_TYPE.LS;
                 }
             break;
 
             default:
                 this.errorMessage = "Command not found : " + this.command[0].main;
                 this.isValid = true;
-                this.type = CMD_EXIT;
+                this.type = COMMAND_TYPE.EXIT;
             break;
         }
     }
