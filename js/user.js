@@ -1,11 +1,12 @@
 class User {
+
     /**
      * @param {String} login
      */
     constructor(login) {
         this._items = [];
         this._trophies = [];
-        this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS];
+        this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS]; // five basics commands already available
         this._login = login;
     }
 
@@ -24,14 +25,14 @@ class User {
     }
 
     /**
-     * @param {int} command To add to user allowed commands.
+     * @param {COMMAND_TYPE} command To add to user allowed commands.
      */
     addCommand(command) {
         this._commandsAuthorized.push(command);
     }
 
     /**
-     * @param {int[]} commands To add multiple commands to user allowed commands.
+     * @param {COMMAND_TYPE[]} commands To add multiple commands to user allowed commands.
      */
     addCommands(commands) {
         for (let c of commands)
@@ -64,5 +65,9 @@ class User {
      */
     get commandsAuthorized() {
         return this._commandsAuthorized;
+    }
+
+    toString(){
+        return "User : login : "+this.login + ", command authorized : " + this.commandsAuthorized + ", items : " + this.items + ", trophies :" + this.trophies;
     }
 }

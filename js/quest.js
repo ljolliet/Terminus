@@ -6,6 +6,7 @@ const STATUS = {
 };
 
 class Quest {
+
     constructor(name) {
         this._status = STATUS.TODO;
         this._endText = "";
@@ -13,6 +14,7 @@ class Quest {
         this._commandRequired = [];
         this._commandRewards = [];
         this._name = name;
+        this._questsRequired = [];
     }
 
     /**
@@ -51,10 +53,24 @@ class Quest {
     }
 
     /**
-     * @return {String[] }Command rewards array.
+     * @return {String[]} Command rewards array.
      */
     get commandRewards() {
         return this._commandRewards;
+    }
+
+    /**
+     * @return {Quest[]} Quests required to start this one.
+     */
+    get questsRequired() {
+        return this._questsRequired;
+    }
+
+    /**
+     * @param {Quest} quest Add to the quests required.
+     */
+    addQuestsRequired(quest) {
+        this._questsRequired.push(quest);
     }
 
     /**
@@ -98,6 +114,14 @@ class Quest {
      */
     set initialText(value) {
         this._initialText = value;
+    }
+
+    toString() {
+        let s = "Quest : name :" + this.name + ", commands required :" + this.commandRequired + ", commands rewards :" +
+            this.commandRewards + ", status : " + this.status + ", quests required ";
+        for (let q of this.questsRequired)
+            s += q.name + ", ";
+        return s;
     }
 
 }

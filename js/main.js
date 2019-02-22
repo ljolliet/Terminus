@@ -2,6 +2,7 @@ class Main {
 
     static init() {
         let user = new User("toto");
+        user.addItem(new Item("carte etu", "08798616"));
         let quest = new Quest("try");
         quest.initialText = "try quest !";
         quest.endText = "Well done" ;
@@ -9,12 +10,17 @@ class Main {
 
         let campus = new Place("campus");
         let bethanie = new Place("bethanie");
+        let A22 = new Place("A22");
+        let A21 = new Place("A21");
 
         let pnj = new PNJ("tata", "welcome");
         campus.addPlace(bethanie);
         campus.addQuest(quest);
         campus.addEntity(pnj);
-        console.log(campus.toString())
+        bethanie.addPlace(A22);
+        bethanie.addPlace(A21);
+        console.log(user.toString());
+        console.log(bethanie.toString())
 
     }
 

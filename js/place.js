@@ -6,6 +6,7 @@ class Place {
         this._entities = [];
         this._quests = [];
         this._name = name;
+        this._parent = null;
     }
 
     /**
@@ -37,10 +38,26 @@ class Place {
     }
 
     /**
+     * @return {Place} Parent place.
+     */
+    get parent() {
+        return this._parent;
+    }
+
+
+    /**
+     * @return {Place} To update parent place.
+     */
+    set parent(value) {
+        this._parent = value;
+    }
+
+    /**
      * @param {Place} place To add in places array.
      */
     addPlace(place) {
         this._places.push(place);
+        place.parent = this;
     }
 
     /**
@@ -57,16 +74,19 @@ class Place {
         this._entities.push(entity);
     }
 
+    //TODO : error if parent = null (root)
     toString() {
-        let s = this.name + ":\n  places : ";
+        let s = "Place ["+this.name + ": parent : "+this.parent.name;
+        s+= ", places : ";
         for (let p of this.places)
             s += p.name + ",";
-        s += "\n entities : ";
+        s += ", entities : ";
         for (let e of this.entities)
             s += e.toString() + ",";
-        s += "\n quests : ";
+        s += ", quests : ";
         for (let q of this.quests)
             s += q.name + ",";
+        s+="]";
         return s;
     }
 

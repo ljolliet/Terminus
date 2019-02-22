@@ -17,6 +17,10 @@ class Entity {
     get text() {
         return this._text;
     }
+
+    toString() {
+        return this.name;
+    }
 }
 
 class PNJ extends Entity {
@@ -25,7 +29,7 @@ class PNJ extends Entity {
     }
 
     toString() {
-        return "PNJ : " + this.name;
+        return "PNJ : " + super.toString();
     }
 }
 
@@ -35,6 +39,6 @@ class Item extends Entity {
     }
 
     toString() {
-        return "Item : " + this.name;
+        return "Item : " + super.toString();
     }
 }
