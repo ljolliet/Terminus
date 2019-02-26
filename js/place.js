@@ -9,6 +9,7 @@ class Place {
         this._parent = null;
     }
 
+
     /**
      * @return {String} Name
      */
@@ -74,10 +75,10 @@ class Place {
         this._entities.push(entity);
     }
 
-    //TODO : error if parent = null (root)
+    //TODO : error if parent = null (root) @ljolliet
     toString() {
-        let s = "Place ["+this.name + ": parent : "+this.parent.name;
-        s+= ", places : ";
+        let s = "Place [" + this.name + ": parent : " + this.parent.name;
+        s += ", places : ";
         for (let p of this.places)
             s += p.name + ",";
         s += ", entities : ";
@@ -86,8 +87,12 @@ class Place {
         s += ", quests : ";
         for (let q of this.quests)
             s += q.name + ",";
-        s+="]";
+        s += "]";
         return s;
     }
 
 }
+//inelegant but that works .. wait not really TODO @ljolliet
+Place.home = null;
+Place.root = null;
+
