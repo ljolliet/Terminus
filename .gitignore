@@ -2,6 +2,10 @@
 # Created by https://www.gitignore.io/api/webstorm,java-web,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=webstorm,java-web,visualstudiocode
 
+
+# added by @ljolliet
+.idea/
+
 ### Java-Web ###
 ## ignoring target file
 target/
