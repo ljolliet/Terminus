@@ -4,7 +4,7 @@
 
 
 # added by @ljolliet
-.idea/
+.idea/*
 
 ### Java-Web ###
 ## ignoring target file

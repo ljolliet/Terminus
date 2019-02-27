@@ -7,6 +7,10 @@ class Place {
         this._quests = [];
         this._name = name;
         this._parent = null;
+        //static attributes (see below the class):
+        //Place.root
+        //Place.home
+        // use : let root = new Place("root") ; Place.root = root ;
     }
 
 
@@ -92,6 +96,7 @@ class Place {
     }
 
 }
+
 //inelegant but that works .. wait not really TODO @ljolliet
 Place.home = null;
 Place.root = null;
