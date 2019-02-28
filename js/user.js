@@ -1,5 +1,6 @@
 class User {
 
+
     /**
      * @param {String} login
      */
@@ -8,6 +9,7 @@ class User {
         this._trophies = [];
         this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS]; // five basics commands already available
         this._login = login;
+        this._currentLocation = Place.home; //null if not initialized
     }
 
     /**
@@ -67,7 +69,30 @@ class User {
         return this._commandsAuthorized;
     }
 
-    toString(){
-        return "User : login : "+this.login + ", command authorized : " + this.commandsAuthorized + ", items : " + this.items + ", trophies :" + this.trophies;
+    /**
+     * @return {Place} The current place.
+     */
+    get currentLocation() {
+        return this._currentLocation;
+    }
+
+    /**
+     * @param {Place} place New current place/location.
+     */
+    set currentLocation(place){
+        this._currentLocation = place;
+    }
+
+    /**
+     * @param {String} placeName To update the current location.
+     * @return boolean True if the update is possible (if value place is contained in the current location).
+     */
+    moveTo(placeName) {
+        for(let p of this._currentLocation.places)
+            if(p.name === placeName) { //contains
+                this._currentLocation = p;
+                return true;
+            }
+        return false;
     }
 }

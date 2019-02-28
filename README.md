@@ -1,6 +1,6 @@
 # Terminus
 
-Game that teach to IT student how to use a shell, and in the same time gives information about the [University of Bordeaux](https://www.u-bordeaux.fr/Universite/Campus/Campus-Talence-Pessac-Gradignan).
+Game that teach to IT students how to use a shell, and in the same time gives information about the [University of Bordeaux](https://www.u-bordeaux.fr/Universite/Campus/Campus-Talence-Pessac-Gradignan).
 ## Getting Started
 
 This game will be online and will be accessible at this [link](//TODO) once the project will be achieved. 

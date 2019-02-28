@@ -1,15 +1,16 @@
 class Main {
 
     static init() {
-        let user = new User("toto");
-        user.addItem(new Item("carte etu", "08798616"));
+
         let quest = new Quest("try");
         quest.initialText = "try quest !";
         quest.endText = "Well done" ;
         quest.addCommandRequired("ls");
 
         let campus = new Place("campus");
+        Place.root = campus;
         let bethanie = new Place("bethanie");
+        Place.home = bethanie; // will be set has user's current location.
         let A22 = new Place("A22");
         let A21 = new Place("A21");
 
@@ -19,9 +20,13 @@ class Main {
         campus.addEntity(pnj);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
-        console.log(user.toString());
-        console.log(bethanie.toString())
+        console.log(bethanie);
 
+        this.user = new User("toto");
+        this.user.addItem(new Item("carte etu", "08798616"));
+        console.log(this.user); //here current location is bethanie (home)
+        this.user.moveTo("A22");
+        console.log(this.user);// here A22
     }
 
     /**
@@ -100,6 +105,7 @@ class Main {
      * @param {string} command the command detail.
      */
     static cat(command) {
+        printMessage()
     }
 
     /**

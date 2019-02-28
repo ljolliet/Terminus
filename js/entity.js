@@ -37,8 +37,4 @@ class Item extends Entity {
     constructor(name, text) {
         super(name, text);
     }
-
-    toString() {
-        return "Item : " + super.toString();
-    }
 }

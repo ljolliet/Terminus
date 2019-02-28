@@ -13,7 +13,6 @@ class Place {
         // use : let root = new Place("root") ; Place.root = root ;
     }
 
-
     /**
      * @return {String} Name
      */
@@ -77,22 +76,6 @@ class Place {
      */
     addEntity(entity) {
         this._entities.push(entity);
-    }
-
-    //TODO : error if parent = null (root) @ljolliet
-    toString() {
-        let s = "Place [" + this.name + ": parent : " + this.parent.name;
-        s += ", places : ";
-        for (let p of this.places)
-            s += p.name + ",";
-        s += ", entities : ";
-        for (let e of this.entities)
-            s += e.toString() + ",";
-        s += ", quests : ";
-        for (let q of this.quests)
-            s += q.name + ",";
-        s += "]";
-        return s;
     }
 
 }

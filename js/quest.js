@@ -116,12 +116,4 @@ class Quest {
         this._initialText = value;
     }
 
-    toString() {
-        let s = "Quest : name :" + this.name + ", commands required :" + this.commandRequired + ", commands rewards :" +
-            this.commandRewards + ", status : " + this.status + ", quests required ";
-        for (let q of this.questsRequired)
-            s += q.name + ", ";
-        return s;
-    }
-
 }

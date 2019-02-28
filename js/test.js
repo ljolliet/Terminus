@@ -1,7 +1,6 @@
 /**
- *
- *
- *
+ *  To check the parent implementation.
+ *  When a place is added to another, it parent is updated.
  */
 QUnit.test("Place parent", function(assert) {
     let message = "Correct parent";
@@ -19,6 +18,10 @@ QUnit.test("Place parent", function(assert) {
     assert.equal(d.parent, b, message);
 });
 
+/**
+ *  To check the root implementation.
+ *  Static attribute root change to access to it from any place (like "/" in shell)
+ */
 QUnit.test("Place root", function(assert) {
     let message = "Correct root";
     let a = new Place("a");
@@ -31,10 +34,13 @@ QUnit.test("Place root", function(assert) {
     b.addPlace(c);
     Place.root = b;
     assert.equal(Place.root, b, message);
-    assert.equal(Place.root, b, message);
-    assert.equal(Place.root, b, message);
+
 });
 
+/**
+ *  To check the home implementation.
+ *  Static attribute root change to access to it from any place (like "~" in shell)
+ */
 QUnit.test("Place home", function(assert) {
     let message = "Correct home";
     let a = new Place("a");
@@ -47,7 +53,24 @@ QUnit.test("Place home", function(assert) {
     a.addPlace(b);
     b.addPlace(c)
     Place.home = c;
-    assert.equal(Place.home, b, message);
-    assert.equal(Place.home, b, message);
-    assert.equal(Place.home, b, message);
+    assert.equal(Place.home, c, message);
+
+});
+
+/**
+ *  To check currentLocation implementation and the function moveTo.
+ *  Access to a Place if contains in the currentLocation. Otherwise it returns false;
+ */
+QUnit.test("Changing place", function(assert) {
+    let message = "Correct location";
+    let user = new User("user");
+    let parent = new Place("parent");
+    let son = new Place("son");
+    parent.addPlace(son);
+    user.currentLocation = parent;
+    assert.equal(user.currentLocation, parent, message);
+    assert.equal(user.moveTo("son"), true, message);
+    assert.equal(user.currentLocation, son, message);
+    assert.equal(user.moveTo("else"), false, message);
+    assert.equal(user.currentLocation, son, message);
 });
