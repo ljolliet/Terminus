@@ -124,7 +124,7 @@ function printMessage(message) {
 
   var childDiv = document.createElement("div");
   childDiv.classList.add("message");
-  var textNode = document.createTextNode('\'' + message + '\'');
+  var textNode = document.createTextNode( message );
   childDiv.appendChild(textNode);
   document.getElementById("console-output").appendChild(childDiv);
 }

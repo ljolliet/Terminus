@@ -4,7 +4,7 @@ class Main {
 
         let quest = new Quest("try");
         quest.initialText = "try quest !";
-        quest.endText = "Well done" ;
+        quest.endText = "Well done";
         quest.addCommandRequired("ls");
 
         let campus = new Place("campus");
@@ -17,16 +17,27 @@ class Main {
         let pnj = new PNJ("tata", "welcome");
         campus.addPlace(bethanie);
         campus.addQuest(quest);
-        campus.addEntity(pnj);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
+        bethanie.addEntity(pnj);
         console.log(bethanie);
 
         this.user = new User("toto");
         this.user.addItem(new Item("carte etu", "08798616"));
         console.log(this.user); //here current location is bethanie (home)
-        this.user.moveTo("A22");
-        console.log(this.user);// here A22
+        printMessage("cd A22");
+        Main.cd("A22");
+        printMessage("cd ..");
+        Main.cd(".."); // parent
+        printMessage("cd A2890");
+        Main.cd("A2890");
+        console.log(this.user);// here bethanie
+        printMessage("ls");
+        Main.ls();
+        printMessage("cat tata");
+        Main.cat("tata");
+        printMessage("cat toto");
+        Main.cat("toto");
     }
 
     /**
@@ -98,6 +109,11 @@ class Main {
      * @param {string} command the command detail.
      */
     static cd(command) {
+        //basic only
+        // does not support a path, only place name
+        if (!this.user.moveTo(command))// if move refused
+            printMessage("cd: " + command + " : Aucun lieu de ce type");
+        //else : move done
     }
 
     /**
@@ -105,7 +121,13 @@ class Main {
      * @param {string} command the command detail.
      */
     static cat(command) {
-        printMessage()
+        //basic only
+        for (let e of this.user.currentLocation.entities) {
+            if (command === e.name)
+                printMessage(e.text);
+            else
+                printMessage("cat: " + command + " : Aucun item ou personnage de ce type");
+        }
     }
 
     /**
@@ -113,6 +135,12 @@ class Main {
      * @param {string} command the command detail.
      */
     static ls(command) {
+        //basic only
+        let m = ".. ";
+        for (let p of this.user.currentLocation.all) {
+            m += p.name + " ";
+        }
+        printMessage(m);
     }
 
 }

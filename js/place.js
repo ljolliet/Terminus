@@ -12,7 +12,22 @@ class Place {
         //Place.home
         // use : let root = new Place("root") ; Place.root = root ;
     }
+    /**
+     * @return {Object[]} All the entities, places, quests, ordered alphabetically.
+     */
+    get all(){
+        let all = [];
+        for(let e of this.entities)
+            all.push(e);
+        for(let p of this.places)
+            all.push(p);
+        for(let q of this.quests)
+            all.push(q);
+        all.sort((a,b) => a.name > b.name); // sort the array alphabetically comparing the names of the Objects
+        return all;
 
+
+    }
     /**
      * @return {String} Name
      */
@@ -80,7 +95,7 @@ class Place {
 
 }
 
-//inelegant but that works .. wait not really TODO @ljolliet
+//inelegant but that works ..
 Place.home = null;
 Place.root = null;
 

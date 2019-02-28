@@ -27,18 +27,10 @@ class User {
     }
 
     /**
-     * @param {COMMAND_TYPE} command To add to user allowed commands.
+     * @param {COMMAND_TYPE,COMMAND_TYPE[]} command To add to user allowed commands.
      */
     addCommand(command) {
         this._commandsAuthorized.push(command);
-    }
-
-    /**
-     * @param {COMMAND_TYPE[]} commands To add multiple commands to user allowed commands.
-     */
-    addCommands(commands) {
-        for (let c of commands)
-            this._commandsAuthorized.push(c);
     }
 
     /**
@@ -79,7 +71,7 @@ class User {
     /**
      * @param {Place} place New current place/location.
      */
-    set currentLocation(place){
+    set currentLocation(place) {
         this._currentLocation = place;
     }
 
@@ -88,11 +80,18 @@ class User {
      * @return boolean True if the update is possible (if value place is contained in the current location).
      */
     moveTo(placeName) {
-        for(let p of this._currentLocation.places)
-            if(p.name === placeName) { //contains
-                this._currentLocation = p;
-                return true;
-            }
+        if (placeName === ".") // current location
+            return true; // no change needed
+        else if (placeName === "..") // parent
+        {
+            this.currentLocation = this.currentLocation.parent;
+            return true;
+        } else
+            for (let p of this.currentLocation.places)
+                if (p.name === placeName) { //contains
+                    this.currentLocation = p;
+                    return true;
+                }
         return false;
     }
 }
