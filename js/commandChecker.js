@@ -1,11 +1,11 @@
 // Command list
-var COMMAND_TYPE = {
+const COMMAND_TYPE = {
     UNKNOWN: -1,
-    EXIT: 0,
-    HELP: 1,
-    CD: 2,
-    CAT: 3,
-    LS: 4
+    EXIT: "exit",
+    HELP: "help",
+    CD: "cd",
+    CAT: "cat",
+    LS: "ls"
 };
 
 class CommandChecker{
@@ -21,7 +21,7 @@ class CommandChecker{
      * function.
      * 
      * @param {commandList} commandObj command list (**not null**),
-     * @param {boolean} verbose if true, it write messages on the console.
+     * @param {boolean} verbose if true, it writes messages on the console.
      */
     constructor(commandObj, verbose){
         this.command = commandObj;

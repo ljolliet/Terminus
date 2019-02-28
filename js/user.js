@@ -16,21 +16,23 @@ class User {
      * @param {Item} item To add to user items.
      */
     addItem(item) {
-        this._items.push(item);
+        this.items.push(item);
+        this.items.sort();
     }
 
     /**
      * @param {String} trophy To add to user trophies.
      */
     addTrophy(trophy) {
-        this._trophies.push(trophy);
+        this.trophies.push(trophy);
     }
 
     /**
      * @param {COMMAND_TYPE,COMMAND_TYPE[]} command To add to user allowed commands.
      */
     addCommand(command) {
-        this._commandsAuthorized.push(command);
+        this.commandsAuthorized.push(command);
+        this.commandsAuthorized.sort();
     }
 
     /**

@@ -2,6 +2,7 @@ class Main {
 
     static init() {
 
+        //creating small world
         let quest = new Quest("try");
         quest.initialText = "try quest !";
         quest.endText = "Well done";
@@ -23,8 +24,9 @@ class Main {
         console.log(bethanie);
 
         this.user = new User("toto");
-        this.user.addItem(new Item("carte etu", "08798616"));
         console.log(this.user); //here current location is bethanie (home)
+
+        //sample :
         printMessage("cd A22");
         Main.cd("A22");
         printMessage("cd ..");
@@ -33,11 +35,13 @@ class Main {
         Main.cd("A2890");
         console.log(this.user);// here bethanie
         printMessage("ls");
-        Main.ls();
+        Main.ls("");
         printMessage("cat tata");
         Main.cat("tata");
         printMessage("cat toto");
         Main.cat("toto");
+        printMessage("help");
+        Main.help()
     }
 
     /**
@@ -102,6 +106,10 @@ class Main {
      * Here goes the code when the user has typed help.
      */
     static help() {
+        let commands = "";
+        for(let c of this.user.commandsAuthorized)
+            commands+=c.toString()+" ";
+        printMessage(commands);
     }
 
     /**
