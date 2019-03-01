@@ -34,18 +34,20 @@ class Parser {
                 args: ""
             });
         } else {
-            // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
-            let fixedCommand = this.command.replace(/\u00a0/g, " ")
-
             // We use a regex to remove the tabs, the new lines, and extra spaces
-            fixedCommand = this.command.replace(/\s\s+/g, " ");
+            let fixedCommand = this.command.replace(/\s\s+/g, " ");
+
+            // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
+            // !!!! DO NOT EDIT THIS LINE, THE FIRST SPACE IS A &nbsp; SPACE (char code 160), AND
+            // THE RIGHT ONE IS A REGULAR SPACE (char code 32)
+            fixedCommand = this.command.replace(" ", " ");
 
             // We devide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");
 
             // For each commands between the pipe, we will add its details to the array
             for (let i = 0; i < cmds.length; i++) {
-                let args = cmds[i].split(" ");
+                let args = cmds[i].split(" ");
 
                 // Shift removes the first item and returns the removed item
                 let cmdMain = args.shift();
@@ -70,6 +72,7 @@ class Parser {
      */
     setCommand(command) {
         this.command = command;
+        this.commands = [];
     }
 
     /**
