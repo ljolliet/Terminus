@@ -40,7 +40,13 @@ class Parser {
             // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
             // !!!! DO NOT EDIT THIS LINE, THE FIRST SPACE IS A &nbsp; SPACE (char code 160), AND
             // THE RIGHT ONE IS A REGULAR SPACE (char code 32)
-            fixedCommand = this.command.replace(" ", " ");
+            fixedCommand = fixedCommand.replace(" ", " ");
+
+            // We need to remove the spaces before and after the pipe, otherwise the split
+            // takes "" as the main command
+            fixedCommand = fixedCommand.replace(" | ", "|");
+            fixedCommand = fixedCommand.replace(" |", "|");
+            fixedCommand = fixedCommand.replace("| ", "|");
 
             // We devide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");
