@@ -144,7 +144,7 @@ class Main {
     static ls() {
         //basic only
         let m = "";
-        if (this.user.currentLocation !== Place.root)
+        if(this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
             m += p.name + " ";

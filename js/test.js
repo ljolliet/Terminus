@@ -3,6 +3,7 @@
  *  When a place is added to another, it parent is updated.
  */
 QUnit.test("Place parent", function (assert) {
+
     let a = new Place("a");
     let b = new Place("b");
     let c = new Place("c");
@@ -21,6 +22,7 @@ QUnit.test("Place parent", function (assert) {
  *  Static attribute root change to access to it from any place (like "/" in shell)
  */
 QUnit.test("Place root", function (assert) {
+
     let a = new Place("a");
     assert.equal(Place.root, null, "Root is null because is not initialized");
     Place.root = a;
@@ -57,7 +59,9 @@ QUnit.test("Place home", function (assert) {
  *  To check currentLocation implementation and the function moveTo.
  *  Access to a Place if contains in the currentLocation. Otherwise it returns false;
  */
-QUnit.test("Changing place", function (assert) {
+
+QUnit.test("Changing place", function(assert) {
+
     let user = new User("user");
     let parent = new Place("parent");
     let son = new Place("son");
@@ -74,6 +78,7 @@ QUnit.test("Changing place", function (assert) {
     assert.equal(user.currentLocation, parent, "Current location is updated as parent");
     assert.equal(user.moveTo(".."), false, "Going to parent ('..') is refused if the current is root (no parent)");
     assert.equal(user.currentLocation, parent, "Current location stay the same");
+
 
 });
 QUnit.test("Reading entity", function (assert) {
@@ -117,6 +122,7 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
     assert.equal(user.trophies.includes("quest"), true, "New trophy rewards");
+
 });
 
 /**

@@ -111,6 +111,7 @@ class User {
                     return true;
                 }
                 break;
+
             default : // son
                 for (let p of this.currentLocation.places)
                     if (p.name === placeName) { //contains
