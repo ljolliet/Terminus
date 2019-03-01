@@ -35,7 +35,7 @@ class Parser {
             });
         } else {
             // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
-            let fixedCommand = this.command.replace("&nbsp;", " ")
+            let fixedCommand = this.command.replace(/\u00a0/g, " ")
 
             // We use a regex to remove the tabs, the new lines, and extra spaces
             fixedCommand = this.command.replace(/\s\s+/g, " ");
@@ -45,7 +45,7 @@ class Parser {
 
             // For each commands between the pipe, we will add its details to the array
             for (let i = 0; i < cmds.length; i++) {
-                let args = cmds[i].split(" ");
+                let args = cmds[i].split(" ");
 
                 // Shift removes the first item and returns the removed item
                 let cmdMain = args.shift();

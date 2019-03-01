@@ -79,17 +79,17 @@ class Main {
                 break;
 
             case COMMAND_TYPE.CD:
-                if (isValid) Main.cd(command[0]);
+                if (isValid) Main.cd(parsedCommand[0]);
                 else printMessage(errorMessage);
                 break;
 
             case COMMAND_TYPE.CAT:
-                if (isValid) Main.cat(command[0]);
+                if (isValid) Main.cat(parsedCommand[0]);
                 else printMessage(errorMessage);
                 break;
 
             case COMMAND_TYPE.LS:
-                if (isValid) Main.ls(command[0]);
+                if (isValid) Main.ls(parsedCommand[0]);
                 else printMessage(errorMessage);
                 break;
         }
@@ -119,8 +119,8 @@ class Main {
     static cd(command) {
         //basic only
         // does not support a path, only place name
-        if (!this.user.moveTo(command))// if move refused
-            printMessage("cd: " + command + " : Aucun lieu de ce type");
+        if (!this.user.moveTo(command.args[0]))// if move refused
+            printMessage("cd: " + command.args[0] + " : Aucun lieu de ce type");
         //else : move done
     }
 
@@ -131,10 +131,10 @@ class Main {
     static cat(command) {
         //basic only
         for (let e of this.user.currentLocation.entities) {
-            if (command === e.name)
+            if (command.args[0] === e.name)
                 printMessage(e.text);
             else
-                printMessage("cat: " + command + " : Aucun item ou personnage de ce type");
+                printMessage("cat: " + command.args[0] + " : Aucun item ou personnage de ce type");
         }
     }
 
