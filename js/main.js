@@ -89,7 +89,12 @@ class Main {
                 break;
 
             case COMMAND_TYPE.LS:
-                if (isValid) Main.ls(parsedCommand[0]);
+                if (isValid) Main.ls();
+                else printMessage(errorMessage);
+                break;
+
+            case COMMAND_TYPE.LAUNCH:
+                if (isValid) Main.launch(parsedCommand[0].main);
                 else printMessage(errorMessage);
                 break;
         }
@@ -142,13 +147,17 @@ class Main {
      * Here goes the code when the user has typed ls.
      * @param {string} command the command detail.
      */
-    static ls(command) {
+    static ls() {
         //basic only
         let m = ".. ";
         for (let p of this.user.currentLocation.all) {
             m += p.name + " ";
         }
         printMessage(m);
+    }
+
+    static launch(questName) {
+        console.log(questName);
     }
 
 }
