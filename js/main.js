@@ -27,21 +27,21 @@ class Main {
         console.log(this.user); //here current location is bethanie (home)
 
         //sample :
-        printMessage("cd A22");
-        Main.cd("A22");
-        printMessage("cd ..");
-        Main.cd(".."); // parent
-        printMessage("cd A2890");
-        Main.cd("A2890");
-        console.log(this.user);// here bethanie
-        printMessage("ls");
-        Main.ls("");
-        printMessage("cat tata");
-        Main.cat("tata");
-        printMessage("cat toto");
-        Main.cat("toto");
-        printMessage("help");
-        Main.help()
+        // printMessage("cd A22");
+        // Main.cd("A22");
+        // printMessage("cd ..");
+        // Main.cd(".."); // parent
+        // printMessage("cd A2890");
+        // Main.cd("A2890");
+        // console.log(this.user);// here bethanie
+        // printMessage("ls");
+        // Main.ls("");
+        // printMessage("cat tata");
+        // Main.cat("tata");
+        // printMessage("cat toto");
+        // Main.cat("toto");
+        // printMessage("help");
+        // Main.help()
     }
 
     /**

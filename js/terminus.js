@@ -79,12 +79,13 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
       msg = msg.substring(0, msg.length - 1);
 
-      Main.executeCommand(msg.replace(">", ""));
       printMessage(msg);
 
       inputTextFirst.innerHTML = "";
       cursor.innerHTML = '&nbsp;';
       inputTextSecond.innerHTML = "";
+
+      Main.executeCommand(msg.replace(">", ""));
     }
 
     else if (code == 37) { // LEFT ARROW

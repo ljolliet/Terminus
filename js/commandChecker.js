@@ -159,7 +159,7 @@ class CommandChecker{
             default:
                 this.errorMessage = "Command not found : " + this.command[0].main;
                 this.isValid = true;
-                this.type = COMMAND_TYPE.EXIT;
+                this.type = COMMAND_TYPE.UNKNOWN;
             break;
         }
     }
