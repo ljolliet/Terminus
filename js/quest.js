@@ -16,7 +16,7 @@ class Quest {
         this._name = name;
         this._questsRequired = [];
     }
-
+    
     /**
      * @return {String} Name
      */

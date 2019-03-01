@@ -3,19 +3,17 @@
  *  When a place is added to another, it parent is updated.
  */
 QUnit.test("Place parent", function(assert) {
-    let message = "Correct parent";
     let a = new Place("a");
     let b = new Place("b");
     let c = new Place("c");
     let d = new Place("d");
-
     a.addPlace(b);
     b.addPlace(c);
     b.addPlace(d);
-    assert.equal(a.parent, null, message);
-    assert.equal(b.parent, a, message);
-    assert.equal(c.parent, b, message);
-    assert.equal(d.parent, b, message);
+    assert.equal(a.parent, null, "1st place has no parent");
+    assert.equal(b.parent, a, "2nd place has 1st as parent");
+    assert.equal(c.parent, b, "3rd place has 2nd as parent");
+    assert.equal(d.parent, b, "4th place has 2nd as parent");
 });
 
 /**
@@ -23,17 +21,16 @@ QUnit.test("Place parent", function(assert) {
  *  Static attribute root change to access to it from any place (like "/" in shell)
  */
 QUnit.test("Place root", function(assert) {
-    let message = "Correct root";
     let a = new Place("a");
-    assert.equal(Place.root, null, message);
+    assert.equal(Place.root, null, "Root is null because is not initialized");
     Place.root = a;
+    assert.equal(Place.root, a, "Root initialized");
     let b = new Place("b");
-    assert.equal(Place.root, a, message);
-    assert.equal(Place.root, a, message);
+    assert.equal(Place.root, a, "Root stay the same for another place");
     let c = new Place("c");
-    b.addPlace(c);
     Place.root = b;
-    assert.equal(Place.root, b, message);
+    b.addPlace(c);
+    assert.equal(Place.root, b, "Adding a place to another doesn't affect this function");
 
 });
 
@@ -44,16 +41,15 @@ QUnit.test("Place root", function(assert) {
 QUnit.test("Place home", function(assert) {
     let message = "Correct home";
     let a = new Place("a");
-    assert.equal(Place.home, null, message);
+    assert.equal(Place.home, null, "Home is null because is not initialized");
     Place.home = a;
+    assert.equal(Place.home, a, "Home initialized");
     let b = new Place("b");
-    assert.equal(Place.home, a, message);
-    assert.equal(Place.home, a, message);
+    assert.equal(Place.home, a, "   Home stay the same for another place");
     let c = new Place("c");
-    a.addPlace(b);
-    b.addPlace(c)
     Place.home = c;
-    assert.equal(Place.home, c, message);
+    b.addPlace(c);
+    assert.equal(Place.home, c, "Adding a place to another doesn't affect this function");
 
 });
 
@@ -62,24 +58,23 @@ QUnit.test("Place home", function(assert) {
  *  Access to a Place if contains in the currentLocation. Otherwise it returns false;
  */
 QUnit.test("Changing place", function(assert) {
-    let message = "Correct location";
     let user = new User("user");
     let parent = new Place("parent");
     let son = new Place("son");
     parent.addPlace(son);
     user.currentLocation = parent;
-    assert.equal(user.currentLocation, parent, message);
-    assert.equal(user.moveTo("son"), true, message);
-    assert.equal(user.currentLocation, son, message);
-    assert.equal(user.moveTo("else"), false, message);
-    assert.equal(user.currentLocation, son, message);
-    assert.equal(user.moveTo("."), true, message);
-    assert.equal(user.currentLocation, son, message);
-    assert.equal(user.moveTo(".."), true, message);
-    assert.equal(user.currentLocation, parent, message);
-    assert.equal(user.moveTo(".."), false, message);
-    assert.equal(user.currentLocation, parent, message);
-    
+    assert.equal(user.currentLocation, parent, "Current location is set");
+    assert.equal(user.moveTo("son"), true, "Going to a sub-place that exists is accepted");
+    assert.equal(user.currentLocation, son, "Current location is updated as sub-place");
+    assert.equal(user.moveTo("else"), false, "Going to a sub-place that doesn't exist is refused");
+    assert.equal(user.currentLocation, son, "Current location stay the same");
+    assert.equal(user.moveTo("."), true, "Going to the current location ('.') is accepted");
+    assert.equal(user.currentLocation, son, "Current location stay the same");
+    assert.equal(user.moveTo(".."), true, "Going to parent ('..') is accepted");
+    assert.equal(user.currentLocation, parent, "Current location is updated as parent");
+    assert.equal(user.moveTo(".."), false, "Going to parent ('..') is refused if the current is root (no parent)");
+    assert.equal(user.currentLocation, parent, "Current location stay the same");
+
 });
 
 /**

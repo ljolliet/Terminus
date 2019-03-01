@@ -6,7 +6,10 @@ const COMMAND_TYPE = {
     CD: "cd",
     CAT: "cat",
     LS: "ls",
-    LAUNCH: "./"
+    LAUNCH: "./",
+    MV: "mv",
+    TREE: "tree",
+    GREP : "grep"
 };
 
 class CommandChecker{

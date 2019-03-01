@@ -3,9 +3,10 @@ class Main {
     static init() {
 
         //creating small world
-        let quest = new Quest("try");
-        quest.initialText = "try quest !";
-        quest.endText = "Well done";
+        let quest = new Quest("quest");
+
+        quest.initialText = "Try to see what is in this place !";
+        quest.endText = "Well done !";
         quest.addCommandRequired("ls");
 
         let campus = new Place("campus");
@@ -25,23 +26,6 @@ class Main {
 
         this.user = new User("toto");
         console.log(this.user); //here current location is bethanie (home)
-
-        //sample :
-        // printMessage("cd A22");
-        // Main.cd("A22");
-        // printMessage("cd ..");
-        // Main.cd(".."); // parent
-        // printMessage("cd A2890");
-        // Main.cd("A2890");
-        // console.log(this.user);// here bethanie
-        // printMessage("ls");
-        // Main.ls("");
-        // printMessage("cat tata");
-        // Main.cat("tata");
-        // printMessage("cat toto");
-        // Main.cat("toto");
-        // printMessage("help");
-        // Main.help()
     }
 
     /**
@@ -149,7 +133,9 @@ class Main {
      */
     static ls() {
         //basic only
-        let m = ".. ";
+        let m = "";
+        if(this.user.currentLocation !== Place.root)
+            m = ".. ";
         for (let p of this.user.currentLocation.all) {
             m += p.name + " ";
         }
