@@ -57,9 +57,7 @@ QUnit.test("Place home", function (assert) {
 
 /**
  *  To check currentLocation implementation and the function moveTo.
- *  Access to a Place if contains in the currentLocation. Otherwise it returns false;
  */
-
 QUnit.test("Changing place", function(assert) {
 
     let user = new User("user");
@@ -81,6 +79,10 @@ QUnit.test("Changing place", function(assert) {
 
 
 });
+
+/**
+ *  To check the function read of User class.
+ */
 QUnit.test("Reading entity", function (assert) {
     let user = new User("user");
     let place = new Place("place");
@@ -94,7 +96,9 @@ QUnit.test("Reading entity", function (assert) {
     assert.equal(user.read("else"), "", "No entity found");
 });
 
-
+/**
+ * To check the functions launch nd check quest of the User class.
+ */
 QUnit.test("Launching and checking quest", function (assert) {
     let user = new User("user");
     let place = new Place("place");

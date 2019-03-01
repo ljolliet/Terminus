@@ -139,7 +139,6 @@ class Main {
 
     /**
      * Here goes the code when the user has typed ls.
-     * @param {string} command the command detail.
      */
     static ls() {
         //basic only
@@ -152,6 +151,10 @@ class Main {
         printMessage(m);
     }
 
+    /**
+     * Here goes the code when the user has launch a quest.
+     * @param questName The name of the quest.
+     */
     static launch(questName) {
         if (this.user.launch(questName) === false)// if move refused
             printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
