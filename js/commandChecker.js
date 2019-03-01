@@ -5,7 +5,8 @@ const COMMAND_TYPE = {
     HELP: "help",
     CD: "cd",
     CAT: "cat",
-    LS: "ls"
+    LS: "ls",
+    LAUNCH: "./"
 };
 
 class CommandChecker{
@@ -157,9 +158,22 @@ class CommandChecker{
             break;
 
             default:
-                this.errorMessage = "Command not found : " + this.command[0].main;
-                this.isValid = true;
-                this.type = COMMAND_TYPE.UNKNOWN;
+                if(this.command[0].main.startsWith("./")){
+                    if(this.command[0].args.length != 0){
+                        this.errorMessage = "./ does not expect any argument.";
+                        this.isValid = false;
+                        this.type = COMMAND_TYPE.LAUNCH;
+                    }else{
+                        this.errorMessage = "";
+                        this.isValid = true;
+                        this.type = COMMAND_TYPE.LAUNCH;
+                        this.command[0].main = this.command[0].main.replace("./", "");
+                    }
+                }else{
+                    this.errorMessage = "Command not found : " + this.command[0].main;
+                    this.isValid = true;
+                    this.type = COMMAND_TYPE.UNKNOWN;
+                }
             break;
         }
     }
