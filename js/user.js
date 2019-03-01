@@ -82,23 +82,34 @@ class User {
      * @return boolean True if the update is possible (if value place is contained in the current location).
      */
     moveTo(placeName) {
-        if (placeName === ".") // current location
-            return true; // no change needed
-        else if (placeName === "..") // parent
-        {
-            if(this.currentLocation !== Place.root)
-            {
+        switch (placeName) {
+            case "." :  // current location
+                return true;
+            case"..":   // parent
+                if (this.currentLocation.parent === null)
+                    return false;
                 this.currentLocation = this.currentLocation.parent;
                 return true;
-            }
-            else
-                return false;
-        } else
-            for (let p of this.currentLocation.places)
-                if (p.name === placeName) { //contains
-                    this.currentLocation = p;
+            case "~" :  // home
+                if (Place.home !== null) {
+                    this.currentLocation = Place.home;
                     return true;
                 }
+                break;
+            case  "/":  // root
+                if (Place.root !== null) {
+                    this.currentLocation = Place.root;
+                    return true;
+                }
+                break;
+            default : // son
+                for (let p of this.currentLocation.places)
+                    if (p.name === placeName) { //contains
+                        this.currentLocation = p;
+                        return true;
+                    }
+                break;
+        }
         return false;
     }
 }
