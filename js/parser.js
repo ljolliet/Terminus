@@ -40,13 +40,11 @@ class Parser {
             // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
             // !!!! DO NOT EDIT THIS LINE, THE FIRST SPACE IS A &nbsp; SPACE (char code 160), AND
             // THE RIGHT ONE IS A REGULAR SPACE (char code 32)
-            fixedCommand = fixedCommand.replace(" ", " ");
+            fixedCommand = fixedCommand.replaceAll(" ", " ");
 
             // We need to remove the spaces before and after the pipe, otherwise the split
             // takes "" as the main command
-            fixedCommand = fixedCommand.replace(" | ", "|");
-            fixedCommand = fixedCommand.replace(" |", "|");
-            fixedCommand = fixedCommand.replace("| ", "|");
+            fixedCommand = fixedCommand.replaceAll("| ", "|");
 
             // We devide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");
@@ -123,3 +121,8 @@ class Parser {
         }
     }
 }
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
