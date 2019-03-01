@@ -48,7 +48,7 @@ var inputTextSecond = document.getElementById("input-text-second");
  * Detect keyboard events
  */
 document.getElementsByClassName("textInput")[0].addEventListener("keydown", function(event) {
-  console.log(event.keyCode);
+  // console.log(event.keyCode);
   if (consoleFocused) {
     var code  = event.keyCode;
     var input = event.key;
@@ -79,7 +79,9 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
       msg = msg.substring(0, msg.length - 1);
 
+      Main.executeCommand(msg.replace(">", ""));
       printMessage(msg);
+
       inputTextFirst.innerHTML = "";
       cursor.innerHTML = '&nbsp;';
       inputTextSecond.innerHTML = "";
