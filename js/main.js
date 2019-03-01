@@ -5,9 +5,12 @@ class Main {
         //creating small world
         let quest = new Quest("quest");
 
-        quest.initialText = "Try to see what is in this place !";
+        quest.initialText = "check help, then try to see what is in this place  !";
         quest.endText = "Well done !";
+        quest.addCommandRequired("help");
         quest.addCommandRequired("ls");
+
+        quest.addCommandRewards(COMMAND_TYPE.MV);
 
         let campus = new Place("campus");
         Place.root = campus;
@@ -18,7 +21,7 @@ class Main {
 
         let pnj = new PNJ("tata", "welcome");
         campus.addPlace(bethanie);
-        campus.addQuest(quest);
+        bethanie.addQuest(quest);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
         bethanie.addEntity(pnj);
@@ -82,6 +85,13 @@ class Main {
                 else printMessage(errorMessage);
                 break;
         }
+        if (this.user.currentQuest !== null) {
+            let text = this.user.checkQuest(command);
+            if(text !== "")
+                printMessage(text);
+
+
+        }
     }
 
 
@@ -96,8 +106,8 @@ class Main {
      */
     static help() {
         let commands = "";
-        for(let c of this.user.commandsAuthorized)
-            commands+=c.toString()+" ";
+        for (let c of this.user.commandsAuthorized)
+            commands += c.toString() + " ";
         printMessage(commands);
     }
 
@@ -119,12 +129,12 @@ class Main {
      */
     static cat(command) {
         //basic only
-        for (let e of this.user.currentLocation.entities) {
-            if (command.args[0] === e.name)
-                printMessage(e.text);
-            else
-                printMessage("cat: " + command.args[0] + " : Aucun item ou personnage de ce type");
-        }
+        // does not support a path, only place name
+        let text;
+        if ((text = this.user.read(command.args[0])) === "")// if move refused
+            printMessage("cat: " + command.args[0] + " : Aucun item ou personnage de ce type");
+        else
+            printMessage(text);
     }
 
     /**
@@ -134,7 +144,7 @@ class Main {
     static ls() {
         //basic only
         let m = "";
-        if(this.user.currentLocation !== Place.root)
+        if (this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
             m += p.name + " ";
@@ -143,7 +153,11 @@ class Main {
     }
 
     static launch(questName) {
-        console.log(questName);
+        if (this.user.launch(questName) === false)// if move refused
+            printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
+        else {
+            printMessage(this.user.currentQuest.initialText);
+        }
     }
 
 }

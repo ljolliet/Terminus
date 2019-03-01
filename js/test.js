@@ -2,7 +2,7 @@
  *  To check the parent implementation.
  *  When a place is added to another, it parent is updated.
  */
-QUnit.test("Place parent", function(assert) {
+QUnit.test("Place parent", function (assert) {
     let a = new Place("a");
     let b = new Place("b");
     let c = new Place("c");
@@ -20,7 +20,7 @@ QUnit.test("Place parent", function(assert) {
  *  To check the root implementation.
  *  Static attribute root change to access to it from any place (like "/" in shell)
  */
-QUnit.test("Place root", function(assert) {
+QUnit.test("Place root", function (assert) {
     let a = new Place("a");
     assert.equal(Place.root, null, "Root is null because is not initialized");
     Place.root = a;
@@ -38,7 +38,7 @@ QUnit.test("Place root", function(assert) {
  *  To check the home implementation.
  *  Static attribute root change to access to it from any place (like "~" in shell)
  */
-QUnit.test("Place home", function(assert) {
+QUnit.test("Place home", function (assert) {
     let message = "Correct home";
     let a = new Place("a");
     assert.equal(Place.home, null, "Home is null because is not initialized");
@@ -57,7 +57,7 @@ QUnit.test("Place home", function(assert) {
  *  To check currentLocation implementation and the function moveTo.
  *  Access to a Place if contains in the currentLocation. Otherwise it returns false;
  */
-QUnit.test("Changing place", function(assert) {
+QUnit.test("Changing place", function (assert) {
     let user = new User("user");
     let parent = new Place("parent");
     let son = new Place("son");
@@ -76,11 +76,53 @@ QUnit.test("Changing place", function(assert) {
     assert.equal(user.currentLocation, parent, "Current location stay the same");
 
 });
+QUnit.test("Reading entity", function (assert) {
+    let user = new User("user");
+    let place = new Place("place");
+    let pnj = new PNJ("pnj", "welcome");
+    let item = new Item("item", "content");
+    place.addEntity(pnj);
+    place.addEntity(item);
+    user.currentLocation = place;
+    assert.equal(user.read("pnj"), "welcome", "PNJ text read");
+    assert.equal(user.read("item"), "content", "Item text read");
+    assert.equal(user.read("else"), "", "No entity found");
+});
+
+
+QUnit.test("Launching and checking quest", function (assert) {
+    let user = new User("user");
+    let place = new Place("place");
+    user.currentLocation = place;
+    let quest = new Quest("quest");
+    quest.initialText = "welcome";
+    quest.endText = "well done";
+    quest.addCommandRequired("ls");
+    quest.addCommandRequired("help");
+    quest.addCommandRewards(COMMAND_TYPE.MV);
+    place.addQuest(quest);
+    assert.equal(quest.status, STATUS.TODO, "Quest status initialized, to start");
+    assert.equal(user.currentQuest, null, "No quest running");
+    assert.equal(user.launch("else"), false, "Wrong quest name, quest not launched");
+    assert.equal(user.launch("quest"), true, "Quest launched");
+    assert.equal(quest.status, STATUS.STARTED, "Status updated");
+    assert.equal(user.currentQuest, quest, "Quest is running");
+    assert.equal(user.currentQuest.commandRequired.length, 2, "Two command required");
+    assert.equal(user.currentQuest.commandRequired[0], "ls", "Right command entered");
+    assert.equal(user.checkQuest("ls"),"","Write command entered but one left");
+    assert.equal(user.checkQuest("cat tata"),"","Wrong command entered, also one left");
+    assert.equal(user.currentQuest.commandRequired.length, 1, "One command required");
+    assert.equal(user.checkQuest("help"),"well done","End text displayed");
+    assert.equal(quest.status, STATUS.DONE, "Quest finished");
+    assert.equal(user.currentQuest, null, "No quest running");
+    assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
+    assert.equal(user.trophies.includes("quest"), true, "New trophy rewards");
+});
 
 /**
  * parser.js test
  */
-QUnit.test("Parsing", function(assert) {
+QUnit.test("Parsing", function (assert) {
     let parser = new Parser("", false);
     parser.parseCommand();
 
@@ -133,3 +175,5 @@ QUnit.test("Parsing", function(assert) {
     assert.equal(cmdl[0].args[2], "arg3", "The 3rd arg should be 'arg3', and we use the 132 space (&nbsp;)");
 
 });
+
+

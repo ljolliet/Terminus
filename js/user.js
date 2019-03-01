@@ -10,6 +10,15 @@ class User {
         this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS]; // five basics commands already available
         this._login = login;
         this._currentLocation = Place.home; //null if not initialized
+        this._currentQuest = null;
+    }
+
+    get currentQuest() {
+        return this._currentQuest;
+    }
+
+    set currentQuest(value) {
+        this._currentQuest = value;
     }
 
     /**
@@ -28,11 +37,10 @@ class User {
     }
 
     /**
-     * @param {COMMAND_TYPE,COMMAND_TYPE[]} command To add to user allowed commands.
+     * @param {COMMAND_TYPE} command To add to user allowed commands.
      */
     addCommand(command) {
         this.commandsAuthorized.push(command);
-        this.commandsAuthorized.sort();
     }
 
     /**
@@ -60,6 +68,7 @@ class User {
      * @return {COMMAND_TYPE[]} Commands allowed.
      */
     get commandsAuthorized() {
+        this._commandsAuthorized.sort();
         return this._commandsAuthorized;
     }
 
@@ -79,7 +88,7 @@ class User {
 
     /**
      * @param {String} placeName To update the current location.
-     * @return boolean True if the update is possible (if value place is contained in the current location).
+     * @return {boolean} True if the update is possible (if value place is contained in the current location).
      */
     moveTo(placeName) {
         switch (placeName) {
@@ -111,5 +120,50 @@ class User {
                 break;
         }
         return false;
+    }
+
+    /**
+     * @param entityName
+     * @return
+     */
+    read(entityName) {
+        for (let e of this.currentLocation.entities)
+            if (entityName === e.name) {
+                return e.text
+            }
+        return "";
+    }
+
+    /**
+     * @param {String }questName Name of the quest to launch.
+     * @return {boolean} True if the quest exists and the launching succeed.
+     */
+    launch(questName) {
+        for (let q of this.currentLocation.quests)
+            if (q.name === questName) {
+                q.status = STATUS.STARTED;
+                this.currentQuest = q;
+                return true;
+            }
+        return false;
+    }
+
+    /**
+     * @param {String } command Last command that will be compared to required commands.
+     * @return {String} The text to display if the quest ended, "" otherwise.
+     */
+    checkQuest(command) {
+        if (this.currentQuest.commandRequired[0] === command.toString())
+            this.currentQuest.commandRequired.shift(); // remove first element
+        if (this.currentQuest.commandRequired.length === 0) {   // end quest
+            let endText = this.currentQuest.endText;
+            this.currentQuest.status = STATUS.DONE;
+            for (let cr of this.currentQuest.commandRewards)
+                this.addCommand(cr);
+            this.addTrophy(this.currentQuest.name);
+            this.currentQuest = null;
+            return endText;
+        }
+        return "";
     }
 }

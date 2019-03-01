@@ -53,7 +53,7 @@ class Quest {
     }
 
     /**
-     * @return {String[]} Command rewards array.
+     * @return {COMMAND_TYPE[]} Command rewards array.
      */
     get commandRewards() {
         return this._commandRewards;
@@ -74,22 +74,15 @@ class Quest {
     }
 
     /**
-     * @param {String} command Add to requirements.
+     * @param {String, String[]} command Add to requirements.
      */
     addCommandRequired(command) {
         this._commandRequired.push(command);
     }
 
-    /**
-     * @param {String[]} commands Add multiple commands to requirements.
-     */
-    addCommandsRequired(commands) {
-        for (let c of commands)
-            this._commandRequired.push(c);
-    }
 
     /**
-     * @param {String[]} command Add to rewards.
+     * @param {COMMAND_TYPE} command Add to rewards.
      */
     addCommandRewards(command) {
         this._commandRewards.push(command);
