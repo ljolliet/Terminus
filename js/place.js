@@ -94,7 +94,6 @@ class Place {
     }
 
 }
-
 //inelegant but that works ..
 Place.home = null;
 Place.root = null;

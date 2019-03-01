@@ -28,9 +28,6 @@ class PNJ extends Entity {
         super(name, text);
     }
 
-    toString() {
-        return "PNJ : " + super.toString();
-    }
 }
 
 class Item extends Entity {

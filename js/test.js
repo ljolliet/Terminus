@@ -77,5 +77,7 @@ QUnit.test("Changing place", function(assert) {
     assert.equal(user.currentLocation, son, message);
     assert.equal(user.moveTo(".."), true, message);
     assert.equal(user.currentLocation, parent, message);
-
+    assert.equal(user.moveTo(".."), false, message);
+    assert.equal(user.currentLocation, parent, message);
+    
 });

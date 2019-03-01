@@ -86,8 +86,13 @@ class User {
             return true; // no change needed
         else if (placeName === "..") // parent
         {
-            this.currentLocation = this.currentLocation.parent;
-            return true;
+            if(this.currentLocation !== Place.root)
+            {
+                this.currentLocation = this.currentLocation.parent;
+                return true;
+            }
+            else
+                return false;
         } else
             for (let p of this.currentLocation.places)
                 if (p.name === placeName) { //contains
