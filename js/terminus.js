@@ -56,18 +56,18 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
     var size1 = inputTextFirst.innerText.length;
     var size2 = inputTextSecond.innerText.length;
 
-    if (code == 8) // BACKSPACE
+    if (code === 8) // BACKSPACE
     inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
 
-    else if (code == 46) {
+    else if (code === 46) {
       if (size2 > 0) {
         cursor.innerText = inputTextSecond.innerText.substring(0, 1);
         inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
       }
     }
 
-    else if (code == 13) { // ENTER
-      var msg = document.getElementById("chevron").innerText;
+    else if (code === 13) { // ENTER
+      var msg = 'login@terminus: $ ';
 
       if (size1 > 0)
         msg += inputTextFirst.innerText;
@@ -85,10 +85,10 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
       cursor.innerHTML = '&nbsp;';
       inputTextSecond.innerHTML = "";
 
-      Main.executeCommand(msg.replace(">", ""));
+      Main.executeCommand(msg.replace('login@terminus: $ ', ''));
     }
 
-    else if (code == 37) { // LEFT ARROW
+    else if (code === 37) { // LEFT ARROW
       if (size1 > 0) {
         inputTextSecond.innerText = cursor.innerText + inputTextSecond.innerText;
         cursor.innerText = inputTextFirst.innerText.substring(size1-1, size1);
@@ -96,25 +96,25 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
       }
     }
 
-    else if (code == 39) { // RIGHT ARROW
+    else if (code === 39) { // RIGHT ARROW
       if (size2 > 0) {
         inputTextFirst.innerText += cursor.innerText;
         cursor.innerText = inputTextSecond.innerText.substring(0, 1);
         inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
       }
-      else if (size2 == 0) {
+      else if (size2 === 0) {
         if (cursor.innerHTML != '&nbsp;')
           inputTextFirst.innerHTML += cursor.innerHTML;
         cursor.innerHTML = '&nbsp;';
       }
     }
 
-    else if (code == 32) { // SPACE
+    else if (code === 32) { // SPACE
       // Transform the normal space in an unbreakable space
       inputTextFirst.innerHTML += '&nbsp;';
     }
 
-    else if (input.length == 1) // letter, digit and others
+    else if (input.length === 1) // letter, digit and others
       inputTextFirst.innerHTML += input;
   }
 });
