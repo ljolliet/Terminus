@@ -24,7 +24,7 @@ class Parser {
      * You should use getCommands() to retrieve the command parsed.
      */
     parseCommand() {
-        if (this.command.length == 0) {
+        if (this.command.length === 0) {
             if (this.verbose) {
                 console.log("[Parser] The command is empty");
             }

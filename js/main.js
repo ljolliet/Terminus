@@ -85,13 +85,8 @@ class Main {
                 else printMessage(errorMessage);
                 break;
         }
-        if (this.user.currentQuest !== null) {
-            let text = this.user.checkQuest(command);
-            if(text !== "")
-                printMessage(text);
 
-
-        }
+        Main.questAdvancement(command);
     }
 
 
@@ -99,6 +94,10 @@ class Main {
      * Here goes the code when the user has typed exit.
      */
     static exit() {
+        if (this.user.currentQuest !== null){
+            printMessage("Quest "+this.user.currentQuest.name+" stopped");
+            this.user.currentQuest = null;
+        }
     }
 
     /**
@@ -125,7 +124,7 @@ class Main {
 
     /**
      * Here goes the code when the user has typed cat.
-     * @param {string} command the command detail.
+     * @param {String} command the command detail.
      */
     static cat(command) {
         //basic only
@@ -143,7 +142,7 @@ class Main {
     static ls() {
         //basic only
         let m = "";
-        if(this.user.currentLocation !== Place.root)
+        if (this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
             m += p.name + " ";
@@ -153,14 +152,39 @@ class Main {
 
     /**
      * Here goes the code when the user has launch a quest.
-     * @param questName The name of the quest.
+     * @param {String} questName The name of the quest.
      */
     static launch(questName) {
-        if (this.user.launch(questName) === false)// if move refused
+        let info;
+        if ((info = this.user.launch(questName)) === INFO.UNKNOWN)// if quest doesn't exist
             printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
-        else {
+        else if(info === INFO.UNAVAILABLE){
+            printMessage("The quest "+ this.user.currentQuest.name+ " is running, you can't run multiple quests at the same time.\nTo close the current quest, enter 'exit'");
+        }
+        else if(info===INFO.FINISHED){
+            printMessage("The quest "+ questName+ " is already finished");
+        }
+        else    // INFO.FOUND
+            {
+            printMessage("Quest "+ this.user.currentQuest.name+ " launched :");
             printMessage(this.user.currentQuest.initialText);
         }
     }
 
+
+    /**
+     * Manage the quest advancement and display when the user finis a quest.
+     * @param {String} command Last command the user entered.
+     */
+    static questAdvancement(command) {
+        if (this.user.currentQuest !== null) {  // check the quest advancement.
+            let quest;
+            if ((quest = this.user.checkQuest(command)) !== null) {
+                printMessage(quest.endText);
+                printMessage("Quest : " + quest.name + " finished");
+                if(quest.commandRewards.length!==0)
+                    printMessage("Command(s) : " + quest.commandRewards + " unlocked")
+            }
+        }
+    }
 }

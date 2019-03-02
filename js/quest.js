@@ -5,6 +5,12 @@ const STATUS = {
     DONE: 2
 };
 
+const INFO = {
+    UNKNOWN: 0,
+    FOUND: 1,
+    UNAVAILABLE: 2,
+    FINISHED: 3
+};
 class Quest {
 
     constructor(name) {
@@ -13,7 +19,7 @@ class Quest {
         this._initialText = "";
         this._commandRequired = [];
         this._commandRewards = [];
-        this._name = name;
+        this._name = name+".sh";
         this._questsRequired = [];
     }
     

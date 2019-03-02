@@ -137,34 +137,40 @@ class User {
 
     /**
      * @param {String }questName Name of the quest to launch.
-     * @return {boolean} True if the quest exists and the launching succeed.
+     * @return {INFO} FOUND if the quest exists and the launching succeed,
+     * UNAVAILABLE if a quest is already launched and UNKNOWN if the quest doesn't exist.
      */
     launch(questName) {
-        for (let q of this.currentLocation.quests)
-            if (q.name === questName) {
-                q.status = STATUS.STARTED;
-                this.currentQuest = q;
-                return true;
-            }
-        return false;
+        if (this.currentQuest == null) {
+            for (let q of this.currentLocation.quests)
+                if (q.name === questName) {
+                    if(q.status===STATUS.DONE)
+                        return INFO.FINISHED;
+                    q.status = STATUS.STARTED;
+                    this.currentQuest = q;
+                    return INFO.FOUND;
+                }
+            return INFO.UNKNOWN;
+        }
+        return INFO.UNAVAILABLE;
     }
 
     /**
      * @param {String } command Last command that will be compared to required commands.
-     * @return {String} The text to display if the quest ended, "" otherwise.
+     * @return {Quest} The quest if finished, null otherwise.
      */
     checkQuest(command) {
         if (this.currentQuest.commandRequired[0] === command.toString())
             this.currentQuest.commandRequired.shift(); // remove first element
         if (this.currentQuest.commandRequired.length === 0) {   // end quest
-            let endText = this.currentQuest.endText;
             this.currentQuest.status = STATUS.DONE;
             for (let cr of this.currentQuest.commandRewards)
                 this.addCommand(cr);
             this.addTrophy(this.currentQuest.name);
+            let copy = this.currentQuest;
             this.currentQuest = null;
-            return endText;
+            return copy;
         }
-        return "";
+        return null;
     }
 }

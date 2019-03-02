@@ -103,31 +103,43 @@ QUnit.test("Launching and checking quest", function (assert) {
     let user = new User("user");
     let place = new Place("place");
     user.currentLocation = place;
+
     let quest = new Quest("quest");
     quest.initialText = "welcome";
     quest.endText = "well done";
     quest.addCommandRequired("ls");
     quest.addCommandRequired("help");
     quest.addCommandRewards(COMMAND_TYPE.MV);
+
+    let quest2 = new Quest("quest2");
+    quest2.addCommandRequired("ls");
+
     place.addQuest(quest);
+    place.addQuest(quest2);
+
     assert.equal(quest.status, STATUS.TODO, "Quest status initialized, to start");
     assert.equal(user.currentQuest, null, "No quest running");
-    assert.equal(user.launch("else"), false, "Wrong quest name, quest not launched");
-    assert.equal(user.launch("quest"), true, "Quest launched");
+    assert.equal(user.launch("else"), INFO.UNKNOWN, "Wrong quest name, quest not launched");
+    assert.equal(user.launch("quest.sh"), INFO.FOUND, "Quest launched"); // add .sh to the name
     assert.equal(quest.status, STATUS.STARTED, "Status updated");
     assert.equal(user.currentQuest, quest, "Quest is running");
+    assert.equal(user.launch("quest2.sh"), INFO.UNAVAILABLE, "Can't launch a second quest at the same time");
     assert.equal(user.currentQuest.commandRequired.length, 2, "Two command required");
     assert.equal(user.currentQuest.commandRequired[0], "ls", "Right command entered");
-    assert.equal(user.checkQuest("ls"),"","Write command entered but one left");
-    assert.equal(user.checkQuest("cat tata"),"","Wrong command entered, also one left");
+    assert.equal(user.checkQuest("ls"),null,"Write command entered but one left");
+    assert.equal(user.checkQuest("cat tata"),null,"Wrong command entered, also one left");
     assert.equal(user.currentQuest.commandRequired.length, 1, "One command required");
-    assert.equal(user.checkQuest("help"),"well done","End text displayed");
+    assert.equal(user.checkQuest("help"),quest,"End text displayed");
     assert.equal(quest.status, STATUS.DONE, "Quest finished");
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
-    assert.equal(user.trophies.includes("quest"), true, "New trophy rewards");
-
+    assert.equal(user.trophies.includes("quest.sh"), true, "New trophy rewards"); // + .sh
+    assert.equal(user.launch("quest.sh"), INFO.FINISHED, "Ca't do the same quest again");
+    assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
 });
+
+// already done quest (multiple mv push)
+
 
 /**
  * parser.js test
