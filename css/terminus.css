@@ -14,11 +14,11 @@ div#console {
   position: absolute;
   left: 0;
   height: 100%;
-  max-height: 100%;
   width: 60%;
   max-width: 60%;
   display: inline-block;
   word-wrap: break-word;
+  overflow: scroll;
 }
 
 div#side-panel {
@@ -31,11 +31,6 @@ div#side-panel {
 
 div#console div.message {
   margin-bottom: 10px;
-}
-
-div#console #div-input-text {
-  position: absolute;
-  bottom: 0;
 }
 
 div#console #div-input-text span {
@@ -57,4 +52,5 @@ textarea.textInput {
   width: 0;
   height: 0;
   opacity: 0.01;
+  resize: none;
 }
