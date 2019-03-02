@@ -120,6 +120,13 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 });
 
 /**
+ * Clear the console content
+ */
+function clear() {
+  document.getElementById("console-output").innerHTML = ''
+}
+
+/**
  * Print a message on the screen
  */
 function printMessage(message) {

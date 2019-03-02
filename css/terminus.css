@@ -14,7 +14,8 @@ div#console {
   position: absolute;
   left: 0;
   height: 100%;
-  width: 60%;
+  width: calc(60% - 10px);
+  padding-left: 10px;
   max-width: 60%;
   display: inline-block;
   word-wrap: break-word;
