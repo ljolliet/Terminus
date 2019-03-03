@@ -3,14 +3,18 @@ class User {
 
     /**
      * @param {String} login
+     * @param {Item[]} items The list of Item the user own.
+     * @param {Place} inventory The place corresponding to the inventory of the user.
      */
-    constructor(login) {
-        this._items = [];
+    constructor(login, items, inventory) {
         this._trophies = [];
         this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS]; // five basics commands already available
         this._login = login;
         this._currentLocation = Place.home; //null if not initialized
         this._currentQuest = null;
+        this._inventory = inventory;
+        for (let i of items) //the inventory contains the items.
+            inventory.addEntity(i);
     }
 
     get currentQuest() {
@@ -21,12 +25,20 @@ class User {
         this._currentQuest = value;
     }
 
+    get inventory() {
+        return this._inventory;
+    }
+
+    set inventory(value) {
+        this._inventory = value;
+    }
+
     /**
      * @param {Item} item To add to user items.
      */
     addItem(item) {
-        this.items.push(item);
-        this.items.sort();
+        this.inventory.addItem(item);
+
     }
 
     /**
@@ -54,7 +66,7 @@ class User {
      * @return {Item[]} Items owned by the user.
      */
     get items() {
-        return this._items;
+        return this.inventory.items;
     }
 
     /**
@@ -111,7 +123,12 @@ class User {
                     return true;
                 }
                 break;
-
+            case "$INVENTAIRE":
+                if (this.inventory !== null) {
+                    this.currentLocation = this.inventory
+                    return true;
+                }
+                break;
             default : // son
                 for (let p of this.currentLocation.places)
                     if (p.name === placeName) { //contains
@@ -144,7 +161,7 @@ class User {
         if (this.currentQuest == null) {
             for (let q of this.currentLocation.quests)
                 if (q.name === questName) {
-                    if(q.status===STATUS.DONE)
+                    if (q.status === STATUS.DONE)
                         return INFO.FINISHED;
                     q.status = STATUS.STARTED;
                     this.currentQuest = q;

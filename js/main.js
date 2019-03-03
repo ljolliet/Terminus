@@ -6,7 +6,7 @@ class Main {
         let quest = new Quest("quest");
 
         quest.initialText = "check help, then try to see what is in this place  !";
-        quest.endText = "Well done !";
+        quest.endText = "Bien joué !";
         quest.addCommandRequired("help");
         quest.addCommandRequired("ls");
 
@@ -19,7 +19,7 @@ class Main {
         let A22 = new Place("A22");
         let A21 = new Place("A21");
 
-        let pnj = new PNJ("tata", "welcome");
+        let pnj = new PNJ("tata", "bonjour");
         campus.addPlace(bethanie);
         bethanie.addQuest(quest);
         bethanie.addPlace(A22);
@@ -27,7 +27,9 @@ class Main {
         bethanie.addEntity(pnj);
         console.log(bethanie);
 
-        this.user = new User("toto");
+        let inventory = new Place("inventaire");
+        bethanie.addPlace(inventory); // usually inventory is in home Place
+        this.user = new User("toto", [new Item("carte","data")], inventory);
         console.log(this.user); //here current location is bethanie (home)
     }
 
@@ -94,9 +96,12 @@ class Main {
      * Here goes the code when the user has typed exit.
      */
     static exit() {
-        if (this.user.currentQuest !== null){
-            printMessage("Quest "+this.user.currentQuest.name+" stopped");
+        if (this.user.currentQuest !== null) {
+            printMessage("Quest " + this.user.currentQuest.name + " stopped");
             this.user.currentQuest = null;
+        } else {
+            printMessage("Are you sur you want to quit Terminus ? (yes/no)")
+            //TODO
         }
     }
 
@@ -115,8 +120,6 @@ class Main {
      * @param {string} command the command detail.
      */
     static cd(command) {
-        //basic only
-        // does not support a path, only place name
         if (!this.user.moveTo(command.args[0]))// if move refused
             printMessage("cd: " + command.args[0] + " : Aucun lieu de ce type");
         //else : move done
@@ -127,7 +130,6 @@ class Main {
      * @param {String} command the command detail.
      */
     static cat(command) {
-        //basic only
         // does not support a path, only place name
         let text;
         if ((text = this.user.read(command.args[0])) === "")// if move refused
@@ -140,11 +142,12 @@ class Main {
      * Here goes the code when the user has typed ls.
      */
     static ls() {
-        //basic only
         let m = "";
         if (this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
+            if (p instanceof Place && p.containsQuestTodo())
+                m += "!";
             m += p.name + " ";
         }
         printMessage(m);
@@ -158,15 +161,13 @@ class Main {
         let info;
         if ((info = this.user.launch(questName)) === INFO.UNKNOWN)// if quest doesn't exist
             printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
-        else if(info === INFO.UNAVAILABLE){
-            printMessage("The quest "+ this.user.currentQuest.name+ " is running, you can't run multiple quests at the same time.\nTo close the current quest, enter 'exit'");
-        }
-        else if(info===INFO.FINISHED){
-            printMessage("The quest "+ questName+ " is already finished");
-        }
-        else    // INFO.FOUND
-            {
-            printMessage("Quest "+ this.user.currentQuest.name+ " launched :");
+        else if (info === INFO.UNAVAILABLE) {
+            printMessage("The quest " + this.user.currentQuest.name + " is running, you can't run multiple quests at the same time.\nTo close the current quest, enter 'exit'");
+        } else if (info === INFO.FINISHED) {
+            printMessage("The quest " + questName + " is already finished");
+        } else    // INFO.FOUND
+        {
+            printMessage("Quest " + this.user.currentQuest.name + " launched :");
             printMessage(this.user.currentQuest.initialText);
         }
     }
@@ -182,7 +183,7 @@ class Main {
             if ((quest = this.user.checkQuest(command)) !== null) {
                 printMessage(quest.endText);
                 printMessage("Quest : " + quest.name + " finished");
-                if(quest.commandRewards.length!==0)
+                if (quest.commandRewards.length !== 0)
                     printMessage("Command(s) : " + quest.commandRewards + " unlocked")
             }
         }

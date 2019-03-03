@@ -53,3 +53,13 @@ Also available : the [Scrum board](https://github.com/ljolliet/Terminus/projects
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 This ReadMe has been written from this [template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
+
+//TODO
+features : 
+list commands       DONE 
+launch quest        DONE
+!                   DONE
+trophies
+inventory 
+root home / ~       DONE
+alphabetic order    DONE

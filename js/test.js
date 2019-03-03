@@ -60,7 +60,7 @@ QUnit.test("Place home", function (assert) {
  */
 QUnit.test("Changing place", function(assert) {
 
-    let user = new User("user");
+    let user = new User("user",[], null);
     let parent = new Place("parent");
     let son = new Place("son");
     parent.addPlace(son);
@@ -84,7 +84,7 @@ QUnit.test("Changing place", function(assert) {
  *  To check the function read of User class.
  */
 QUnit.test("Reading entity", function (assert) {
-    let user = new User("user");
+    let user = new User("user",[], null);
     let place = new Place("place");
     let pnj = new PNJ("pnj", "welcome");
     let item = new Item("item", "content");
@@ -100,7 +100,7 @@ QUnit.test("Reading entity", function (assert) {
  * To check the functions launch nd check quest of the User class.
  */
 QUnit.test("Launching and checking quest", function (assert) {
-    let user = new User("user");
+    let user = new User("user",[], null);
     let place = new Place("place");
     user.currentLocation = place;
 
@@ -137,9 +137,6 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(user.launch("quest.sh"), INFO.FINISHED, "Ca't do the same quest again");
     assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
 });
-
-// already done quest (multiple mv push)
-
 
 /**
  * parser.js test

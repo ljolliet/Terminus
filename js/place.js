@@ -10,24 +10,36 @@ class Place {
         //static attributes (see below the class):
         //Place.root
         //Place.home
-        // use : let root = new Place("root") ; Place.root = root ;
+        // use : let r = new Place("root") ; Place.root = r ;
     }
+
     /**
      * @return {Object[]} All the entities, places, quests, ordered alphabetically.
      */
-    get all(){
+    get all() {
         let all = [];
-        for(let e of this.entities)
+        for (let e of this.entities)
             all.push(e);
-        for(let p of this.places)
+        for (let p of this.places)
             all.push(p);
-        for(let q of this.quests)
+        for (let q of this.quests)
             all.push(q);
-        all.sort((a,b) => a.name > b.name); // sort the array alphabetically comparing the names of the Objects
+        all.sort((a, b) => a.name > b.name); // sort the array alphabetically comparing the names of the Objects
         return all;
 
 
     }
+
+    /**
+     * @returns {boolean} True if the Place contains a quest that the user didn't started.
+     */
+    containsQuestTodo() {
+        for (let q of this.quests)
+            if (q.status === STATUS.TODO)
+                return true;
+        return false;
+    }
+
     /**
      * @return {String} Name
      */
@@ -91,9 +103,12 @@ class Place {
      */
     addEntity(entity) {
         this._entities.push(entity);
+        this._entities.sort();
+
     }
 
 }
+
 //inelegant but that works ..
 Place.home = null;
 Place.root = null;
