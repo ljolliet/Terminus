@@ -60,6 +60,6 @@ list commands       DONE
 launch quest        DONE
 !                   DONE
 trophies
-inventory 
+inventory           DONE
 root home / ~       DONE
 alphabetic order    DONE

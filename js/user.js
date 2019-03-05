@@ -1,3 +1,6 @@
+let trophiesName = "armoire_a_trophee";
+let inventory = "inventaire";
+
 class User {
 
 
@@ -5,39 +8,48 @@ class User {
      * @param {String} login
      * @param {Item[]} items The list of Item the user own.
      * @param {Place} inventory The place corresponding to the inventory of the user.
+     * @param {String[]} trophies List of trophies, corresponding to the name of the quests succeeded.
      */
-    constructor(login, items, inventory) {
-        this._trophies = [];
+    constructor(login, items, inventory, trophies) {
+        this._trophies = trophies;
         this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS]; // five basics commands already available
         this._login = login;
         this._currentLocation = Place.home; //null if not initialized
         this._currentQuest = null;
         this._inventory = inventory;
-        for (let i of items) //the inventory contains the items.
-            inventory.addEntity(i);
+        if (this.trophies.length !== 0)
+            this.convertTrophies();
+        if (this.inventory !== null)
+            for (let i of items)
+                this.inventory.addEntity(i);
     }
 
+    /**
+     * @returns {Quest} The quest currently running, null if none.
+     */
     get currentQuest() {
         return this._currentQuest;
     }
 
-    set currentQuest(value) {
-        this._currentQuest = value;
+    /**
+     * @param {Quest} quest To update the quest currently running.
+     */
+    set currentQuest(quest) {
+        this._currentQuest = quest;
     }
 
+    /**
+     * @returns {Place} The inventory of the user.
+     */
     get inventory() {
         return this._inventory;
-    }
-
-    set inventory(value) {
-        this._inventory = value;
     }
 
     /**
      * @param {Item} item To add to user items.
      */
     addItem(item) {
-        this.inventory.addItem(item);
+        this.inventory.addEntity(item);
 
     }
 
@@ -46,6 +58,28 @@ class User {
      */
     addTrophy(trophy) {
         this.trophies.push(trophy);
+        if(this.inventory!==null)
+            this.convertTrophies();
+    }
+
+    /**
+     * @return {String[]} Quests name finished by the user.
+     */
+    get trophies() {
+        return this._trophies;
+    }
+
+    /**
+     * @returns {Item}
+     */
+    convertTrophies() {
+        let text = "";
+        for(let t of this.trophies)
+            text+=t+"\n";
+        //remove previous one
+        this.inventory.deleteEntity(trophiesName);
+        this.addItem(new Item(trophiesName,text));
+
     }
 
     /**
@@ -66,15 +100,13 @@ class User {
      * @return {Item[]} Items owned by the user.
      */
     get items() {
-        return this.inventory.items;
+        let it = [];
+        for (let i of this.inventory.entities)
+            if (i instanceof Item)
+                it.push(i);
+        return it;
     }
 
-    /**
-     * @return {String[]} Quests name finished by the user.
-     */
-    get trophies() {
-        return this._trophies;
-    }
 
     /**
      * @return {COMMAND_TYPE[]} Commands allowed.
@@ -125,7 +157,7 @@ class User {
                 break;
             case "$INVENTAIRE":
                 if (this.inventory !== null) {
-                    this.currentLocation = this.inventory
+                    this.currentLocation = this.inventory;
                     return true;
                 }
                 break;

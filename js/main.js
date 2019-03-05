@@ -3,9 +3,9 @@ class Main {
     static init() {
 
         //creating small world
-        let quest = new Quest("quest");
+        let quest = new Quest("quete");
 
-        quest.initialText = "check help, then try to see what is in this place  !";
+        quest.initialText = "tente help puis essaie de regarder autour de toi ...";
         quest.endText = "Bien joué !";
         quest.addCommandRequired("help");
         quest.addCommandRequired("ls");
@@ -29,7 +29,7 @@ class Main {
 
         let inventory = new Place("inventaire");
         bethanie.addPlace(inventory); // usually inventory is in home Place
-        this.user = new User("toto", [new Item("carte","data")], inventory);
+        this.user = new User("toto", [new Item("carte","donnees")], inventory,["try.sh"]);
         console.log(this.user); //here current location is bethanie (home)
     }
 
@@ -97,10 +97,10 @@ class Main {
      */
     static exit() {
         if (this.user.currentQuest !== null) {
-            printMessage("Quest " + this.user.currentQuest.name + " stopped");
+            printMessage("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-            printMessage("Are you sur you want to quit Terminus ? (yes/no)")
+            printMessage("Tu es sur que tu souhaite quitter Terminus ? (yes/no)")
             //TODO
         }
     }
@@ -162,12 +162,12 @@ class Main {
         if ((info = this.user.launch(questName)) === INFO.UNKNOWN)// if quest doesn't exist
             printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
         else if (info === INFO.UNAVAILABLE) {
-            printMessage("The quest " + this.user.currentQuest.name + " is running, you can't run multiple quests at the same time.\nTo close the current quest, enter 'exit'");
+            printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
         } else if (info === INFO.FINISHED) {
-            printMessage("The quest " + questName + " is already finished");
+            printMessage("La quête " + questName + " est déjà terminée");
         } else    // INFO.FOUND
         {
-            printMessage("Quest " + this.user.currentQuest.name + " launched :");
+            printMessage("Quête " + this.user.currentQuest.name + " lancée");
             printMessage(this.user.currentQuest.initialText);
         }
     }
@@ -182,9 +182,9 @@ class Main {
             let quest;
             if ((quest = this.user.checkQuest(command)) !== null) {
                 printMessage(quest.endText);
-                printMessage("Quest : " + quest.name + " finished");
+                printMessage("Quête : " + quest.name + " terminée");
                 if (quest.commandRewards.length !== 0)
-                    printMessage("Command(s) : " + quest.commandRewards + " unlocked")
+                    printMessage("Commande(s) : " + quest.commandRewards + " dévérouillée(s)")
             }
         }
     }

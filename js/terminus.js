@@ -132,9 +132,9 @@ function clear() {
 function printMessage(message) {
   message = message.replace('&nbsp;', ' ');
 
-  var childDiv = document.createElement("div");
+  let childDiv = document.createElement("div");
   childDiv.classList.add("message");
-  var textNode = document.createTextNode( message );
+  let textNode = document.createTextNode( message );
   childDiv.appendChild(textNode);
   document.getElementById("console-output").appendChild(childDiv);
 }

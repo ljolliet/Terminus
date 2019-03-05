@@ -17,10 +17,6 @@ class Entity {
     get text() {
         return this._text;
     }
-
-    toString() {
-        return this.name;
-    }
 }
 
 class PNJ extends Entity {

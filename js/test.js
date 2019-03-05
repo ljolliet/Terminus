@@ -58,9 +58,9 @@ QUnit.test("Place home", function (assert) {
 /**
  *  To check currentLocation implementation and the function moveTo.
  */
-QUnit.test("Changing place", function(assert) {
+QUnit.test("Changing place", function (assert) {
 
-    let user = new User("user",[], null);
+    let user = new User("user", [], null, []);
     let parent = new Place("parent");
     let son = new Place("son");
     parent.addPlace(son);
@@ -84,7 +84,7 @@ QUnit.test("Changing place", function(assert) {
  *  To check the function read of User class.
  */
 QUnit.test("Reading entity", function (assert) {
-    let user = new User("user",[], null);
+    let user = new User("user", [], null, []);
     let place = new Place("place");
     let pnj = new PNJ("pnj", "welcome");
     let item = new Item("item", "content");
@@ -100,7 +100,7 @@ QUnit.test("Reading entity", function (assert) {
  * To check the functions launch nd check quest of the User class.
  */
 QUnit.test("Launching and checking quest", function (assert) {
-    let user = new User("user",[], null);
+    let user = new User("user", [], null, []);
     let place = new Place("place");
     user.currentLocation = place;
 
@@ -126,10 +126,10 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(user.launch("quest2.sh"), INFO.UNAVAILABLE, "Can't launch a second quest at the same time");
     assert.equal(user.currentQuest.commandRequired.length, 2, "Two command required");
     assert.equal(user.currentQuest.commandRequired[0], "ls", "Right command entered");
-    assert.equal(user.checkQuest("ls"),null,"Write command entered but one left");
-    assert.equal(user.checkQuest("cat tata"),null,"Wrong command entered, also one left");
+    assert.equal(user.checkQuest("ls"), null, "Write command entered but one left");
+    assert.equal(user.checkQuest("cat tata"), null, "Wrong command entered, also one left");
     assert.equal(user.currentQuest.commandRequired.length, 1, "One command required");
-    assert.equal(user.checkQuest("help"),quest,"End text displayed");
+    assert.equal(user.checkQuest("help"), quest, "End text displayed");
     assert.equal(quest.status, STATUS.DONE, "Quest finished");
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
@@ -137,6 +137,16 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(user.launch("quest.sh"), INFO.FINISHED, "Ca't do the same quest again");
     assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
 });
+
+QUnit.test("Inventory & trophies", function (assert) {
+    let inventory = new Place("inventory");
+    let user = new User("user", [new Item("card", "data"), new Item("bag", "content")], inventory, ["try.sh", "try2.sh"]);
+    assert.equal(inventory.entities[0], user.items[0], "User 1st item is the same as inventory one");
+    assert.equal(inventory.entities[1], user.items[1], "User 2nd item is the same as inventory one");
+    assert.equal(inventory.entities.length, 3, "trophy armory is in the items");    // 3 with armoire_a_trophee
+
+});
+
 
 /**
  * parser.js test

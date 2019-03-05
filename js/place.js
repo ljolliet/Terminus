@@ -58,7 +58,15 @@ class Place {
      * @return {Entity[]} The entities array.
      */
     get entities() {
+        this._entities.sort();
         return this._entities;
+    }
+
+    /**
+     * @param {Entity[]} value To update entities array.
+     */
+    set entities(value) {
+        this._entities = value;
     }
 
     /**
@@ -77,17 +85,17 @@ class Place {
 
 
     /**
-     * @return {Place} To update parent place.
+     * @param {Place} place To update parent place.
      */
-    set parent(value) {
-        this._parent = value;
+    set parent(place) {
+        this._parent = place;
     }
 
     /**
      * @param {Place} place To add in places array.
      */
     addPlace(place) {
-        this._places.push(place);
+        this.places.push(place);
         place.parent = this;
     }
 
@@ -95,16 +103,23 @@ class Place {
      * @param {Quest} quest To add in quests array.
      */
     addQuest(quest) {
-        this._quests.push(quest);
+        this.quests.push(quest);
     }
 
     /**
      * @param {Entity} entity To add in entities array.
      */
     addEntity(entity) {
-        this._entities.push(entity);
-        this._entities.sort();
+        this.entities.push(entity);
 
+    }
+
+    /**
+     * @param {String} entity
+     */
+    deleteEntity(entity){
+        //TODO Does not work
+       this.entities.filter(el => el.name !== entity);
     }
 
 }
