@@ -12,7 +12,7 @@ const COMMAND_TYPE = {
     GREP : "grep"
 };
 
-class CommandChecker{
+class Checker{
 
 
     /**

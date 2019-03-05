@@ -46,7 +46,7 @@ class Main {
         let parsedCommand = parser.getCommandList();
 
         // Now we have the command list, so we can check if there are some errors
-        let commandChecker = new CommandChecker(parsedCommand, false);
+        let commandChecker = new Checker(parsedCommand, false);
         commandChecker.analyseCommand();
 
         let isValid = commandChecker.isCommandValid();
