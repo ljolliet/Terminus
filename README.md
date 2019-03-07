@@ -3,7 +3,7 @@
 Game that teach to IT students how to use a shell, and in the same time gives information about the [University of Bordeaux](https://www.u-bordeaux.fr/Universite/Campus/Campus-Talence-Pessac-Gradignan).
 ## Getting Started
 
-This game will be online and will be accessible at this [link](//TODO) once the project will be achieved. 
+This game will be online and will be accessible [here](https://ljolliet.github.io/Terminus/) after each version release. 
 However the main page is terminus.html and is reachable in sources.
 ### Prerequisites
 
@@ -16,6 +16,19 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 * Opera
 * Safari
 
+## Features
+
+
+### V1.0
+* First version of the js graphics
+* The 5 basic commands : cat, cd, ls, exit help
+* Basic places sample
+* Quest Launching 
+* '!' before the name of the 
+* Trophies management
+* Inventory of the user
+* Root directory/place --> '/' and home --> '~'
+* Alphabetic order when the user list (ls) the content of a Place
 
 ## Running the tests
 
@@ -24,15 +37,11 @@ Open the page tests.html that uses [QUnit](https://code.jquery.com/qunit) librar
 
 ## Deployment
 
-Not done yet //TODO
-
-## Built With
-
- //TODO
+Not done yet
 
 ## Versioning
 
-We use [Github](http://github.com/) for versioning.TODO  For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [Github](http://github.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/ljolliet/Terminus/tags). 
 
 ## Authors
 
@@ -54,12 +63,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 This ReadMe has been written from this [template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2).
 
-//TODO
-features : 
-list commands       DONE 
-launch quest        DONE
-!                   DONE
-trophies
-inventory           DONE
-root home / ~       DONE
-alphabetic order    DONE
+
