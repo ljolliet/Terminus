@@ -1,0 +1,69 @@
+{
+
+  "World" : {
+    "Places" : {
+      "Place_1" : {
+        "PlaceName" : "Place_1",
+        "Next_Place" : [
+          "Place_3",
+          "Place_5"
+          ],
+        "Quests" : [
+          "Quest_1"
+          ],
+        "Entities" : [
+          "Dumbledor"
+          ]
+      },
+      "Place_2" : {
+        "Next_Place" : [
+          "Place_3",
+          "Place_5"
+        ],
+        "Quests" : [
+          "Quest_1"
+        ],
+        "Entities" : [
+          "Dumbledor"
+        ]
+      }
+    },
+    "Quests" : {
+      "Quest_1" : {
+        "Name" : "Super Nom de Quête",
+        "Requirement" : [
+          "Quest_X"
+          ],
+        "Rewards" : "MyReward",
+        "Commands_Rewards" : [
+          "Command_1",
+          "Command_2"
+          ],
+        "PNJ" : [
+          "Dumbledor",
+          "PNJ 2"
+          ],
+        "Statut" : "Bloquée",
+        "Texte" : "azertyuiopqsdfghjklmwxcvbn",
+        "Objectifs" : [
+          "Pas sûr"
+          ]
+      }
+    },
+    "User" : {
+      "Pseudo" : "XxSuperEtudiantTrôFort33xX",
+      "Inventaire" : [
+        "La POO pour les nuls",
+        "Mots croisés"
+        ],
+      "Commandes" : [
+        "ls",
+        "cat",
+        "cd"
+        ],
+      "QuestsEnded" : [
+        "Quest_1"
+        ]
+    }
+  } 
+}

@@ -12,6 +12,11 @@ class Main {
 
         quest.addCommandRewards(COMMAND_TYPE.MV);
 
+        /*let ioJson =  new IOjson("World.json");
+
+        let Place_1 = ioJson.getPlace("Place_1");
+        console.log(Place_1.getAll());*/
+
         let campus = new Place("campus");
         Place.root = campus;
         let bethanie = new Place("bethanie");

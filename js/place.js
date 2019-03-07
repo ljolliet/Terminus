@@ -12,6 +12,14 @@ class Place {
         //Place.home
         // use : let r = new Place("root") ; Place.root = r ;
     }
+/*
+    constructor(place){
+        this._places = place.next_Place;
+        this._entities = place.Entities;
+        this._quests = place.Quests;
+        this._name = place.PlaceName;
+        this._parent = null;
+    }*/
 
     /**
      * @return {Object[]} All the entities, places, quests, ordered alphabetically.
