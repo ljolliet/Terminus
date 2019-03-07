@@ -27,9 +27,9 @@ class Checker{
      * @param {Command} command (**not null**),
      * @param {boolean} verbose if true, it writes messages on the console. Can be null.
      */
-    constructor(command, verbose){
+    constructor(command, verbose = false){
         this.command = command;
-        this.verbose = (verbose == null) ? false : verbose;
+        this.verbose = verbose;
     }
 
     /**
