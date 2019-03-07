@@ -17,6 +17,10 @@ class Entity {
     get text() {
         return this._text;
     }
+
+    set text(text){
+        this._text = text;
+    }
 }
 
 class PNJ extends Entity {

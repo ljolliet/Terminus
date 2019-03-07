@@ -1,5 +1,5 @@
-let trophiesName = "armoire_a_trophee";
-let inventory = "inventaire";
+const trophiesName = "armoire_a_trophee";
+const inventory = "inventaire";
 
 class User {
 
@@ -18,7 +18,7 @@ class User {
         this._currentQuest = null;
         this._inventory = inventory;
         if (this.trophies.length !== 0)
-            this.convertTrophies();
+            this.initTrophies();
         if (this.inventory !== null)
             for (let i of items)
                 this.inventory.addEntity(i);
@@ -58,8 +58,12 @@ class User {
      */
     addTrophy(trophy) {
         this.trophies.push(trophy);
-        if(this.inventory!==null)
-            this.convertTrophies();
+        if(this.inventory!==null) {
+            let entity;
+            if ((entity = this.inventory.getEntity(trophiesName)) !== null) {
+                entity.text = entity.text + trophy + "\n";
+            }
+        }
     }
 
     /**
@@ -70,16 +74,15 @@ class User {
     }
 
     /**
-     * @returns {Item}
+     * Init "armoire_a_trophee" with the trohies already won.
      */
-    convertTrophies() {
-        let text = "";
-        for(let t of this.trophies)
-            text+=t+"\n";
-        //remove previous one
-        this.inventory.deleteEntity(trophiesName);
-        this.addItem(new Item(trophiesName,text));
-
+    initTrophies() {
+        if((this.inventory.getEntity(trophiesName))===null) {
+            let text = "";
+            for (let t of this.trophies)
+                text += t + "\n";
+            this.addItem(new Item(trophiesName, text));
+        }
     }
 
     /**

@@ -115,11 +115,14 @@ class Place {
     }
 
     /**
-     * @param {String} entity
+     * @param {String }entityName The name of the entity to find
+     * @return {Entity} The entity corresponding to the name.
      */
-    deleteEntity(entity){
-        //TODO Does not work
-       this.entities.filter(el => el.name !== entity);
+    getEntity(entityName){
+        for(let e of this.entities)
+            if(e.name === entityName)
+                return e;
+        return null;
     }
 
 }
