@@ -16,13 +16,7 @@ class Checker{
 
 
     /**
-     * Use the function analyseCommand to check the command.
-     * 
-     * The commands given here is a command object created by the
-     * *getCommandList* function from the *Parser* class.
-     * 
-     * You need to check if commandObj is not null before calling this
-     * function.
+     * The command analysis is automatically done when this constructor is called.
      * 
      * @param {Command} command (**not null**),
      * @param {boolean} verbose if true, it writes messages on the console. Can be null.
@@ -30,6 +24,8 @@ class Checker{
     constructor(command, verbose = false){
         this.command = command;
         this.verbose = verbose;
+
+        this._analyseCommand();
     }
 
     /**
@@ -72,7 +68,7 @@ class Checker{
     /**
      * It analyses the given command.
      */
-    analyseCommand(){
+    _analyseCommand(){
 
         // Empty command
         if(this.command.args.length === 0){

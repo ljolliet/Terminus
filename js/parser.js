@@ -17,14 +17,14 @@ class Parser {
         this._verbose = verbose;
         this._commands = [];
 
-        this.parseCommand();
+        this._parseCommand();
     }
 
     /**
      * It parses the command.
      * You should use getCommands() to retrieve the command parsed.
      */
-    parseCommand() {
+    _parseCommand() {
         if (this._command.length === 0) {
             if (this._verbose) {
                 console.log("[Parser] The command is empty");
@@ -64,7 +64,7 @@ class Parser {
     setCommand(command) {
         this._command = command;
         this._commands = [];
-        this.parseCommand();
+        this._parseCommand();
     }
 
     /**
