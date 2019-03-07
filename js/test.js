@@ -152,56 +152,51 @@ QUnit.test("Inventory & trophies", function (assert) {
  * parser.js tests
  */
 QUnit.test("parser.js", function (assert) {
-    let parser = new Parser("", false);
-    parser.parseCommand();
+    let parser = new Parser("", true);
 
     // Empty command
-    let cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "", "The main command should be empty");
-    assert.equal(cmdl[0].args.length, 0, "The args array should be empty");
+    let cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "", "The main command should be empty");
+    assert.equal(cmd.args.length, 1, "There is no extra args");
 
     // Simple command
     parser.setCommand("a");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "a", "The main command should be 'a'");
-    assert.equal(cmdl[0].args.length, 0, "The args array should be empty");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "a", "The main command should be 'a'");
+    assert.equal(cmd.args.length, 1, "The args array should have a length of 1 since it does not have any extra args");
 
     // Command with arguments
     parser.setCommand("cmd arg1 arg2 arg3");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "cmd", "The main command should be 'cmd'");
-    assert.equal(cmdl[0].args.length, 3, "The args array length should be 3");
-    assert.equal(cmdl[0].args[0], "arg1", "The 1st arg should be 'arg1'");
-    assert.equal(cmdl[0].args[1], "arg2", "The 2nd arg should be 'arg2'");
-    assert.equal(cmdl[0].args[2], "arg3", "The 3rd arg should be 'arg3'");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "cmd", "The main command should be 'cmd'");
+    assert.equal(cmd.args.length, 4, "The args array length should be 4 since we have 3 extra args");
+    assert.equal(cmd.args[1], "arg1", "The 1st arg should be 'arg1'");
+    assert.equal(cmd.args[2], "arg2", "The 2nd arg should be 'arg2'");
+    assert.equal(cmd.args[3], "arg3", "The 3rd arg should be 'arg3'");
 
     // Command with arguments and pipe
     parser.setCommand("cmd1 arg1 |cmd2 arg2| cmd3 arg3");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 3, "The command array length should be 3 since we use 2 pipes");
-    assert.equal(cmdl[0].main, "cmd1", "The main command should be 'cmd1'");
-    assert.equal(cmdl[0].args[0], "arg1", "The 1st arg should be 'arg1'");
-    assert.equal(cmdl[1].main, "cmd2", "The main command should be 'cmd2'");
-    assert.equal(cmdl[1].args[0], "arg2", "The 1st arg should be 'arg2'");
-    assert.equal(cmdl[2].main, "cmd3", "The main command should be 'cmd3'");
-    assert.equal(cmdl[2].args[0], "arg3", "The 1st arg should be 'arg3'");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, true, "The command is a pipe command since we use 2 pipes");
+    assert.equal(cmd.getCommand(0).args[0], "cmd1", "The main command should be 'cmd1'");
+    assert.equal(cmd.getCommand(0).args[1], "arg1", "The 1st arg should be 'arg1'");
+    assert.equal(cmd.getCommand(1).args[0], "cmd2", "The main command should be 'cmd2'");
+    assert.equal(cmd.getCommand(1).args[1], "arg2", "The 1st arg should be 'arg2'");
+    assert.equal(cmd.getCommand(2).args[0], "cmd3", "The main command should be 'cmd3'");
+    assert.equal(cmd.getCommand(2).args[1], "arg3", "The 1st arg should be 'arg3'");
 
     // Command with arguments and the 132 space (&nbsp;)
     parser.setCommand("cmd arg1 arg2 arg3");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "cmd", "The main command should be 'cmd', and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args.length, 3, "The args array length should be 3, and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args[0], "arg1", "The 1st arg should be 'arg1', and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args[1], "arg2", "The 2nd arg should be 'arg2', and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args[2], "arg3", "The 3rd arg should be 'arg3', and we use the 132 space (&nbsp;)");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "cmd", "The main command should be 'cmd', and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args.length, 4, "The args array length should be 4, since we use 3 extra args, and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args[1], "arg1", "The 1st arg should be 'arg1', and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args[2], "arg2", "The 2nd arg should be 'arg2', and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args[3], "arg3", "The 3rd arg should be 'arg3', and we use the 132 space (&nbsp;)");
 
 });
 
