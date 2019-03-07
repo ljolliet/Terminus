@@ -208,9 +208,9 @@ class Main {
 
     /**
      * Here goes the code when the user has typed tree.
-     * @param target
+     * @param options
      */
-    static grep(target){
+    static grep(options){
 
     }
 

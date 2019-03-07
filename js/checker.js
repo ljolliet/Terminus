@@ -22,8 +22,12 @@ class Checker{
      * @param {boolean} verbose if true, it writes messages on the console. Can be null.
      */
     constructor(command, verbose = false){
-        this.command = command;
-        this.verbose = verbose;
+        this._command = command;
+        this._verbose = verbose;
+
+        this._isValid = false;
+        this._errorMessage = "";
+        this._type = COMMAND_TYPE.UNKNOWN;
 
         this._analyseCommand();
     }
@@ -32,7 +36,7 @@ class Checker{
      * @returns true if the command is recognized.
      */
     isCommandValid(){
-        return this.isValid;
+        return this._isValid;
     }
     
     /**
@@ -55,14 +59,14 @@ class Checker{
      * @returns the error message of the command.
      */
     getErrorMessage(){
-        return this.errorMessage;
+        return this._errorMessage;
     }
 
     /**
      * @returns the command type.
      */
     getCommandType(){
-        return this.type;
+        return this._type;
     }
 
     /**
@@ -71,138 +75,141 @@ class Checker{
     _analyseCommand(){
 
         // Empty command
-        if(this.command.args.length === 0){
-            if(this.verbose) console.log("The command is empty.");
+        if(this._command.args.length === 0 || (this._command.args.length === 1 && this._command.args[0] === "")){
+            if(this._verbose) console.log("The command is empty.");
 
-            this.errorMessage = "Command not found : ''";
-            this.isValid = false;
-            this.type = COMMAND_TYPE.UNKNOWN;
+            this._errorMessage = "Command not found : ''";
+            this._isValid = false;
+            this._type = COMMAND_TYPE.UNKNOWN;
             return;
         }
         
         // Pipe command
-        if(this.command.isPipe > 1){
-            if(this.verbose) console.log("The command is a pipe command, and it is not supported yet.");
+        if(this._command.isPipe > 1){
+            if(this._verbose) console.log("The command is a pipe command, and it is not supported yet.");
             
-            this.errorMessage = "pipe command is not supported yet";
-            this.isValid = false;
-            this.type = COMMAND_TYPE.UNKNOWN;
+            this._errorMessage = "pipe command is not supported yet";
+            this._isValid = false;
+            this._type = COMMAND_TYPE.UNKNOWN;
             return;
         }
 
         // pour tester si la commande est autorisée
-        // if(new Set(Main.user.commandsAuthorized).has(this.command.args[0])){
+        // if(new Set(Main.user.commandsAuthorized).has(this._command.args[0])){
         //
         // }
 
         // Other commands
-        switch(this.command.args[0]){
+        switch(this._command.args[0]){
             case "exit":
-                if(this.command.args.length > 1){
-                    this.errorMessage = "exit command should not receive arguments.";
-                    this.isValid = false;
+                if(this._command.args.length > 1){
+                    this._errorMessage = "exit command should not receive arguments.";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.EXIT;
+                this._type = COMMAND_TYPE.EXIT;
                 break;
 
             case "help":
-                if(this.command.args.length > 1){
-                    this.errorMessage = "help command should not receive arguments.";
-                    this.isValid = false;
+                if(this._command.args.length > 1){
+                    this._errorMessage = "help command should not receive arguments.";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.HELP;
+                this._type = COMMAND_TYPE.HELP;
                 break;
                 
             case "cd":
-                if(this.command.args.length > 2){
-                    this.errorMessage = "cd expects no or only one argument.";
-                    this.isValid = false;
+                if(this._command.args.length > 2){
+                    this._errorMessage = "cd expects no or only one argument.";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.CD;
+                this._type = COMMAND_TYPE.CD;
                 break;
                 
             case "cat":
-                if(this.command.args.length > 2){
-                    this.errorMessage = "cat only expects 1 argument.";
-                    this.isValid = false;
-                }else if(this.command.args.length === 1){
-                    this.errorMessage = "cat expects 1 argument.";
-                    this.isValid = false;
+                if(this._command.args.length > 2){
+                    this._errorMessage = "cat only expects 1 argument.";
+                    this._isValid = false;
+                }else if(this._command.args.length === 1){
+                    this._errorMessage = "cat expects 1 argument.";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.CAT;
+                this._type = COMMAND_TYPE.CAT;
             break;
 
             case "ls":
-                if(this.command.args.length !== 1){
-                    this.errorMessage = "ls does not expect any argument.";
-                    this.isValid = false;
+                if(this._command.args.length !== 1){
+                    this._errorMessage = "ls does not expect any argument.";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.LS;
+                this._type = COMMAND_TYPE.LS;
             break;
 
             case "mv":
-                if(this.command.args.length !== 3){
-                    this.errorMessage = "mv expects two arguments : source and destination";
-                    this.isValid = false;
+                if(this._command.args.length !== 3){
+                    this._errorMessage = "mv expects two arguments : source and destination";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.MV;
+                this._type = COMMAND_TYPE.MV;
             break;
 
             case "tree":
-                if(this.command.args.length !== 1){
-                    this.errorMessage = "tree does not expect any argument";
-                    this.isValid = false;
+                if(this._command.args.length !== 1){
+                    this._errorMessage = "tree does not expect any argument";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.TREE;
+                this._type = COMMAND_TYPE.TREE;
             break;
 
             case "grep":
-                if(this.command.args.length !== 2){
-                    this.errorMessage = "grep expects only one argument";
-                    this.isValid = false;
+                if(this._command.args.length !== 2){
+                    this._errorMessage = "grep expects only one argument";
+                    this._isValid = false;
                 }else{
-                    this.errorMessage = "";
-                    this.isValid = true;
+                    this._errorMessage = "";
+                    this._isValid = true;
                 }
-                this.type = COMMAND_TYPE.GREP;
+                this._type = COMMAND_TYPE.GREP;
             break;
 
             default:
-                if(this.command.args[0].startsWith("./")){
-                    if(this.command.args.length !== 1){
-                        this.errorMessage = "./ does not expect any argument.";
-                        this.isValid = false;
+                if(this._command.args[0].startsWith("./")){
+                    if(this._command.args.length !== 1){
+                        this._errorMessage = "./ does not expect any argument.";
+                        this._isValid = false;
+                    }else if(this._command.args[0].length === 2){
+                        this._errorMessage = "./ does expect a script name (example: ./script.sh).";
+                        this._isValid = false;
                     }else{
-                        this.errorMessage = "";
-                        this.isValid = true;
-                        this.command.args[0] = this.command.args[0].replace("./", "");
+                        this._errorMessage = "";
+                        this._isValid = true;
+                        this._command.args[0] = this._command.args[0].replace("./", "");
                     }
-                    this.type = COMMAND_TYPE.LAUNCH;
+                    this._type = COMMAND_TYPE.LAUNCH;
                 }else{
-                    this.errorMessage = "Command not found : " + this.command.args[0];
-                    this.isValid = true;
-                    this.type = COMMAND_TYPE.UNKNOWN;
+                    this._errorMessage = "Command not found : " + this._command.args[0];
+                    this._isValid = false;
+                    this._type = COMMAND_TYPE.UNKNOWN;
                 }
             break;
         }
