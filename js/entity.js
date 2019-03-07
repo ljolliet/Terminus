@@ -10,6 +10,8 @@ class Entity {
         this._text = text;
     }
 
+
+
     get name() {
         return this._name;
     }
@@ -18,8 +20,8 @@ class Entity {
         return this._text;
     }
 
-    toString() {
-        return this.name;
+    set text(text){
+        this._text = text;
     }
 }
 

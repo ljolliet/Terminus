@@ -58,9 +58,9 @@ QUnit.test("Place home", function (assert) {
 /**
  *  To check currentLocation implementation and the function moveTo.
  */
-QUnit.test("Changing place", function(assert) {
+QUnit.test("Changing place", function (assert) {
 
-    let user = new User("user",[], null);
+    let user = new User("user", [], null, []);
     let parent = new Place("parent");
     let son = new Place("son");
     parent.addPlace(son);
@@ -84,7 +84,7 @@ QUnit.test("Changing place", function(assert) {
  *  To check the function read of User class.
  */
 QUnit.test("Reading entity", function (assert) {
-    let user = new User("user",[], null);
+    let user = new User("user", [], null, []);
     let place = new Place("place");
     let pnj = new PNJ("pnj", "welcome");
     let item = new Item("item", "content");
@@ -100,7 +100,7 @@ QUnit.test("Reading entity", function (assert) {
  * To check the functions launch nd check quest of the User class.
  */
 QUnit.test("Launching and checking quest", function (assert) {
-    let user = new User("user",[], null);
+    let user = new User("user", [], null, []);
     let place = new Place("place");
     user.currentLocation = place;
 
@@ -126,10 +126,10 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(user.launch("quest2.sh"), INFO.UNAVAILABLE, "Can't launch a second quest at the same time");
     assert.equal(user.currentQuest.commandRequired.length, 2, "Two command required");
     assert.equal(user.currentQuest.commandRequired[0], "ls", "Right command entered");
-    assert.equal(user.checkQuest("ls"),null,"Write command entered but one left");
-    assert.equal(user.checkQuest("cat tata"),null,"Wrong command entered, also one left");
+    assert.equal(user.checkQuest("ls"), null, "Write command entered but one left");
+    assert.equal(user.checkQuest("cat tata"), null, "Wrong command entered, also one left");
     assert.equal(user.currentQuest.commandRequired.length, 1, "One command required");
-    assert.equal(user.checkQuest("help"),quest,"End text displayed");
+    assert.equal(user.checkQuest("help"), quest, "End text displayed");
     assert.equal(quest.status, STATUS.DONE, "Quest finished");
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
@@ -138,61 +138,89 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
 });
 
-/**
- * parser.js test
- */
-QUnit.test("Parsing", function (assert) {
-    let parser = new Parser("", false);
-    parser.parseCommand();
-
-    // Empty command
-    let cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "", "The main command should be empty");
-    assert.equal(cmdl[0].args.length, 0, "The args array should be empty");
-
-    // Simple command
-    parser.setCommand("a");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "a", "The main command should be 'a'");
-    assert.equal(cmdl[0].args.length, 0, "The args array should be empty");
-
-    // Command with arguments
-    parser.setCommand("cmd arg1 arg2 arg3");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "cmd", "The main command should be 'cmd'");
-    assert.equal(cmdl[0].args.length, 3, "The args array length should be 3");
-    assert.equal(cmdl[0].args[0], "arg1", "The 1st arg should be 'arg1'");
-    assert.equal(cmdl[0].args[1], "arg2", "The 2nd arg should be 'arg2'");
-    assert.equal(cmdl[0].args[2], "arg3", "The 3rd arg should be 'arg3'");
-
-    // Command with arguments and pipe
-    parser.setCommand("cmd1 arg1 |cmd2 arg2| cmd3 arg3");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 3, "The command array length should be 3 since we use 2 pipes");
-    assert.equal(cmdl[0].main, "cmd1", "The main command should be 'cmd1'");
-    assert.equal(cmdl[0].args[0], "arg1", "The 1st arg should be 'arg1'");
-    assert.equal(cmdl[1].main, "cmd2", "The main command should be 'cmd2'");
-    assert.equal(cmdl[1].args[0], "arg2", "The 1st arg should be 'arg2'");
-    assert.equal(cmdl[2].main, "cmd3", "The main command should be 'cmd3'");
-    assert.equal(cmdl[2].args[0], "arg3", "The 1st arg should be 'arg3'");
-
-    // Command with arguments and the 132 space (&nbsp;)
-    parser.setCommand("cmd arg1 arg2 arg3");
-    parser.parseCommand();
-    cmdl = parser.getCommandList();
-    assert.equal(cmdl.length, 1, "The command array length should be 1 since it wasn't a pipe command");
-    assert.equal(cmdl[0].main, "cmd", "The main command should be 'cmd', and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args.length, 3, "The args array length should be 3, and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args[0], "arg1", "The 1st arg should be 'arg1', and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args[1], "arg2", "The 2nd arg should be 'arg2', and we use the 132 space (&nbsp;)");
-    assert.equal(cmdl[0].args[2], "arg3", "The 3rd arg should be 'arg3', and we use the 132 space (&nbsp;)");
+QUnit.test("Inventory & trophies", function (assert) {
+    let inventory = new Place("inventory");
+    let user = new User("user", [new Item("card", "data"), new Item("bag", "content")], inventory, ["try.sh", "try2.sh"]);
+    assert.equal(inventory.entities[0], user.items[0], "User 1st item is the same as inventory one");
+    assert.equal(inventory.entities[1], user.items[1], "User 2nd item is the same as inventory one");
+    assert.equal(inventory.entities.length, 3, "trophy armory is in the items");    // 3 with armoire_a_trophee
 
 });
 
+
+/**
+ * parser.js tests
+ */
+QUnit.test("parser.js", function (assert) {
+    let parser = new Parser("", true);
+
+    // Empty command
+    let cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "", "The main command should be empty");
+    assert.equal(cmd.args.length, 1, "There is no extra args");
+
+    // Simple command
+    parser.setCommand("a");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "a", "The main command should be 'a'");
+    assert.equal(cmd.args.length, 1, "The args array should have a length of 1 since it does not have any extra args");
+
+    // Command with arguments
+    parser.setCommand("cmd arg1 arg2 arg3");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "cmd", "The main command should be 'cmd'");
+    assert.equal(cmd.args.length, 4, "The args array length should be 4 since we have 3 extra args");
+    assert.equal(cmd.args[1], "arg1", "The 1st arg should be 'arg1'");
+    assert.equal(cmd.args[2], "arg2", "The 2nd arg should be 'arg2'");
+    assert.equal(cmd.args[3], "arg3", "The 3rd arg should be 'arg3'");
+
+    // Command with arguments and pipe
+    parser.setCommand("cmd1 arg1 |cmd2 arg2| cmd3 arg3");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, true, "The command is a pipe command since we use 2 pipes");
+    assert.equal(cmd.getCommand(0).args[0], "cmd1", "The main command should be 'cmd1'");
+    assert.equal(cmd.getCommand(0).args[1], "arg1", "The 1st arg should be 'arg1'");
+    assert.equal(cmd.getCommand(1).args[0], "cmd2", "The main command should be 'cmd2'");
+    assert.equal(cmd.getCommand(1).args[1], "arg2", "The 1st arg should be 'arg2'");
+    assert.equal(cmd.getCommand(2).args[0], "cmd3", "The main command should be 'cmd3'");
+    assert.equal(cmd.getCommand(2).args[1], "arg3", "The 1st arg should be 'arg3'");
+
+    // Command with arguments and the 132 space (&nbsp;)
+    parser.setCommand("cmd arg1 arg2 arg3");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, false, "It wasn't a pipe command");
+    assert.equal(cmd.args[0], "cmd", "The main command should be 'cmd', and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args.length, 4, "The args array length should be 4, since we use 3 extra args, and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args[1], "arg1", "The 1st arg should be 'arg1', and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args[2], "arg2", "The 2nd arg should be 'arg2', and we use the 132 space (&nbsp;)");
+    assert.equal(cmd.args[3], "arg3", "The 3rd arg should be 'arg3', and we use the 132 space (&nbsp;)");
+
+});
+
+/**
+ * checker.js tests
+ */
+QUnit.test("checker.js", function (assert) {
+    // Test each command one by one
+
+    // ls
+    let checker = new Checker([{main: "ls", args: []}], false); checker.analyseCommand();
+    assert.equal(checker.isCommandValid(), true, "Simple ls without arguments");
+    checker = new Checker([{main: "ls", args: ["-a"]}], false); checker.analyseCommand();
+    assert.equal(checker.isCommandValid(), false, "Simple ls with 1 argument");
+
+    // TODO: I  will do it later since the commandObj will be re-designed
+    //     EXIT: "exit",
+    //     HELP: "help",
+    //     CD: "cd",
+    //     CAT: "cat",
+    //     LS: "ls",
+    //     LAUNCH: "./",
+    //     MV: "mv",
+    //     TREE: "tree",
+    //     GREP : "grep"
+});
 

@@ -8,15 +8,16 @@
 class Parser {
 
     /**
-     *
+     * It creates a Parser class that parses automatically the command given.
      * @param {string} command the command that the user typed.
      * @param {boolean} verbose if true, it writes information about parsing
      */
     constructor(command, verbose) {
-        this.command = command;
-        this.verbose = verbose;
+        this._command = command;
+        this._verbose = verbose;
+        this._commands = [];
 
-        this.commands = [];
+        this.parseCommand();
     }
 
     /**
@@ -24,18 +25,13 @@ class Parser {
      * You should use getCommands() to retrieve the command parsed.
      */
     parseCommand() {
-        if (this.command.length === 0) {
-            if (this.verbose) {
+        if (this._command.length === 0) {
+            if (this._verbose) {
                 console.log("[Parser] The command is empty");
             }
-
-            this.commands.push({
-                main: "",
-                args: ""
-            });
         } else {
             // We use a regex to remove the tabs, the new lines, and extra spaces
-            let fixedCommand = this.command.replace(/\s\s+/g, " ");
+            let fixedCommand = this._command.replace(/\s\s+/g, " ");
 
             // The terminal may create some "&nbsp;" which are spaces, se we need to replace it
             // !!!! DO NOT EDIT THIS LINE, THE FIRST SPACE IS A &nbsp; SPACE (char code 160), AND
@@ -46,83 +42,44 @@ class Parser {
             // takes "" as the main command
             fixedCommand = fixedCommand.replaceAll("| ", "|");
 
-            // We devide the command in multiple commands if there was a pipe
+            // We divide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");
 
             // For each commands between the pipe, we will add its details to the array
             for (let i = 0; i < cmds.length; i++) {
                 let args = cmds[i].split(" ");
-
-                // Shift removes the first item and returns the removed item
-                let cmdMain = args.shift();
-                let cmdArgs = args;
-
-                let cmdObj = {
-                    main: cmdMain,
-                    args: cmdArgs
-                };
-
-                this.commands.push(cmdObj);
+                this._commands.push(args);
             }
 
-            if (this.verbose) {
-                console.log(this.commands);
+            if (this._verbose) {
+                console.log(this._commands);
             }
         }
     }
 
     /**
+     * It updates the command and parses it.
      * @param {string} command a command that the user has typed.
      */
     setCommand(command) {
-        this.command = command;
-        this.commands = [];
+        this._command = command;
+        this._commands = [];
+        this.parseCommand();
     }
 
     /**
-     * @returns the command.
+     * @returns {Command} the command **can be null**.
      */
-    getCommand() {
-        return this.command;
-    }
-
-    /**
-     * The value returned is a **list of all the commands** in this format :
-     *
-     * obj = { main: theMainCommand,
-     *         args: theArguments
-     *       };
-     *
-     * - theMainCommand: it is a string containing the main command
-     * - theArguments: it is a list of string containing all of the arguments.
-     *
-     *
-     * **Example : The user types ls -la | grep folder**
-     *
-     * The output will be :
-     * [{main: "ls", args: ["-la"]},
-     *  {main: "grep", args: ["folder"]}];
-     *
-     * **Example on how to use it :**
-     *
-     * let commands = getCommands();
-     * - commands[0].main or commands[0]["main"] returns the first main command,
-     * - commands[0].args or commands[0]["args"] returns the arguments of the first command.
-     * Then, if the user used one or more pipes, the commands are sorted, and you have to go to the
-     * index #1 for the second command, then #2 for the third and so on.
-     *
-     * @returns all the commands parsed (list of {main, args}) **never null**.
-     */
-    getCommandList() {
-        if (this.commands === null) {
-            return [];
+    getParsedCommand() {
+        if (this._commands === null) {
+            return null;
         } else {
-            return this.commands;
+            return new Command(this._commands);
         }
     }
 }
 
 String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
+    const target = this;
     return target.split(search).join(replacement);
 };

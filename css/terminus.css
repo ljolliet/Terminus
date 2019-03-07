@@ -19,7 +19,7 @@ div#console {
   max-width: 60%;
   display: inline-block;
   word-wrap: break-word;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 div#side-panel {

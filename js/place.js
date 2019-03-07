@@ -12,6 +12,14 @@ class Place {
         //Place.home
         // use : let r = new Place("root") ; Place.root = r ;
     }
+/*
+    constructor(place){
+        this._places = place.next_Place;
+        this._entities = place.Entities;
+        this._quests = place.Quests;
+        this._name = place.PlaceName;
+        this._parent = null;
+    }*/
 
     /**
      * @return {Object[]} All the entities, places, quests, ordered alphabetically.
@@ -58,7 +66,15 @@ class Place {
      * @return {Entity[]} The entities array.
      */
     get entities() {
+        this._entities.sort();
         return this._entities;
+    }
+
+    /**
+     * @param {Entity[]} value To update entities array.
+     */
+    set entities(value) {
+        this._entities = value;
     }
 
     /**
@@ -77,17 +93,17 @@ class Place {
 
 
     /**
-     * @return {Place} To update parent place.
+     * @param {Place} place To update parent place.
      */
-    set parent(value) {
-        this._parent = value;
+    set parent(place) {
+        this._parent = place;
     }
 
     /**
      * @param {Place} place To add in places array.
      */
     addPlace(place) {
-        this._places.push(place);
+        this.places.push(place);
         place.parent = this;
     }
 
@@ -95,16 +111,26 @@ class Place {
      * @param {Quest} quest To add in quests array.
      */
     addQuest(quest) {
-        this._quests.push(quest);
+        this.quests.push(quest);
     }
 
     /**
      * @param {Entity} entity To add in entities array.
      */
     addEntity(entity) {
-        this._entities.push(entity);
-        this._entities.sort();
+        this.entities.push(entity);
 
+    }
+
+    /**
+     * @param {String }entityName The name of the entity to find
+     * @return {Entity} The entity corresponding to the name.
+     */
+    getEntity(entityName){
+        for(let e of this.entities)
+            if(e.name === entityName)
+                return e;
+        return null;
     }
 
 }

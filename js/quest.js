@@ -11,6 +11,7 @@ const INFO = {
     UNAVAILABLE: 2,
     FINISHED: 3
 };
+
 class Quest {
 
     constructor(name) {
