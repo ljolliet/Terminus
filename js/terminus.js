@@ -161,14 +161,28 @@ function clear() {
 }
 
 /**
+ * Reload the page
+ */
+function reload() {
+  location.reload();
+}
+
+/**
  * Print a message on the screen
  */
 function printMessage(message) {
   message = message.replace('&nbsp;', ' ');
+  let msgTab = message.split(/(\r\n|\n|\r)/gm);
 
   let childDiv = document.createElement("div");
   childDiv.classList.add("message");
-  let textNode = document.createTextNode( message );
-  childDiv.appendChild(textNode);
+
+  // Add br elements when message contains \n
+  for (let i = 0; i < msgTab.length - 1; i++) {
+    childDiv.appendChild(document.createTextNode(msgTab[i]));
+    childDiv.appendChild(document.createElement("br"));
+  }
+  childDiv.appendChild(document.createTextNode(msgTab[msgTab.length - 1]));
+
   document.getElementById("console-output").appendChild(childDiv);
 }
