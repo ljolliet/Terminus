@@ -47,8 +47,7 @@ class Main {
 
         // First we need to parse the command
         let parser = new Parser(command, false);
-        parser.parseCommand();
-        let parsedCommand = parser.getCommandList();
+        let parsedCommand = parser.getParsedCommand();
 
         // Now we have the command list, so we can check if there are some errors
         let commandChecker = new Checker(parsedCommand, false);
@@ -73,12 +72,12 @@ class Main {
                 break;
 
             case COMMAND_TYPE.CD:
-                if (isValid) Main.cd(parsedCommand[0]);
+                if (isValid) Main.cd(parsedCommand.args);
                 else printMessage(errorMessage);
                 break;
 
             case COMMAND_TYPE.CAT:
-                if (isValid) Main.cat(parsedCommand[0]);
+                if (isValid) Main.cat(parsedCommand.args);
                 else printMessage(errorMessage);
                 break;
 
@@ -88,12 +87,12 @@ class Main {
                 break;
 
             case COMMAND_TYPE.LAUNCH:
-                if (isValid) Main.launch(parsedCommand[0].main);
+                if (isValid) Main.launch(parsedCommand.args[0]);
                 else printMessage(errorMessage);
                 break;
 
             case COMMAND_TYPE.MV:
-                if(isValid) Main.mv(parsedCommand[0].args[0], parsedCommand[0].args[1]);
+                if(isValid) Main.mv(parsedCommand.args[1], parsedCommand.args[2]);
                 else printMessage(errorMessage);
                 break;
 
@@ -103,7 +102,7 @@ class Main {
                 break;
 
             case COMMAND_TYPE.GREP:
-                if(isValid) Main.grep(parsedCommand[0].args[0]);
+                if(isValid) Main.grep(parsedCommand.args[1]);
                 else printMessage(errorMessage);
                 break;
         }
@@ -137,23 +136,23 @@ class Main {
 
     /**
      * Here goes the code when the user has typed cd.
-     * @param {string} command the command detail.
+     * @param {[string]} args the command detail.
      */
-    static cd(command) {
-        if (!this.user.moveTo(command.args[0]))// if move refused
-            printMessage("cd: " + command.args[0] + " : Aucun lieu de ce type");
+    static cd(args) {
+        if (!this.user.moveTo(args[1]))// if move refused
+            printMessage("cd: " + args[1] + " : Aucun lieu de ce type");
         //else : move done
     }
 
     /**
      * Here goes the code when the user has typed cat.
-     * @param {String} command the command detail.
+     * @param {[string]} args the command detail.
      */
-    static cat(command) {
+    static cat(args) {
         // does not support a path, only place name
         let text;
-        if ((text = this.user.read(command.args[0])) === "")// if move refused
-            printMessage("cat: " + command.args[0] + " : Aucun item ou personnage de ce type");
+        if ((text = this.user.read(args[1])) === "")// if move refused
+            printMessage("cat: " + args[1] + " : Aucun item ou personnage de ce type");
         else
             printMessage(text);
     }

@@ -54,7 +54,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
     let code  = event.keyCode;
     let input = event.key;
 
-    console.log(code, input);
+    // console.log(code, input);
 
     let size1 = inputTextFirst.innerText.length;
     let size2 = inputTextSecond.innerText.length;

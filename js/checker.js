@@ -24,11 +24,11 @@ class Checker{
      * You need to check if commandObj is not null before calling this
      * function.
      * 
-     * @param {[{main, args}]} commandObj command list (**not null**),
+     * @param {Command} command (**not null**),
      * @param {boolean} verbose if true, it writes messages on the console. Can be null.
      */
-    constructor(commandObj, verbose){
-        this.command = commandObj;
+    constructor(command, verbose){
+        this.command = command;
         this.verbose = (verbose == null) ? false : verbose;
     }
 
@@ -75,7 +75,7 @@ class Checker{
     analyseCommand(){
 
         // Empty command
-        if(this.command.length === 0){
+        if(this.command.args.length === 0){
             if(this.verbose) console.log("The command is empty.");
 
             this.errorMessage = "Command not found : ''";
@@ -85,24 +85,24 @@ class Checker{
         }
         
         // Pipe command
-        if(this.command.length > 1){
-            if(this.verbose) console.log("The command is either a pipe command, and it is not supported yet.")
+        if(this.command.isPipe > 1){
+            if(this.verbose) console.log("The command is a pipe command, and it is not supported yet.");
             
-            this.errorMessage = "Command not found : ''";
+            this.errorMessage = "pipe command is not supported yet";
             this.isValid = false;
             this.type = COMMAND_TYPE.UNKNOWN;
             return;
         }
 
         // pour tester si la commande est autorisée
-        // if(new Set(Main.user.commandsAuthorized).has(this.command[0].main)){
+        // if(new Set(Main.user.commandsAuthorized).has(this.command.args[0])){
         //
         // }
 
         // Other commands
-        switch(this.command[0].main){
+        switch(this.command.args[0]){
             case "exit":
-                if(this.command[0].args.length > 0){
+                if(this.command.args.length > 1){
                     this.errorMessage = "exit command should not receive arguments.";
                     this.isValid = false;
                 }else{
@@ -113,7 +113,7 @@ class Checker{
                 break;
 
             case "help":
-                if(this.command[0].args.length > 0){
+                if(this.command.args.length > 1){
                     this.errorMessage = "help command should not receive arguments.";
                     this.isValid = false;
                 }else{
@@ -124,7 +124,7 @@ class Checker{
                 break;
                 
             case "cd":
-                if(this.command[0].args.length > 1){
+                if(this.command.args.length > 2){
                     this.errorMessage = "cd expects no or only one argument.";
                     this.isValid = false;
                 }else{
@@ -135,10 +135,10 @@ class Checker{
                 break;
                 
             case "cat":
-                if(this.command[0].args.length > 1){
+                if(this.command.args.length > 2){
                     this.errorMessage = "cat only expects 1 argument.";
                     this.isValid = false;
-                }else if(this.command[0].args.length === 0){
+                }else if(this.command.args.length === 1){
                     this.errorMessage = "cat expects 1 argument.";
                     this.isValid = false;
                 }else{
@@ -149,7 +149,7 @@ class Checker{
             break;
 
             case "ls":
-                if(this.command[0].args.length !== 0){
+                if(this.command.args.length !== 1){
                     this.errorMessage = "ls does not expect any argument.";
                     this.isValid = false;
                 }else{
@@ -160,7 +160,7 @@ class Checker{
             break;
 
             case "mv":
-                if(this.command[0].args.length !== 2){
+                if(this.command.args.length !== 3){
                     this.errorMessage = "mv expects two arguments : source and destination";
                     this.isValid = false;
                 }else{
@@ -171,7 +171,7 @@ class Checker{
             break;
 
             case "tree":
-                if(this.command[0].args.length !== 0){
+                if(this.command.args.length !== 1){
                     this.errorMessage = "tree does not expect any argument";
                     this.isValid = false;
                 }else{
@@ -182,7 +182,7 @@ class Checker{
             break;
 
             case "grep":
-                if(this.command[0].args.length !== 1){
+                if(this.command.args.length !== 2){
                     this.errorMessage = "grep expects only one argument";
                     this.isValid = false;
                 }else{
@@ -193,18 +193,18 @@ class Checker{
             break;
 
             default:
-                if(this.command[0].main.startsWith("./")){
-                    if(this.command[0].args.length !== 0){
+                if(this.command.args[0].startsWith("./")){
+                    if(this.command.args.length !== 1){
                         this.errorMessage = "./ does not expect any argument.";
                         this.isValid = false;
                     }else{
                         this.errorMessage = "";
                         this.isValid = true;
-                        this.command[0].main = this.command[0].main.replace("./", "");
+                        this.command.args[0] = this.command.args[0].replace("./", "");
                     }
                     this.type = COMMAND_TYPE.LAUNCH;
                 }else{
-                    this.errorMessage = "Command not found : " + this.command[0].main;
+                    this.errorMessage = "Command not found : " + this.command.args[0];
                     this.isValid = true;
                     this.type = COMMAND_TYPE.UNKNOWN;
                 }
