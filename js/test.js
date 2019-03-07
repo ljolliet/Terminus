@@ -149,9 +149,9 @@ QUnit.test("Inventory & trophies", function (assert) {
 
 
 /**
- * parser.js test
+ * parser.js tests
  */
-QUnit.test("Parsing", function (assert) {
+QUnit.test("parser.js", function (assert) {
     let parser = new Parser("", false);
     parser.parseCommand();
 
@@ -205,4 +205,27 @@ QUnit.test("Parsing", function (assert) {
 
 });
 
+/**
+ * checker.js tests
+ */
+QUnit.test("checker.js", function (assert) {
+    // Test each command one by one
+
+    // ls
+    let checker = new Checker([{main: "ls", args: []}], false); checker.analyseCommand();
+    assert.equal(checker.isCommandValid(), true, "Simple ls without arguments");
+    checker = new Checker([{main: "ls", args: ["-a"]}], false); checker.analyseCommand();
+    assert.equal(checker.isCommandValid(), false, "Simple ls with 1 argument");
+
+    // TODO: I  will do it later since the commandObj will be re-designed
+    //     EXIT: "exit",
+    //     HELP: "help",
+    //     CD: "cd",
+    //     CAT: "cat",
+    //     LS: "ls",
+    //     LAUNCH: "./",
+    //     MV: "mv",
+    //     TREE: "tree",
+    //     GREP : "grep"
+});
 

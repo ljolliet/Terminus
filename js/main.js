@@ -86,6 +86,21 @@ class Main {
                 if (isValid) Main.launch(parsedCommand[0].main);
                 else printMessage(errorMessage);
                 break;
+
+            case COMMAND_TYPE.MV:
+                if(isValid) Main.mv(parsedCommand[0].args[0], parsedCommand[0].args[1]);
+                else printMessage(errorMessage);
+                break;
+
+            case COMMAND_TYPE.TREE:
+                if(isValid) Main.tree();
+                else printMessage(errorMessage);
+                break;
+
+            case COMMAND_TYPE.GREP:
+                if(isValid) Main.grep(parsedCommand[0].args[0]);
+                else printMessage(errorMessage);
+                break;
         }
 
         Main.questAdvancement(command);
@@ -154,7 +169,7 @@ class Main {
     }
 
     /**
-     * Here goes the code when the user has launch a quest.
+     * Here goes the code when the user has launched a quest.
      * @param {String} questName The name of the quest.
      */
     static launch(questName) {
@@ -170,6 +185,30 @@ class Main {
             printMessage("Quête " + this.user.currentQuest.name + " lancée");
             printMessage(this.user.currentQuest.initialText);
         }
+    }
+
+    /**
+     * Here goes the code when the user has typed mv.
+     * @param source
+     * @param destination
+     */
+    static mv(source, destination){
+
+    }
+
+    /**
+     * Here goes the code when the user has typed tree.
+     */
+    static tree(){
+
+    }
+
+    /**
+     * Here goes the code when the user has typed tree.
+     * @param target
+     */
+    static grep(target){
+
     }
 
 
