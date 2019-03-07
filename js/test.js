@@ -152,7 +152,7 @@ QUnit.test("Inventory & trophies", function (assert) {
  * parser.js tests
  */
 QUnit.test("parser.js", function (assert) {
-    let parser = new Parser("", true);
+    let parser = new Parser("", false);
 
     // Empty command
     let cmd = parser.getParsedCommand();
@@ -201,18 +201,44 @@ QUnit.test("parser.js", function (assert) {
 });
 
 /**
- * checker.js tests
+ * command.js tests
  */
+QUnit.test("checker.js", function (assert) {
+
+    // We use deepEqual to compare Array objects
+
+    // Constructor tests
+    assert.deepEqual((new Command(null)).originalCommand, [[""]], "If the given args variable is null, then it changes to an empty string array");
+    assert.deepEqual((new Command([[""]])).originalCommand, [[""]], "Test originalCommand() with empty args");
+
+    // args() tests
+    assert.deepEqual((new Command([["ls"]])).args, ["ls"], "Test args() with 1 arg and isPipe = false");
+    assert.deepEqual((new Command([["cat", "file"]])).args, ["cat", "file"], "Test args() with 2 args and isPipe = false");
+    assert.deepEqual((new Command([["mv", "src", "dst"]])).args, ["mv", "src", "dst"], "Test args() with 3 args and isPipe = false");
+    assert.deepEqual((new Command([["ls"], "grep"])).args, ["ls"], "Test args() with 1 arg and isPipe = true");
+
+    // getCommand(index) tests
+    let cmd = new Command([["cmd1", "arg1"], ["cmd2"], ["cmd3", "arg1", "arg2"]]);
+    assert.deepEqual(cmd.getCommand(0), new Command([["cmd1", "arg1"]]), "Test getCommand(index) with index = 0");
+    assert.deepEqual(cmd.getCommand(1), new Command([["cmd2"]]), "Test getCommand(index) with index = 1");
+    assert.deepEqual(cmd.getCommand(2), new Command([["cmd3", "arg1", "arg2"]]), "Test getCommand(index) with index = 2");
+    assert.throws(cmd.getCommand(3), "Test getCommand(index) with index = 3 (out of bounds)");
+
+    // isPipe tests
+    assert.equal((new Command(null)).isPipe, false, "test isPipe with null args");
+    assert.equal((new Command([["ls"]])).isPipe, false, "test isPipe with simple arg");
+    assert.equal((new Command([["ls"], ["ls"]])).isPipe, true, "test isPipe with simple arg");
+    assert.equal((new Command([["cmd1", "arg1"], ["cmd2"], ["cmd3", "arg1", "arg2"]])).isPipe, true, "test isPipe with complex args");
+
+});
+
+/**
+ * checker.js tests
+ *
 QUnit.test("checker.js", function (assert) {
     // Test each command one by one
 
-    // ls
-    let checker = new Checker([{main: "ls", args: []}], false); checker.analyseCommand();
-    assert.equal(checker.isCommandValid(), true, "Simple ls without arguments");
-    checker = new Checker([{main: "ls", args: ["-a"]}], false); checker.analyseCommand();
-    assert.equal(checker.isCommandValid(), false, "Simple ls with 1 argument");
-
-    // TODO: I  will do it later since the commandObj will be re-designed
+    // TODO:
     //     EXIT: "exit",
     //     HELP: "help",
     //     CD: "cd",
@@ -223,4 +249,5 @@ QUnit.test("checker.js", function (assert) {
     //     TREE: "tree",
     //     GREP : "grep"
 });
+ */
 

@@ -71,11 +71,7 @@ class Parser {
      * @returns {Command} the command **can be null**.
      */
     getParsedCommand() {
-        if (this._commands === null) {
-            return null;
-        } else {
-            return new Command(this._commands);
-        }
+        return new Command(this._commands);
     }
 }
 

@@ -1,16 +1,13 @@
 class Command{
 
     /**
-     * @param args [[string]] all the arguments (it is a list because we need to separate the pipe commands)
+     * @param args [[string]] all the arguments (it is a list because we need to separate the pipe commands) **can't be null**
      */
     constructor(args){
-        this._args = args;
+        if(args === null) this._args = [[""]];
+        else this._args = args;
 
-         if(this._args.length > 1){
-            this._isPipe = true;
-        }else{
-            this._isPipe = false;
-        }
+        this._isPipe = this._args.length > 1;
     }
 
     /**
