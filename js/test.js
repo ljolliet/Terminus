@@ -150,7 +150,7 @@ QUnit.test("Inventory & trophies", function (assert) {
 /**
  * command.js tests
  */
-QUnit.test("checker.js", function (assert) {
+QUnit.test("command.js", function (assert) {
 
     // We use deepEqual to compare Array objects
 
