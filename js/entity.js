@@ -10,6 +10,8 @@ class Entity {
         this._text = text;
     }
 
+
+
     get name() {
         return this._name;
     }

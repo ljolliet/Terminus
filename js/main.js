@@ -120,8 +120,8 @@ class Main {
             printMessage("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-            printMessage("Tu es sur que tu souhaite quitter Terminus ? (yes/no)")
-            //TODO
+           // printMessage("Tu es sur que tu souhaite quitter Terminus ? (yes/no)")
+            reload();
         }
     }
 
