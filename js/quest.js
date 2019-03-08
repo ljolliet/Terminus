@@ -20,10 +20,10 @@ class Quest {
         this._initialText = "";
         this._commandRequired = [];
         this._commandRewards = [];
-        this._name = name+".sh";
+        this._name = name + ".sh";
         this._questsRequired = [];
     }
-    
+
     /**
      * @return {String} Name
      */
@@ -114,6 +114,17 @@ class Quest {
      */
     set initialText(value) {
         this._initialText = value;
+    }
+
+    /**
+     * @param {String} base The String to put before an element.
+     * @param {String} shift between an element and a sub element, not used here.
+     * @param id  not used here
+     * @return {String} The description of the place as a tree.
+     */
+    description(base, shift = "", id = 0) {
+        return "./" + this.name;
+
     }
 
 }

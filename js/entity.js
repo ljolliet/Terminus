@@ -11,7 +11,6 @@ class Entity {
     }
 
 
-
     get name() {
         return this._name;
     }
@@ -20,11 +19,23 @@ class Entity {
         return this._text;
     }
 
-    set text(text){
+    set text(text) {
         this._text = text;
     }
-    set name(name){
+
+    set name(name) {
         this._name = name;
+    }
+
+    /**
+     * @param {String} base The String to put before an element.
+     * @param {String} shift between an element and a sub element, not used here.
+     * @param id  not used here
+     * @return {String} The description of the place as a tree.
+     */
+    description(base, shift="", id=0) {
+        return this.name;
+
     }
 }
 

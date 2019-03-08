@@ -12,7 +12,7 @@ class User {
      */
     constructor(login, items, inventory, trophies) {
         this._trophies = trophies;
-        this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS, COMMAND_TYPE.MV]; // five basics commands already available
+        this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS, COMMAND_TYPE.TREE]; // five basics commands already available
 
         this._login = login;
         this._currentLocation = Place.home; //null if not initialized
@@ -236,7 +236,7 @@ class User {
     moveItem(source, destination) {
         let index, cpt = -1;
         let item = null;
-        for(let e of this.currentLocation.entities) {
+        for (let e of this.currentLocation.entities) {
             cpt++;
             if (e.name === source) {
                 if (e instanceof Item) {
@@ -245,14 +245,12 @@ class User {
                 }
             }
         }
-        if( index !== -1 && item !== null){
+        if (index !== -1 && item !== null) {
             let place;
-            if((place = this.currentLocation.getPlace(destination))===null)
-            {
+            if ((place = this.currentLocation.getPlace(destination)) === null) {
                 item.name = destination;
-            }
-            else{
-                this.currentLocation.entities.splice(index,1);
+            } else {
+                this.currentLocation.entities.splice(index, 1);
                 place.addEntity(item);
             }
             return true;

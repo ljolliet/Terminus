@@ -30,6 +30,10 @@ class Main {
         bethanie.addQuest(quest);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
+        let p = new Place("Etage 1");
+        let p2 = new Place("201");
+        A21.addPlace(p);
+        p.addPlace(p2);
         bethanie.addEntity(pnj);
         bethanie.addEntity(item);
         console.log(bethanie);
@@ -207,7 +211,7 @@ class Main {
      * Here goes the code when the user has typed tree.
      */
     static tree(){
-
+        printMessage(this.user.currentLocation.description("|--","___", 0));
     }
 
     /**

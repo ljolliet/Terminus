@@ -12,6 +12,7 @@ class Place {
         //Place.home
         // use : let r = new Place("root") ; Place.root = r ;
     }
+
     /*
         constructor(place){
             this._places = place.next_Place;
@@ -36,6 +37,26 @@ class Place {
         return all;
 
 
+    }
+
+    /**
+     * Recursive function.
+     * @param {String} base Pattern that start a line.
+     * @param {String} shift  Shift between an element and a sub element.
+     * @param {int} id The tree height, that augment every time there is a subplace.
+     * @return {String} The description of the place as a tree.
+     */
+    description(base, shift, id) {
+        let tree = this.name;
+        for (let el of this.all) {
+            tree += "\n";
+            for (let i = 0; i < id; i++) {
+                tree += shift;
+            }
+
+            tree += base + el.description(base, shift, id + 1);
+        }
+        return tree;
     }
 
     /**
@@ -126,9 +147,9 @@ class Place {
      * @param {String }entityName The name of the entity to find
      * @return {Entity} The entity corresponding to the name.
      */
-    getEntity(entityName){
-        for(let e of this.entities)
-            if(e.name === entityName)
+    getEntity(entityName) {
+        for (let e of this.entities)
+            if (e.name === entityName)
                 return e;
         return null;
     }
@@ -137,9 +158,9 @@ class Place {
      * @param {String } placeName The name of the place to find
      * @return {Place} The place corresponding to the name.
      */
-    getPlace(placeName){
-        for(let e of this.places)
-            if(e.name === placeName)
+    getPlace(placeName) {
+        for (let e of this.places)
+            if (e.name === placeName)
                 return e;
         return null;
     }
