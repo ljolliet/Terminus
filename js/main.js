@@ -41,6 +41,11 @@ class Main {
         let inventory = new Place("inventaire");
         bethanie.addPlace(inventory); // usually inventory is in home Place
         this.user = new User(login, [new Item("carte","donnees")], inventory,["try.sh"]);
+        if(login === "admin"){
+            this.user.addCommand(COMMAND_TYPE.MV);
+            this.user.addCommand(COMMAND_TYPE.TREE);
+            this.user.addCommand(COMMAND_TYPE.GREP);
+        }
         console.log(this.user); //here current location is bethanie (home)
     }
 
