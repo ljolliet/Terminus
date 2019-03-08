@@ -239,110 +239,125 @@ QUnit.test("checker.js (depends on command.js)", function (assert) {
     // the first tests does not have any arguments,
     // then 1 argument, then 2, and so on
 
+    let user = new User("test", [], null, []);
+
+    // Check that the command is not valid if the user does not have access to the command
+    let checker = new Checker(new Command([["mv"]]), user);
+    assert.equal(checker.isCommandValid(), false, "The exit command does not expect any argument");
+    assert.notEqual(checker.getErrorMessage(), "", "There is an error message if the user does not have access to the command");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.MV, "The type is MV");
+
+    // First we need to add all the commands to the user ;))
+    user.addCommand(COMMAND_TYPE.TREE);
+    user.addCommand(COMMAND_TYPE.LAUNCH);
+    user.addCommand(COMMAND_TYPE.CAT);
+    user.addCommand(COMMAND_TYPE.GREP);
+    user.addCommand(COMMAND_TYPE.MV);
+
     // Test empty command
-    let checker = new Checker(new Command([[""]]));
+    checker = new Checker(new Command([[""]]), user);
     assert.equal(checker.isCommandValid(), false, "The empty command is not valid");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of empty command is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.UNKNOWN, "The empty command type is UNKNOWN");
 
     // Test exit command
-    checker = new Checker(new Command([["exit"]]));
+    checker = new Checker(new Command([["exit"]]), user);
     assert.equal(checker.isCommandValid(), true, "The exit command does not expect any argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of exit is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.EXIT, "The exit type is EXIT");
-    checker = new Checker(new Command([["exit", "arg"]]));
+    checker = new Checker(new Command([["exit", "arg"]]), user);
     assert.equal(checker.isCommandValid(), false, "The exit command does not expect any argument");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of exit is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.EXIT, "The exit type is EXIT");
 
     // Test help command
-    checker = new Checker(new Command([["help"]]));
+    checker = new Checker(new Command([["help"]]), user);
     assert.equal(checker.isCommandValid(), true, "The help command does not expect any argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of help is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.HELP, "The help type is HELP");
-    checker = new Checker(new Command([["help", "arg"]]));
+    checker = new Checker(new Command([["help", "arg"]]), user);
     assert.equal(checker.isCommandValid(), false, "The help command does not expect any argument");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of help is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.HELP, "The help type is HELP");
 
     // Test ls command
-    checker = new Checker(new Command([["ls"]]));
+    checker = new Checker(new Command([["ls"]]), user);
     assert.equal(checker.isCommandValid(), true, "The ls command does not expect any argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of ls is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LS, "The ls type is LS");
-    checker = new Checker(new Command([["ls", "arg"]]));
+    checker = new Checker(new Command([["ls", "arg"]]), user);
     assert.equal(checker.isCommandValid(), false, "The ls command does not expect any argument");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of ls is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LS, "The ls type is LS");
 
     // Test tree command
-    checker = new Checker(new Command([["tree"]]));
+    checker = new Checker(new Command([["tree"]]), user);
     assert.equal(checker.isCommandValid(), true, "The tree command does not expect any argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of tree is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.TREE, "The tree type is TREE");
-    checker = new Checker(new Command([["tree", "arg"]]));
+    checker = new Checker(new Command([["tree", "arg"]]), user);
     assert.equal(checker.isCommandValid(), false, "The tree command does not expect any argument");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of tree is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.TREE, "The tree type is TREE");
 
     // Test ./ command
-    checker = new Checker(new Command([["./"]]));
+    checker = new Checker(new Command([["./"]]), user);
     assert.equal(checker.isCommandValid(), false, "The ./ command does expect a script name");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of ./ is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LAUNCH, "The ./ type is LAUNCH");
-    checker = new Checker(new Command([["./script"]]));
+    checker = new Checker(new Command([["./script"]]), user);
     assert.equal(checker.isCommandValid(), true, "The ./ command does not expect any argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of ./ is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LAUNCH, "The ./ type is LAUNCH");
-    checker = new Checker(new Command([["./script", "arg"]]));
+    checker = new Checker(new Command([["./script", "arg"]]), user);
     assert.equal(checker.isCommandValid(), false, "The ./ command does not expect any argument");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of ./ is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LAUNCH, "The ./ type is LAUNCH");
 
     // Test cd command
-    checker = new Checker(new Command([["cd", "place1", "place2"]]));
+    checker = new Checker(new Command([["cd", "place1", "place2"]]), user);
     assert.equal(checker.isCommandValid(), false, "The cd command does not expect more than two arguments");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of cd is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.CD, "The cd type is CD");
-    checker = new Checker(new Command([["cd", "somewhere"]]));
+    checker = new Checker(new Command([["cd", "somewhere"]]), user);
     assert.equal(checker.isCommandValid(), true, "The cd command does expect one or 0 argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of cd is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.CD, "The cd type is CD");
-    checker = new Checker(new Command([["cd"]]));
+    checker = new Checker(new Command([["cd"]]), user);
     assert.equal(checker.isCommandValid(), true, "The cd command does expect one or 0 argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of cd is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.CD, "The cd type is CD");
 
     // Test cat command
-    checker = new Checker(new Command([["cat", "file"]]));
+    checker = new Checker(new Command([["cat", "file"]]), user);
     assert.equal(checker.isCommandValid(), true, "The cat command does expect one argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of cd is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.CAT, "The cat type is CAT");
-    checker = new Checker(new Command([["cat"]]));
+    checker = new Checker(new Command([["cat"]]), user);
     assert.equal(checker.isCommandValid(), false, "The cat command does expect one or 0 argument");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of cd is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.CAT, "The cat type is CAT");
 
     // Test grep command
-    checker = new Checker(new Command([["grep", "file"]]));
+    checker = new Checker(new Command([["grep", "file"]]), user);
     assert.equal(checker.isCommandValid(), true, "The grep command does expect one argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of grep is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.GREP, "The grep type is GREP");
-    checker = new Checker(new Command([["grep"]]));
+    checker = new Checker(new Command([["grep"]]), user);
     assert.equal(checker.isCommandValid(), false, "The grep command does expect one or 0 argument");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of grep is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.GREP, "The grep type is GREP");
 
     // Test mv command
-    checker = new Checker(new Command([["mv", "src", "dst"]]));
+    checker = new Checker(new Command([["mv", "src", "dst"]]), user);
     assert.equal(checker.isCommandValid(), true, "The mv command does expect two arguments");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of mv is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.MV, "The mv type is MV");
-    checker = new Checker(new Command([["mv", "src"]]));
+    checker = new Checker(new Command([["mv", "src"]]), user);
     assert.equal(checker.isCommandValid(), false, "The grep command does expect 2 arguments");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of mv is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.MV, "The mv type is MV");
-    checker = new Checker(new Command([["mv"]]));
+    checker = new Checker(new Command([["mv"]]), user);
     assert.equal(checker.isCommandValid(), false, "The grep command does expect 2 arguments");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of mv is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.MV, "The mv type is MV");

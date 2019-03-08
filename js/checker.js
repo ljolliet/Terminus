@@ -19,10 +19,12 @@ class Checker{
      * The command analysis is automatically done when this constructor is called.
      * 
      * @param {Command} command (**not null**),
+     * @param {User} user the user that typed the command
      * @param {boolean} verbose if true, it writes messages on the console. Can be null.
      */
-    constructor(command, verbose = false){
+    constructor(command, user, verbose = false){
         this._command = command;
+        this._user = user;
         this._verbose = verbose;
 
         this._isValid = false;
@@ -94,15 +96,13 @@ class Checker{
             return;
         }
 
-        // pour tester si la commande est autorisée
-        // if(new Set(Main.user.commandsAuthorized).has(this._command.args[0])){
-        //
-        // }
-
         // Other commands
         switch(this._command.args[0]){
             case "exit":
-                if(this._command.args.length > 1){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length > 1){
                     this._errorMessage = "exit command should not receive arguments.";
                     this._isValid = false;
                 }else{
@@ -113,7 +113,10 @@ class Checker{
                 break;
 
             case "help":
-                if(this._command.args.length > 1){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length > 1){
                     this._errorMessage = "help command should not receive arguments.";
                     this._isValid = false;
                 }else{
@@ -124,7 +127,10 @@ class Checker{
                 break;
                 
             case "cd":
-                if(this._command.args.length > 2){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length > 2){
                     this._errorMessage = "cd expects no or only one argument.";
                     this._isValid = false;
                 }else{
@@ -135,10 +141,13 @@ class Checker{
                 break;
                 
             case "cat":
-                if(this._command.args.length > 2){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length > 2){
                     this._errorMessage = "cat only expects 1 argument.";
                     this._isValid = false;
-                }else if(this._command.args.length === 1){
+                }else if(this._command.args.length === 1) {
                     this._errorMessage = "cat expects 1 argument.";
                     this._isValid = false;
                 }else{
@@ -149,7 +158,10 @@ class Checker{
             break;
 
             case "ls":
-                if(this._command.args.length !== 1){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length !== 1){
                     this._errorMessage = "ls does not expect any argument.";
                     this._isValid = false;
                 }else{
@@ -160,7 +172,10 @@ class Checker{
             break;
 
             case "mv":
-                if(this._command.args.length !== 3){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length !== 3){
                     this._errorMessage = "mv expects two arguments : source and destination";
                     this._isValid = false;
                 }else{
@@ -171,7 +186,10 @@ class Checker{
             break;
 
             case "tree":
-                if(this._command.args.length !== 1){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length !== 1){
                     this._errorMessage = "tree does not expect any argument";
                     this._isValid = false;
                 }else{
@@ -182,7 +200,10 @@ class Checker{
             break;
 
             case "grep":
-                if(this._command.args.length !== 2){
+                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
+                    this._errorMessage = "You do not have access to this command.";
+                    this._isValid = false;
+                }else if(this._command.args.length !== 2){
                     this._errorMessage = "grep expects only one argument";
                     this._isValid = false;
                 }else{

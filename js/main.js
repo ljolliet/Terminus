@@ -50,7 +50,7 @@ class Main {
         let parsedCommand = parser.getParsedCommand();
 
         // Now we have the command list, so we can check if there are some errors
-        let commandChecker = new Checker(parsedCommand, false);
+        let commandChecker = new Checker(parsedCommand, this.user, false);
 
         let isValid = commandChecker.isCommandValid();
         let errorMessage = commandChecker.getErrorMessage();
