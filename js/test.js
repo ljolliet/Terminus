@@ -58,7 +58,7 @@ QUnit.test("Place home", function (assert) {
 /**
  *  To check currentLocation implementation and the function moveTo.
  */
-QUnit.test("Changing place", function (assert) {
+QUnit.test("User place change", function (assert) {
 
     let user = new User("user", [], null, []);
     let parent = new Place("parent");
@@ -138,13 +138,40 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
 });
 
+
+/**
+ * Tests about inventory and trophies management.
+ */
 QUnit.test("Inventory & trophies", function (assert) {
     let inventory = new Place("inventory");
     let user = new User("user", [new Item("card", "data"), new Item("bag", "content")], inventory, ["try.sh", "try2.sh"]);
     assert.equal(inventory.entities[0], user.items[0], "User 1st item is the same as inventory one");
     assert.equal(inventory.entities[1], user.items[1], "User 2nd item is the same as inventory one");
     assert.equal(inventory.entities.length, 3, "trophy armory is in the items");    // 3 with armoire_a_trophee
+});
 
+
+QUnit.test("Move an item", function (assert) {
+    let inventory = new Place("inventory");
+    let user = new User("user", [], inventory, []);
+    let place = new Place("place");
+    let subplace = new Place("subplace");
+    place.addPlace(subplace);
+    user.currentLocation = place;
+    let item = new Item("item","content");
+    let pnj = new PNJ("pnj","content");
+    place.addEntity(item);
+    place.addEntity(pnj);
+    assert.equal(user.moveItem("item", "subplace"), true, "Move an item is authorized");
+    assert.equal(subplace.entities.includes(item), true, "Move has been done");
+    assert.equal(place.entities.includes(item), false, "Item no longer in the origin place");
+    assert.equal(user.moveItem("pnj", "subplace"), false, "Move a pnj is not authorized");
+    assert.equal(subplace.entities.includes(pnj), false, "Move has not been done");
+    assert.equal(place.entities.includes(item), true, "PNJ stayed in the origin place");
+    assert.equal(user.moveItem("item", "something"), true, "Move an item to something that does not exist works");
+    assert.equal(item.name, "something", "Move has been done, item's name has changed");
+    assert.equal(user.moveItem("pnj", "something"), false, "Move a pnj to something that does not exist does not works");
+    assert.equal(pnj.name, "pnj", "Move not done, name unchanged");
 });
 
 /**

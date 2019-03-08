@@ -225,4 +225,37 @@ class User {
         }
         return null;
     }
+
+    /**
+     *
+     * @param source
+     * @param destination
+     * @returns {boolean}
+     */
+    moveItem(source, destination) {
+        let index, cpt = -1;
+        let item = null;
+        for(let e of this.currentLocation.entities) {
+            cpt++;
+            if (e.name === source) {
+                if (e instanceof Item) {
+                    index = cpt;
+                    item = e;
+                }
+            }
+        }
+        if( index !== -1 && item !== null){
+            let place;
+            if((place = this.currentLocation.getPlace(destination))===null)
+            {
+                item.name = destination;
+            }
+            else{
+                this.currentLocation.entities.slice(index,1);
+                place.addEntity(item);
+            }
+            return true;
+        }
+        return false;
+    }
 }

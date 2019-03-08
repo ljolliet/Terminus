@@ -12,14 +12,14 @@ class Place {
         //Place.home
         // use : let r = new Place("root") ; Place.root = r ;
     }
-/*
-    constructor(place){
-        this._places = place.next_Place;
-        this._entities = place.Entities;
-        this._quests = place.Quests;
-        this._name = place.PlaceName;
-        this._parent = null;
-    }*/
+    /*
+        constructor(place){
+            this._places = place.next_Place;
+            this._entities = place.Entities;
+            this._quests = place.Quests;
+            this._name = place.PlaceName;
+            this._parent = null;
+        }*/
 
     /**
      * @return {Object[]} All the entities, places, quests, ordered alphabetically.
@@ -39,7 +39,7 @@ class Place {
     }
 
     /**
-     * @returns {boolean} True if the Place contains a quest that the user didn't started.
+     * @return {boolean} True if the Place contains a quest that the user didn't started.
      */
     containsQuestTodo() {
         for (let q of this.quests)
@@ -129,6 +129,17 @@ class Place {
     getEntity(entityName){
         for(let e of this.entities)
             if(e.name === entityName)
+                return e;
+        return null;
+    }
+
+    /**
+     * @param {String } placeName The name of the place to find
+     * @return {Place} The place corresponding to the name.
+     */
+    getPlace(placeName){
+        for(let e of this.places)
+            if(e.name === placeName)
                 return e;
         return null;
     }

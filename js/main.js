@@ -192,11 +192,13 @@ class Main {
 
     /**
      * Here goes the code when the user has typed mv.
-     * @param source
-     * @param destination
+     * @param {String} source
+     * @param {String} destination
      */
     static mv(source, destination){
-
+        if (!this.user.moveItem(source,destination))// if move refused
+            printMessage("mv: impossible d'évaluer '"+source+"' Aucun item ce type");
+        //else : move done
     }
 
     /**

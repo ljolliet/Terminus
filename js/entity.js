@@ -23,6 +23,9 @@ class Entity {
     set text(text){
         this._text = text;
     }
+    set name(name){
+        this._name = name;
+    }
 }
 
 class PNJ extends Entity {
