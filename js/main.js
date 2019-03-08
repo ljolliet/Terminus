@@ -1,6 +1,6 @@
 class Main {
 
-    static init() {
+    static init(login) {
 
         //creating small world
         let quest = new Quest("quete");
@@ -25,16 +25,18 @@ class Main {
         let A21 = new Place("A21");
 
         let pnj = new PNJ("tata", "bonjour");
+        let item = new Item("item", "superbe item");
         campus.addPlace(bethanie);
         bethanie.addQuest(quest);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
         bethanie.addEntity(pnj);
+        bethanie.addEntity(item);
         console.log(bethanie);
 
         let inventory = new Place("inventaire");
         bethanie.addPlace(inventory); // usually inventory is in home Place
-        this.user = new User("toto", [new Item("carte","donnees")], inventory,["try.sh"]);
+        this.user = new User(login, [new Item("carte","donnees")], inventory,["try.sh"]);
         console.log(this.user); //here current location is bethanie (home)
     }
 

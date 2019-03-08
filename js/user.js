@@ -12,7 +12,8 @@ class User {
      */
     constructor(login, items, inventory, trophies) {
         this._trophies = trophies;
-        this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS]; // five basics commands already available
+        this._commandsAuthorized = [COMMAND_TYPE.CAT, COMMAND_TYPE.CD, COMMAND_TYPE.EXIT, COMMAND_TYPE.HELP, COMMAND_TYPE.LS, COMMAND_TYPE.MV]; // five basics commands already available
+
         this._login = login;
         this._currentLocation = Place.home; //null if not initialized
         this._currentQuest = null;
@@ -251,7 +252,7 @@ class User {
                 item.name = destination;
             }
             else{
-                this.currentLocation.entities.slice(index,1);
+                this.currentLocation.entities.splice(index,1);
                 place.addEntity(item);
             }
             return true;
