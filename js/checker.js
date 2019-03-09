@@ -85,7 +85,7 @@ class Checker{
             this._errorMessage = "Vous n'avez pas accès à cette commande.";
             this._isValid = false;
         }else if(!(new Set(expectedArgc).has(command.args.length - 1))){
-            let defErrorMessage = "Mauvais usage de " + command + ". " + expectedArgc[0] + " argument(s) attendu(s)";
+            let defErrorMessage = "Mauvais usage de " + command.args[0] + ". " + expectedArgc[0] + " argument(s) attendu(s).";
             this._errorMessage = (errorMessage === "" ? defErrorMessage : errorMessage);
             this._isValid = false;
         }else{
@@ -104,7 +104,7 @@ class Checker{
         if(this._command.args.length === 0 || (this._command.args.length === 1 && this._command.args[0] === "")){
             if(this._verbose) console.log("The command is empty.");
 
-            this._errorMessage = "Commande non reconnue: ''";
+            this._errorMessage = "Commande non reconnue: ''.";
             this._isValid = false;
             this._type = COMMAND_TYPE.UNKNOWN;
             return;
@@ -170,7 +170,7 @@ class Checker{
                     }
                     this._type = COMMAND_TYPE.LAUNCH;
                 }else{
-                    this._errorMessage = "Commande non reconnue: " + this._command.args[0];
+                    this._errorMessage = "Commande non reconnue: '" + this._command.args[0] + "'.";
                     this._isValid = false;
                     this._type = COMMAND_TYPE.UNKNOWN;
                 }
