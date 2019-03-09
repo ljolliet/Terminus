@@ -72,6 +72,30 @@ class Checker{
     }
 
     /**
+     *
+     * @param command {Command} command to check,
+     * @param type {COMMAND_TYPE} type of the command to check,
+     * @param expectedArgc {[int]} expected number of arguments, (it is an array because it could accept 0 as well as 1)
+     * @param errorMessage {string} error message if argc != expectedArgc (if not set, the default message will be set)
+     * @private
+     */
+    _checkCommand(command, type, expectedArgc, errorMessage = ""){
+        console.log(command.args[0], [expectedArgc, command.args.length]);
+        if(!(new Set(this._user.commandsAuthorized).has(command.args[0]))) {
+            this._errorMessage = "You do not have access to this command.";
+            this._isValid = false;
+        }else if(!(new Set(expectedArgc).has(command.args.length - 1))){
+            let defErrorMessage = "Wrong usage of " + command + ". Expecting " + expectedArgc[0] + " argument(s)";
+            this._errorMessage = (errorMessage === "" ? defErrorMessage : errorMessage);
+            this._isValid = false;
+        }else{
+            this._errorMessage = "";
+            this._isValid = true;
+        }
+        this._type = type;
+    }
+
+    /**
      * It analyses the given command.
      */
     _analyseCommand(){
@@ -99,118 +123,36 @@ class Checker{
         // Other commands
         switch(this._command.args[0]){
             case "exit":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length > 1){
-                    this._errorMessage = "exit command should not receive arguments.";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.EXIT;
+                this._checkCommand(this._command, COMMAND_TYPE.EXIT, [0]);
                 break;
 
             case "help":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length > 1){
-                    this._errorMessage = "help command should not receive arguments.";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.HELP;
+                this._checkCommand(this._command, COMMAND_TYPE.HELP, [0]);
                 break;
                 
             case "cd":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length > 2){
-                    this._errorMessage = "cd expects no or only one argument.";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.CD;
+                this._checkCommand(this._command, COMMAND_TYPE.CD, [0, 1], "Wrong usage of cd. Expecting 0 or 1 argument");
                 break;
                 
             case "cat":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length > 2){
-                    this._errorMessage = "cat only expects 1 argument.";
-                    this._isValid = false;
-                }else if(this._command.args.length === 1) {
-                    this._errorMessage = "cat expects 1 argument.";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.CAT;
+                this._checkCommand(this._command, COMMAND_TYPE.CAT, [1]);
             break;
 
             case "ls":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length !== 1){
-                    this._errorMessage = "ls does not expect any argument.";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.LS;
+                this._checkCommand(this._command, COMMAND_TYPE.LS, [0]);
             break;
 
             case "mv":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length !== 3){
-                    this._errorMessage = "mv expects two arguments : source and destination";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.MV;
+                this._checkCommand(this._command, COMMAND_TYPE.MV, [2], "mv expects two arguments : source and destination");
+
             break;
 
             case "tree":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length !== 1){
-                    this._errorMessage = "tree does not expect any argument";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.TREE;
+                this._checkCommand(this._command, COMMAND_TYPE.TREE, [0]);
             break;
 
             case "grep":
-                if(!(new Set(this._user.commandsAuthorized).has(this._command.args[0]))) {
-                    this._errorMessage = "You do not have access to this command.";
-                    this._isValid = false;
-                }else if(this._command.args.length !== 2){
-                    this._errorMessage = "grep expects only one argument";
-                    this._isValid = false;
-                }else{
-                    this._errorMessage = "";
-                    this._isValid = true;
-                }
-                this._type = COMMAND_TYPE.GREP;
+                this._checkCommand(this._command, COMMAND_TYPE.GREP, [1]);
             break;
 
             default:
