@@ -59,6 +59,18 @@ class Place {
         return tree;
     }
 
+    getQuestStarted() {
+        let quests = [];
+        for (let q of this.quests)
+            if (q.status === STATUS.STARTED)
+                quests.push([this,q]);
+        for (let p of this.places)
+            for (let pq of p.getQuestStarted())
+                quests.push(pq);
+            console.log(quests);
+        return quests;
+    }
+
     /**
      * @return {boolean} True if the Place contains a quest that the user didn't started.
      */

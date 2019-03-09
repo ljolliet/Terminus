@@ -45,6 +45,7 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.MV);
             this.user.addCommand(COMMAND_TYPE.TREE);
             this.user.addCommand(COMMAND_TYPE.GREP);
+            this.user.addCommand(COMMAND_TYPE.JOBS);
         }
         console.log(this.user); //here current location is bethanie (home)
     }
@@ -113,6 +114,10 @@ class Main {
 
             case COMMAND_TYPE.GREP:
                 if (isValid) Main.grep(parsedCommand.args[1]);
+                else printMessage(errorMessage);
+                break;
+            case COMMAND_TYPE.JOBS:
+                if (isValid) Main.jobs();
                 else printMessage(errorMessage);
                 break;
         }
@@ -227,6 +232,16 @@ class Main {
 
     }
 
+    /**
+     * Here goes the code when the user has typed tree.
+     */
+    static jobs() {
+        let jobList = "";
+        for (let q of Place.root.getQuestStarted())
+            jobList += q[0].name+" : "+q[1].name + "\n";
+
+        printMessage(jobList.slice(0,jobList.length-1)); // print and also remove the last '\n'
+    }
 
     /**
      * Manage the quest advancement and display when the user finis a quest.

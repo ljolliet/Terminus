@@ -58,7 +58,7 @@ class User {
      */
     addTrophy(trophy) {
         this.trophies.push(trophy);
-        if(this.inventory!==null) {
+        if (this.inventory !== null) {
             let entity;
             if ((entity = this.inventory.getEntity(trophiesName)) !== null) {
                 entity.text = entity.text + trophy + "\n";
@@ -77,7 +77,7 @@ class User {
      * Init "armoire_a_trophee" with the trohies already won.
      */
     initTrophies() {
-        if((this.inventory.getEntity(trophiesName))===null) {
+        if ((this.inventory.getEntity(trophiesName)) === null) {
             let text = "";
             for (let t of this.trophies)
                 text += t + "\n";
@@ -176,14 +176,13 @@ class User {
     }
 
     /**
-     * @param entityName
-     * @return
+     * @param entityName The name of the entity.
+     * @return {String} The text that corresponds to the entity, "" if the name doesn't exist
      */
     read(entityName) {
         for (let e of this.currentLocation.entities)
-            if (entityName === e.name) {
+            if (entityName === e.name)
                 return e.text
-            }
         return "";
     }
 
@@ -227,28 +226,27 @@ class User {
     }
 
     /**
-     *
-     * @param source
-     * @param destination
-     * @returns {boolean}
+     * Function used to move an item source to destination, if destination does not exist, source is renamed as destination.
+     * @param {String} source    The name of the item to move.
+     * @param {String} destination   The name of the destination of the item.
+     * @returns {boolean}   True if the move is authorized done.
      */
     moveItem(source, destination) {
         let index, cpt = -1;
         let item = null;
         for (let e of this.currentLocation.entities) {
             cpt++;
-            if (e.name === source) {
+            if (e.name === source)
                 if (e instanceof Item) {
                     index = cpt;
                     item = e;
                 }
-            }
         }
         if (index !== -1 && item !== null) {
             let place;
-            if ((place = this.currentLocation.getPlace(destination)) === null) {
+            if ((place = this.currentLocation.getPlace(destination)) === null)
                 item.name = destination;
-            } else {
+            else {
                 this.currentLocation.entities.splice(index, 1);
                 place.addEntity(item);
             }
@@ -256,4 +254,5 @@ class User {
         }
         return false;
     }
+
 }

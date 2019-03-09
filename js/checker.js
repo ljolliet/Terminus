@@ -9,7 +9,8 @@ const COMMAND_TYPE = {
     LAUNCH: "./",
     MV: "mv",
     TREE: "tree",
-    GREP: "grep"
+    GREP: "grep",
+    JOBS : "jobs"
 };
 
 class Checker {
@@ -130,7 +131,7 @@ class Checker {
                 break;
 
             case "cd":
-                this._checkCommand(this._command, COMMAND_TYPE.CD, [0, 1], "Mauvais usage de cd. 0 or 1 argument attendu.");
+                this._checkCommand(this._command, COMMAND_TYPE.CD, [0, 1], "Mauvais usage de cd. 0 ou 1 argument attendu.");
                 break;
 
             case "cat":
@@ -151,6 +152,9 @@ class Checker {
 
             case "grep":
                 this._checkCommand(this._command, COMMAND_TYPE.GREP, [1]);
+                break;
+            case "jobs":
+                this._checkCommand(this._command, COMMAND_TYPE.JOBS, [0]);
                 break;
 
             default:
