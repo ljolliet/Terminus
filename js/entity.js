@@ -10,7 +10,6 @@ class Entity {
         this._text = text;
     }
 
-
     get name() {
         return this._name;
     }
@@ -33,9 +32,8 @@ class Entity {
      * @param id  not used here
      * @return {String} The description of the place as a tree.
      */
-    description(base, shift="", id=0) {
+    description(base, shift = "", id = 0) {
         return this.name;
-
     }
 }
 

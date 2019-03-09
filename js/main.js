@@ -40,8 +40,8 @@ class Main {
 
         let inventory = new Place("inventaire");
         bethanie.addPlace(inventory); // usually inventory is in home Place
-        this.user = new User(login, [new Item("carte","donnees")], inventory,["try.sh"]);
-        if(login === "admin"){
+        this.user = new User(login, [new Item("carte", "donnees")], inventory, ["try.sh"]);
+        if (login === "admin") {
             this.user.addCommand(COMMAND_TYPE.MV);
             this.user.addCommand(COMMAND_TYPE.TREE);
             this.user.addCommand(COMMAND_TYPE.GREP);
@@ -102,17 +102,17 @@ class Main {
                 break;
 
             case COMMAND_TYPE.MV:
-                if(isValid) Main.mv(parsedCommand.args[1], parsedCommand.args[2]);
+                if (isValid) Main.mv(parsedCommand.args[1], parsedCommand.args[2]);
                 else printMessage(errorMessage);
                 break;
 
             case COMMAND_TYPE.TREE:
-                if(isValid) Main.tree();
+                if (isValid) Main.tree();
                 else printMessage(errorMessage);
                 break;
 
             case COMMAND_TYPE.GREP:
-                if(isValid) Main.grep(parsedCommand.args[1]);
+                if (isValid) Main.grep(parsedCommand.args[1]);
                 else printMessage(errorMessage);
                 break;
         }
@@ -129,7 +129,7 @@ class Main {
             printMessage("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-           // printMessage("Tu es sur que tu souhaite quitter Terminus ? (yes/no)")
+            // printMessage("Tu es sur que tu souhaite quitter Terminus ? (yes/no)")
             reload();
         }
     }
@@ -149,7 +149,7 @@ class Main {
      * @param {[string]} args the command detail.
      */
     static cd(args) {
-        if (!this.user.moveTo(args[1]))// if move refused
+        if (!this.user.moveTo(args[1])) // if move refused
             printMessage("cd: " + args[1] + " : Aucun lieu de ce type");
         //else : move done
     }
@@ -161,7 +161,7 @@ class Main {
     static cat(args) {
         // does not support a path, only place name
         let text;
-        if ((text = this.user.read(args[1])) === "")// if move refused
+        if ((text = this.user.read(args[1])) === "") // if move refused
             printMessage("cat: " + args[1] + " : Aucun item ou personnage de ce type");
         else
             printMessage(text);
@@ -188,13 +188,13 @@ class Main {
      */
     static launch(questName) {
         let info;
-        if ((info = this.user.launch(questName)) === INFO.UNKNOWN)// if quest doesn't exist
+        if ((info = this.user.launch(questName)) === INFO.UNKNOWN) // if quest doesn't exist
             printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
         else if (info === INFO.UNAVAILABLE) {
             printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
         } else if (info === INFO.FINISHED) {
             printMessage("La quête " + questName + " est déjà terminée");
-        } else    // INFO.FOUND
+        } else // INFO.FOUND
         {
             printMessage("Quête " + this.user.currentQuest.name + " lancée");
             printMessage(this.user.currentQuest.initialText);
@@ -206,24 +206,24 @@ class Main {
      * @param {String} source
      * @param {String} destination
      */
-    static mv(source, destination){
-        if (!this.user.moveItem(source,destination))// if move refused
-            printMessage("mv: impossible d'évaluer '"+source+"' Aucun item ce type");
+    static mv(source, destination) {
+        if (!this.user.moveItem(source, destination)) // if move refused
+            printMessage("mv: impossible d'évaluer '" + source + "' Aucun item ce type");
         //else : move done
     }
 
     /**
      * Here goes the code when the user has typed tree.
      */
-    static tree(){
-        printMessage(this.user.currentLocation.description("|--","___", 0));
+    static tree() {
+        printMessage(this.user.currentLocation.description("|--", "___", 0));
     }
 
     /**
      * Here goes the code when the user has typed tree.
      * @param options
      */
-    static grep(options){
+    static grep(options) {
 
     }
 
@@ -233,7 +233,7 @@ class Main {
      * @param {String} command Last command the user entered.
      */
     static questAdvancement(command) {
-        if (this.user.currentQuest !== null) {  // check the quest advancement.
+        if (this.user.currentQuest !== null) { // check the quest advancement.
             let quest;
             if ((quest = this.user.checkQuest(command)) !== null) {
                 printMessage(quest.endText);
