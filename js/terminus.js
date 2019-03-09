@@ -1,4 +1,4 @@
-(function () {
+(function() {
 
 })();
 
@@ -6,19 +6,25 @@ let blinkingCursor;
 let consoleFocused = false;
 let firstConnection = true;
 
+focusConsole();
+
 /**
  * Focus detector for the console
  * The cursor begin to blink
  * and the textarea is now focused
  */
-document.getElementById("console").addEventListener("click", function () {
-    /**
-     * Blink method for the cursor
-     */
+document.getElementById("console").addEventListener("click", function() {
+    focusConsole();
+});
+
+/**
+ * Blink method for the cursor
+ */
+function focusConsole() {
     clearInterval(blinkingCursor);
     let cursor = document.getElementById('cursor');
-    blinkingCursor = window.setInterval(function () {
-        if (cursor.classList.contains('visible'))
+    blinkingCursor = window.setInterval(function() {
+        if(cursor.classList.contains('visible'))
             cursor.classList.remove('visible');
         else
             cursor.classList.add('visible');
@@ -26,32 +32,21 @@ document.getElementById("console").addEventListener("click", function () {
 
     document.getElementsByClassName("textInput")[0].focus();
     consoleFocused = true;
-});
+}
 
-/**
- * Unfocus the textarea
- * and the cursor disappear
- */
-document.getElementById("side-panel").addEventListener("click", function () {
-    document.getElementById('cursor').classList.remove('visible');
-    clearInterval(blinkingCursor);
-    consoleFocused = false;
-});
-
-
-let inputTextFirst = document.getElementById("input-text-first");
-let cursor = document.getElementById("cursor");
+let inputTextFirst  = document.getElementById("input-text-first");
+let cursor  = document.getElementById("cursor");
 let inputTextSecond = document.getElementById("input-text-second");
 
 /**
  * Detect keyboard events
  */
-document.getElementsByClassName("textInput")[0].addEventListener("keydown", function (event) {
+document.getElementsByClassName("textInput")[0].addEventListener("keydown", function(event) {
 
     // Detect keyboard events only if console is focused
     if (consoleFocused) {
 
-        let code = event.keyCode;
+        let code  = event.keyCode;
         let input = event.key;
 
         // console.log(code, input);
@@ -60,14 +55,16 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         let size2 = inputTextSecond.innerText.length;
 
         if (code === 8) // BACKSPACE
-            inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1 - 1);
+            inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
 
         else if (code === 46) {
             if (size2 > 0) {
                 cursor.innerText = inputTextSecond.innerText.substring(0, 1);
                 inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
             }
-        } else if (code === 13) { // ENTER
+        }
+
+        else if (code === 13) { // ENTER
 
             // First connection : ask the user for his pseudo
             if (firstConnection) {
@@ -83,18 +80,24 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 pseudo = pseudo.substring(0, pseudo.length - 1); // Remove the last char (&nbsp;)
 
-                // Init the engine with the user pseudo
-                Main.init(pseudo);
+                // If the pseudo is empty, ask for it again
+                if (pseudo.length === 0) {
+                    printMessage("Veuillez entrer un pseudo :");
+                }
+                else {
+                    // Init the engine with the user pseudo
+                    Main.init(pseudo);
 
-                // Say hello to the user
-                printMessage("Bienvenue " + pseudo + " !");
+                    // Say hello to the user
+                    printMessage("Bienvenue " + pseudo + " !");
 
-                inputTextFirst.innerHTML = "";
-                cursor.innerHTML = '&nbsp;';
-                inputTextSecond.innerHTML = "";
+                    inputTextFirst.innerHTML = "";
+                    cursor.innerHTML = '&nbsp;';
+                    inputTextSecond.innerHTML = "";
 
-                document.getElementById("chevron").innerHTML = pseudo + "@terminus: $&nbsp;";
-                firstConnection = false;
+                    document.getElementById("chevron").innerHTML = pseudo + "@terminus: $&nbsp;";
+                    firstConnection = false;
+                }
             }
             // Else, normal use of the console engine
             else {
@@ -118,26 +121,35 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 Main.executeCommand(msg.replace(document.getElementById("chevron").innerHTML, ''));
             }
-        } else if (code === 37) { // LEFT ARROW
+        }
+
+        else if (code === 37) { // LEFT ARROW
             if (size1 > 0) {
                 inputTextSecond.innerText = cursor.innerText + inputTextSecond.innerText;
-                cursor.innerText = inputTextFirst.innerText.substring(size1 - 1, size1);
-                inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1 - 1);
+                cursor.innerText = inputTextFirst.innerText.substring(size1-1, size1);
+                inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
             }
-        } else if (code === 39) { // RIGHT ARROW
+        }
+
+        else if (code === 39) { // RIGHT ARROW
             if (size2 > 0) {
                 inputTextFirst.innerText += cursor.innerText;
                 cursor.innerText = inputTextSecond.innerText.substring(0, 1);
                 inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
-            } else if (size2 === 0) {
+            }
+            else if (size2 === 0) {
                 if (cursor.innerHTML !== '&nbsp;')
                     inputTextFirst.innerHTML += cursor.innerHTML;
                 cursor.innerHTML = '&nbsp;';
             }
-        } else if (code === 32) { // SPACE
+        }
+
+        else if (code === 32) { // SPACE
             // Transform the normal space in an unbreakable space
             inputTextFirst.innerHTML += '&nbsp;';
-        } else if (input.length === 1) // letter, digit and others
+        }
+
+        else if (input.length === 1) // letter, digit and others
             inputTextFirst.innerHTML += input;
     }
 });
@@ -161,7 +173,7 @@ function reload() {
  */
 function printMessage(message) {
     message = message.replace('&nbsp;', ' ');
-    let msgTab = message.split(/(\r\n|\n|\r)/gm);
+    let msgTab = message.split(/\n/gm);
 
     let childDiv = document.createElement("div");
     childDiv.classList.add("message");
