@@ -82,10 +82,10 @@ class Checker{
     _checkCommand(command, type, expectedArgc, errorMessage = ""){
         console.log(command.args[0], [expectedArgc, command.args.length]);
         if(!(new Set(this._user.commandsAuthorized).has(command.args[0]))) {
-            this._errorMessage = "You do not have access to this command.";
+            this._errorMessage = "Vous n'avez pas accès à cette commande.";
             this._isValid = false;
         }else if(!(new Set(expectedArgc).has(command.args.length - 1))){
-            let defErrorMessage = "Wrong usage of " + command + ". Expecting " + expectedArgc[0] + " argument(s)";
+            let defErrorMessage = "Mauvais usage de " + command + ". " + expectedArgc[0] + " argument(s) attendu(s)";
             this._errorMessage = (errorMessage === "" ? defErrorMessage : errorMessage);
             this._isValid = false;
         }else{
@@ -104,7 +104,7 @@ class Checker{
         if(this._command.args.length === 0 || (this._command.args.length === 1 && this._command.args[0] === "")){
             if(this._verbose) console.log("The command is empty.");
 
-            this._errorMessage = "Command not found : ''";
+            this._errorMessage = "Commande non reconnue: ''";
             this._isValid = false;
             this._type = COMMAND_TYPE.UNKNOWN;
             return;
@@ -114,7 +114,7 @@ class Checker{
         if(this._command.isPipe > 1){
             if(this._verbose) console.log("The command is a pipe command, and it is not supported yet.");
             
-            this._errorMessage = "pipe command is not supported yet";
+            this._errorMessage = "L'utilisation de pipe '|' n'est pas supportée.";
             this._isValid = false;
             this._type = COMMAND_TYPE.UNKNOWN;
             return;
@@ -131,7 +131,7 @@ class Checker{
                 break;
                 
             case "cd":
-                this._checkCommand(this._command, COMMAND_TYPE.CD, [0, 1], "Wrong usage of cd. Expecting 0 or 1 argument");
+                this._checkCommand(this._command, COMMAND_TYPE.CD, [0, 1], "Mauvais usage de cd. 0 or 1 argument attendu.");
                 break;
                 
             case "cat":
@@ -143,7 +143,7 @@ class Checker{
             break;
 
             case "mv":
-                this._checkCommand(this._command, COMMAND_TYPE.MV, [2], "mv expects two arguments : source and destination");
+                this._checkCommand(this._command, COMMAND_TYPE.MV, [2], "Mauvais usage de mv. 2 arguments attendus: source et destination.");
 
             break;
 
@@ -158,10 +158,10 @@ class Checker{
             default:
                 if(this._command.args[0].startsWith("./")){
                     if(this._command.args.length !== 1){
-                        this._errorMessage = "./ does not expect any argument.";
+                        this._errorMessage = "./ n'attend aucun argument.";
                         this._isValid = false;
                     }else if(this._command.args[0].length === 2){
-                        this._errorMessage = "./ does expect a script name (example: ./script.sh).";
+                        this._errorMessage = "./ a besoin d'un nom de script à executer (exemple: ./script.sh).";
                         this._isValid = false;
                     }else{
                         this._errorMessage = "";
@@ -170,7 +170,7 @@ class Checker{
                     }
                     this._type = COMMAND_TYPE.LAUNCH;
                 }else{
-                    this._errorMessage = "Command not found : " + this._command.args[0];
+                    this._errorMessage = "Commande non reconnue: " + this._command.args[0];
                     this._isValid = false;
                     this._type = COMMAND_TYPE.UNKNOWN;
                 }
