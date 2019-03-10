@@ -9,7 +9,8 @@ const INFO = {
     UNKNOWN: 0,
     FOUND: 1,
     UNAVAILABLE: 2,
-    FINISHED: 3
+    LOCKED: 3,
+    FINISHED: 4
 };
 
 class Quest {

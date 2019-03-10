@@ -1,0 +1,25 @@
+For specifications
+
+/3 : rewards >>, >, yes
+/4 : rewards : tree, | (if pipe is a command), grep
+/5 : dependance 4/, rewards : chmod
+/7 : rewards nano
+/8 : dependance 7/, remove "ajouter une croix"
+/9 : remove "echo" and "jeter un oeil à la commane echo", use cat
+/11 rewards : ssh
+/12 remove ctrl-c
+/13 improve a bit
+
+
+then : 
+explain 
+	~ 
+	/
+	..
+	.
+	
+show start of the game
+
+include jobs
+
+

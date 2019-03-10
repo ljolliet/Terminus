@@ -66,11 +66,11 @@ class Place {
         let quests = [];
         for (let q of this.quests)
             if (q.status === STATUS.STARTED)
-                quests.push([this,q]);
+                quests.push([this, q]);
         for (let p of this.places)
             for (let pq of p.getQuestStarted())
                 quests.push(pq);
-            console.log(quests);
+        console.log(quests);
         return quests;
     }
 
@@ -79,8 +79,12 @@ class Place {
      */
     containsQuestTodo() {
         for (let q of this.quests)
-            if (q.status === STATUS.TODO)
+            if (q.status === STATUS.TODO) {
+                for (let d of q.questsRequired)
+                    if (d.status !== STATUS.DONE)   // to check if the quest is available (all dependencies done)
+                        return false;
                 return true;
+            }
         return false;
     }
 

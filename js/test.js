@@ -158,7 +158,9 @@ QUnit.test("Move an item", function (assert) {
     let inventory = new Place("inventory");
     let user = new User("user", [], inventory, []);
     let parent = new Place("parent");
+    Place.root = parent;
     let place = new Place("place");
+    Place.home = place;
     let subplace = new Place("subplace");
     parent.addPlace(place);
     place.addPlace(subplace);
@@ -187,12 +189,42 @@ QUnit.test("Move an item", function (assert) {
     assert.equal(user.moveItem("something", ".."), true, "Move an item to his parent works");
     assert.equal(parent.entities.includes(item2), true, "Move has been done");
     assert.equal(user.moveItem("item3", "~"), true, "Move an item to home works");
-    assert.equal(Place.home.entities.includes(item3), true, "Move has been done");
+    assert.equal(place.entities.includes(item3), true, "Move has been done");
     assert.equal(user.moveItem("item4", "/"), true, "Move an item to root works");
-    assert.equal(Place.root.entities.includes(item4), true, "Move has been done");
+    assert.equal(parent.entities.includes(item4), true, "Move has been done");
     assert.equal(subplace.entities.includes(pnj), false, "Move has not been done");
     assert.equal(user.moveItem("pnj", "something"), false, "Move a pnj to something that does not exist does not works");
     assert.equal(pnj.name, "pnj", "Move not done, name unchanged");
+});
+
+/**
+ * Dependency management tests
+ */
+QUnit.test("questDependency", function (assert) {
+    let quest = new Quest("quest");
+    quest.addCommandRequired("ls");
+    let quest2 = new Quest("quest2");
+    quest2.addCommandRequired("cat");
+    let quest3 = new Quest("quest3");
+    quest3.addCommandRequired("cd toto");
+    quest2.addQuestsRequired(quest);
+    quest3.addQuestsRequired(quest2);
+    let place = new Place("place");
+    let user = new User("toto",[],null,[]);
+    user.currentLocation = place;
+    place.addQuest(quest);
+    place.addQuest(quest2);
+    place.addQuest(quest3);
+    assert.equal(user.launch("quest2.sh"), INFO.LOCKED, "Second quest not available");
+    assert.equal(user.launch("quest3.sh"), INFO.LOCKED, "Third quest not available");
+    assert.equal(user.launch("quest.sh"), INFO.FOUND, "First quest available");
+    assert.equal(user.checkQuest("ls"), quest, "First quest finished");
+    assert.equal(user.launch("quest3.sh"), INFO.LOCKED, "Third quest not available");
+    assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now the second quest is available");
+    assert.equal(user.checkQuest("cat"), quest2, "Second quest finished");
+    assert.equal(user.launch("quest3.sh"), INFO.FOUND, "Now the third quest is available");
+    assert.equal(user.checkQuest("cd toto"), quest3, "third quest finished");
+
 });
 
 /**

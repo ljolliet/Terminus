@@ -9,8 +9,16 @@ class Main {
         quest.endText = "Bien joué !";
         quest.addCommandRequired("help");
         quest.addCommandRequired("ls");
-
         quest.addCommandRewards(COMMAND_TYPE.MV);
+
+
+        let quest2 = new Quest("secondQuest");
+
+        quest2.initialText = "Maintenant va en A21, au 1er Etage";
+        quest2.endText = "Bien joué !";
+        quest2.addCommandRequired("cd 201");
+        quest2.addCommandRewards(COMMAND_TYPE.TREE);
+        quest2.addQuestsRequired(quest);
 
         /*let ioJson =  new IOjson("World.json");
 
@@ -28,9 +36,10 @@ class Main {
         let item = new Item("item", "superbe item");
         campus.addPlace(bethanie);
         bethanie.addQuest(quest);
+        A21.addQuest(quest2);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
-        let p = new Place("Etage 1");
+        let p = new Place("Etage_1");
         let p2 = new Place("201");
         A21.addPlace(p);
         p.addPlace(p2);
@@ -177,12 +186,20 @@ class Main {
      */
     static ls() {
         let m = "";
+        let questAvailable = true;
         if (this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
             if (p instanceof Place && p.containsQuestTodo())
                 m += "!";
-            m += p.name + " ";
+            if (p instanceof Quest) {
+                for (let dependency of p.questsRequired)    // to check if the quest is available (all dependencies done)
+                    if (dependency.status !== STATUS.DONE)
+                        questAvailable = false;
+                if (questAvailable)
+                    m += p.name + " ";
+            } else
+                m += p.name + " ";
         }
         printMessage(m);
     }
@@ -193,7 +210,7 @@ class Main {
      */
     static launch(questName) {
         let info;
-        if ((info = this.user.launch(questName)) === INFO.UNKNOWN) // if quest doesn't exist
+        if ((info = this.user.launch(questName)) === INFO.UNKNOWN || info ===INFO.LOCKED) // if quest doesn't exist
             printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
         else if (info === INFO.UNAVAILABLE) {
             printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
@@ -230,13 +247,13 @@ class Main {
      * @param {String} previousResult
      */
     static grep(options, previousResult) {
-        let result ="";
-        for(let line of previousResult.split("\n")){
-            if(line.includes(options)){
-                result+=line+"\n";
+        let result = "";
+        for (let line of previousResult.split("\n")) {
+            if (line.includes(options)) {
+                result += line + "\n";
             }
         }
-        printMessage(result.slice(0,result.length-1));
+        printMessage(result.slice(0, result.length - 1));
     }
 
     /**
@@ -245,9 +262,9 @@ class Main {
     static jobs() {
         let jobList = "";
         for (let q of Place.root.getQuestStarted())
-            jobList += q[0].name+" : "+q[1].name + "\n";
+            jobList += q[0].name + " : " + q[1].name + "\n";
 
-        printMessage(jobList.slice(0,jobList.length-1)); // print and also remove the last '\n'
+        printMessage(jobList.slice(0, jobList.length - 1)); // print and also remove the last '\n'
     }
 
     /**

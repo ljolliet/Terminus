@@ -197,18 +197,21 @@ class User {
      * UNAVAILABLE if a quest is already launched and UNKNOWN if the quest doesn't exist.
      */
     launch(questName) {
-        if (this.currentQuest == null) {
+        if (this.currentQuest === null) {   // if a quest is not already launched
             for (let q of this.currentLocation.quests)
                 if (q.name === questName) {
-                    if (q.status === STATUS.DONE)
+                    if (q.status === STATUS.DONE)   // if quest already finished
                         return INFO.FINISHED;
-                    q.status = STATUS.STARTED;
+                    for (let dependency of q.questsRequired)
+                        if (dependency.status !== STATUS.DONE)  // if a dependency (quest)  is not finished
+                            return INFO.LOCKED;
+                    q.status = STATUS.STARTED;  // if quest find, launching quest
                     this.currentQuest = q;
                     return INFO.FOUND;
                 }
-            return INFO.UNKNOWN;
+            return INFO.UNKNOWN;    // else : quest not found
         }
-        return INFO.UNAVAILABLE;
+        return INFO.UNAVAILABLE;   // a quest is already launched
     }
 
     /**
