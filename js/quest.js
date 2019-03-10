@@ -96,7 +96,7 @@ class Quest {
     }
 
     /**
-     * @param {COMMAND_TYPE} value To update quest advancement status.
+     * @param {STATUS} value To update quest advancement status.
      */
     set status(value) {
         this._status = value;

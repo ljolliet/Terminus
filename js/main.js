@@ -230,7 +230,13 @@ class Main {
      * @param {String} previousResult
      */
     static grep(options, previousResult) {
-
+        let result ="";
+        for(let line of previousResult.split("\n")){
+            if(line.includes(options)){
+                result+=line+"\n";
+            }
+        }
+        printMessage(result.slice(0,result.length-1));
     }
 
     /**
