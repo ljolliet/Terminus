@@ -225,10 +225,11 @@ class Main {
     }
 
     /**
-     * Here goes the code when the user has typed tree.
-     * @param options
+     * Here goes the code when the user has typed grp.
+     * @param {String} options
+     * @param {String} previousResult
      */
-    static grep(options) {
+    static grep(options, previousResult) {
 
     }
 

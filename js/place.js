@@ -59,6 +59,9 @@ class Place {
         return tree;
     }
 
+    /**
+     * @returns {{Place,Quest}[]} The Quests that are started, with the Place corresponding.
+     */
     getQuestStarted() {
         let quests = [];
         for (let q of this.quests)

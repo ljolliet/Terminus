@@ -1,5 +1,10 @@
 const trophiesName = "armoire_a_trophee";
 const inventory = "inventaire";
+const parentConst = "..";
+const placeConst = ".";
+const rootConst = "/";
+const homeConst = "~";
+const inventoryConst = "$INVENTAIRE";
 
 class User {
 
@@ -139,26 +144,26 @@ class User {
      */
     moveTo(placeName) {
         switch (placeName) {
-            case "." :  // current location
+            case placeConst :  // current location
                 return true;
-            case"..":   // parent
+            case parentConst:   // parent
                 if (this.currentLocation.parent === null)
                     return false;
                 this.currentLocation = this.currentLocation.parent;
                 return true;
-            case "~" :  // home
+            case homeConst :  // home
                 if (Place.home !== null) {
                     this.currentLocation = Place.home;
                     return true;
                 }
                 break;
-            case  "/":  // root
+            case  rootConst :  // root
                 if (Place.root !== null) {
                     this.currentLocation = Place.root;
                     return true;
                 }
                 break;
-            case "$INVENTAIRE":
+            case inventoryConst:
                 if (this.inventory !== null) {
                     this.currentLocation = this.inventory;
                     return true;
@@ -182,7 +187,7 @@ class User {
     read(entityName) {
         for (let e of this.currentLocation.entities)
             if (entityName === e.name)
-                return e.text
+                return e.text;
         return "";
     }
 
@@ -234,6 +239,7 @@ class User {
     moveItem(source, destination) {
         let index, cpt = -1;
         let item = null;
+        //check if the source item exists
         for (let e of this.currentLocation.entities) {
             cpt++;
             if (e.name === source)
@@ -242,16 +248,50 @@ class User {
                     item = e;
                 }
         }
+        //if it exists
         if (index !== -1 && item !== null) {
-            let place;
-            if ((place = this.currentLocation.getPlace(destination)) === null)
-                item.name = destination;
-            else {
-                this.currentLocation.entities.splice(index, 1);
-                place.addEntity(item);
+            switch (destination) {
+                case placeConst :  // current location
+                    return true;
+                case parentConst:   // parent
+                    if (this.currentLocation.parent === null)
+                        return false;
+                    this.currentLocation.entities.splice(index, 1);
+                    this.currentLocation.parent.addEntity(item);
+                    return true;
+                case homeConst :  // home
+                    if (Place.home !== null) {
+                        this.currentLocation.entities.splice(index, 1);
+                        Place.home.addEntity(item);
+                        return true;
+                    }
+                    break;
+                case  rootConst :  // root
+                    if (Place.root !== null) {
+                        this.currentLocation.entities.splice(index, 1);
+                        Place.root.addEntity(item);
+                        return true;
+                    }
+                    break;
+                case inventoryConst:
+                    if (this.inventory !== null) {
+                        this.currentLocation.entities.splice(index, 1);
+                        this.inventory.addEntity(item);
+                        return true;
+                    }
+                    break;
+                default : // son
+                    let place;
+                    if ((place = this.currentLocation.getPlace(destination)) === null)
+                        item.name = destination;
+                    else {
+                        this.currentLocation.entities.splice(index, 1);
+                        place.addEntity(item);
+                    }
+                    return true;
             }
-            return true;
         }
+        //else
         return false;
     }
 

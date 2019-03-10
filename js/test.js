@@ -151,18 +151,27 @@ QUnit.test("Inventory & trophies", function (assert) {
 });
 
 
+/**
+ * Tests about the item movement
+ */
 QUnit.test("Move an item", function (assert) {
     let inventory = new Place("inventory");
     let user = new User("user", [], inventory, []);
+    let parent = new Place("parent");
     let place = new Place("place");
     let subplace = new Place("subplace");
+    parent.addPlace(place);
     place.addPlace(subplace);
     user.currentLocation = place;
     let item = new Item("item", "content");
     let item2 = new Item("item2", "content");
+    let item3 = new Item("item3", "content");
+    let item4 = new Item("item4", "content");
     let pnj = new PNJ("pnj", "content");
     place.addEntity(item);
     place.addEntity(item2);
+    place.addEntity(item3);
+    place.addEntity(item4);
     place.addEntity(pnj);
     assert.equal(user.moveItem("item", "subplace"), true, "Move an item is authorized");
     assert.equal(subplace.entities.includes(item), true, "Move has been done");
@@ -172,6 +181,16 @@ QUnit.test("Move an item", function (assert) {
     assert.equal(place.entities.includes(pnj), true, "PNJ stayed in the origin place");
     assert.equal(user.moveItem("item2", "something"), true, "Move an item to something that does not exist works");
     assert.equal(item2.name, "something", "Move has been done, item's name has changed");
+    assert.equal(user.moveItem("something", "."), true, "Move an item to the same place works");
+    assert.equal(place.entities.includes(item2), true, "Move has been done");
+    assert.equal(item2.name, "something", "The name hasn't change.");
+    assert.equal(user.moveItem("something", ".."), true, "Move an item to his parent works");
+    assert.equal(parent.entities.includes(item2), true, "Move has been done");
+    assert.equal(user.moveItem("item3", "~"), true, "Move an item to home works");
+    assert.equal(Place.home.entities.includes(item3), true, "Move has been done");
+    assert.equal(user.moveItem("item4", "/"), true, "Move an item to root works");
+    assert.equal(Place.root.entities.includes(item4), true, "Move has been done");
+    assert.equal(subplace.entities.includes(pnj), false, "Move has not been done");
     assert.equal(user.moveItem("pnj", "something"), false, "Move a pnj to something that does not exist does not works");
     assert.equal(pnj.name, "pnj", "Move not done, name unchanged");
 });
