@@ -31,6 +31,7 @@ function focusConsole() {
     }, 500);
 
     document.getElementsByClassName("textInput")[0].focus();
+    document.getElementsByClassName("textInput")[0].select();
     consoleFocused = true;
 }
 
@@ -57,11 +58,15 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         if (code === 8) // BACKSPACE
             inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
 
-        else if (code === 46) {
+        else if (code === 46) { // DELETE
             if (size2 > 0) {
                 cursor.innerText = inputTextSecond.innerText.substring(0, 1);
                 inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
             }
+        }
+
+        else if (code === 9) { // TAB
+            // TODO
         }
 
         else if (code === 13) { // ENTER
@@ -123,7 +128,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             }
         }
 
-        else if (code === 37) { // LEFT ARROW
+        else if (code === 37) { // ARROW LEFT
             if (size1 > 0) {
                 inputTextSecond.innerText = cursor.innerText + inputTextSecond.innerText;
                 cursor.innerText = inputTextFirst.innerText.substring(size1-1, size1);
@@ -131,7 +136,11 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             }
         }
 
-        else if (code === 39) { // RIGHT ARROW
+        else if (code === 38) { // ARROW UP
+            // TODO
+        }
+
+        else if (code === 39) { // ARROW RIGHT
             if (size2 > 0) {
                 inputTextFirst.innerText += cursor.innerText;
                 cursor.innerText = inputTextSecond.innerText.substring(0, 1);
@@ -142,6 +151,10 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     inputTextFirst.innerHTML += cursor.innerHTML;
                 cursor.innerHTML = '&nbsp;';
             }
+        }
+
+        else if (code === 40) { // ARROW DOWN
+            // TODO
         }
 
         else if (code === 32) { // SPACE
@@ -186,4 +199,8 @@ function printMessage(message) {
     childDiv.appendChild(document.createTextNode(msgTab[msgTab.length - 1]));
 
     document.getElementById("console-output").appendChild(childDiv);
+
+    // For browsers that does not auto scroll to the bottom of the page
+    // To test
+    document.getElementById("console").scrollTo(0, document.body.scrollHeight);
 }
