@@ -115,6 +115,13 @@ class User {
         return it;
     }
 
+    /**
+     * @return {String} The path of the current location.
+     */
+    getPath(){
+        return this.currentLocation.path;
+    }
+
 
     /**
      * @return {COMMAND_TYPE[]} Commands allowed.
@@ -130,6 +137,7 @@ class User {
     get currentLocation() {
         return this._currentLocation;
     }
+
 
     /**
      * @param {Place} place New current place/location.
@@ -219,8 +227,10 @@ class User {
      * @return {Quest} The quest if finished, null otherwise.
      */
     checkQuest(command) {
-        if (this.currentQuest.commandRequired[0] === command.toString())
+        if (this.currentQuest.commandRequired[0].toString() === command.toString()) {
             this.currentQuest.commandRequired.shift(); // remove first element
+            console.log("Quest command recognise");
+        }
         if (this.currentQuest.commandRequired.length === 0) {   // end quest
             this.currentQuest.status = STATUS.DONE;
             for (let cr of this.currentQuest.commandRewards)

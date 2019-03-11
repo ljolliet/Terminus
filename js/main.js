@@ -14,9 +14,9 @@ class Main {
 
         let quest2 = new Quest("quete2");
 
-        quest2.initialText = "Maintenant va au 1er Etage";
+        quest2.initialText = "regarder autour de toi ...";
         quest2.endText = "Bien joué !";
-        quest2.addCommandRequired("cd Etage_1");
+        quest2.addCommandRequired("ls");
         quest2.addCommandRewards(COMMAND_TYPE.TREE);
         //quest2.addQuestsRequired(quest);
 
@@ -137,6 +137,7 @@ class Main {
         }
 
         Main.questAdvancement(command);
+        console.log(this.user.getPath());
     }
 
 
@@ -287,6 +288,7 @@ class Main {
         if (this.user.currentQuest !== null) { // check the quest advancement.
             let quest;
             if ((quest = this.user.checkQuest(command)) !== null) {
+                console.log("check quets not null");
                 printMessage(quest.endText);
                 printMessage("Quête : " + quest.name + " terminée");
                 if (quest.commandRewards.length !== 0)

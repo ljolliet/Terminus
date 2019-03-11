@@ -89,6 +89,18 @@ class Place {
     }
 
     /**
+     * @return {String} Path of this place, starting by root or home.
+     */
+    get path() {
+        if (this === Place.root || this.parent === null)
+            return "/";
+        else if (this === Place.home)
+            return "~/";
+        else
+            return this.parent.path+this.name+"/";
+    }
+
+    /**
      * @return {String} Name
      */
     get name() {
