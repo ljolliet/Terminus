@@ -10,7 +10,8 @@ const COMMAND_TYPE = {
     MV: "mv",
     TREE: "tree",
     GREP: "grep",
-    JOBS : "jobs"
+    JOBS : "jobs",
+    CLEAR : "clear"
 };
 
 class Checker {
@@ -155,6 +156,9 @@ class Checker {
                 break;
             case "jobs":
                 this._checkCommand(this._command, COMMAND_TYPE.JOBS, [0]);
+                break;
+            case "clear":
+                this._checkCommand(this._command, COMMAND_TYPE.CLEAR, [0]);
                 break;
 
             default:

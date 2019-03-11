@@ -202,5 +202,5 @@ function printMessage(message) {
 
     // For browsers that does not auto scroll to the bottom of the page
     // To test
-    document.getElementById("console").scrollTo(0, document.body.scrollHeight);
+    //document.getElementById("console").scrollTo(0, document.body.scrollHeight);
 }

@@ -12,13 +12,13 @@ class Main {
         quest.addCommandRewards(COMMAND_TYPE.MV);
 
 
-        let quest2 = new Quest("secondQuest");
+        let quest2 = new Quest("quete2");
 
-        quest2.initialText = "Maintenant va en A21, au 1er Etage";
+        quest2.initialText = "Maintenant va au 1er Etage";
         quest2.endText = "Bien joué !";
-        quest2.addCommandRequired("cd 201");
+        quest2.addCommandRequired("cd Etage_1");
         quest2.addCommandRewards(COMMAND_TYPE.TREE);
-        quest2.addQuestsRequired(quest);
+        //quest2.addQuestsRequired(quest);
 
         /*let ioJson =  new IOjson("World.json");
 
@@ -55,6 +55,7 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.TREE);
             this.user.addCommand(COMMAND_TYPE.GREP);
             this.user.addCommand(COMMAND_TYPE.JOBS);
+            this.user.addCommand(COMMAND_TYPE.CLEAR);
         }
         console.log(this.user); //here current location is bethanie (home)
     }
@@ -127,6 +128,10 @@ class Main {
                 break;
             case COMMAND_TYPE.JOBS:
                 if (isValid) Main.jobs();
+                else printMessage(errorMessage);
+                break;
+            case COMMAND_TYPE.CLEAR:
+                if (isValid) Main.clear();
                 else printMessage(errorMessage);
                 break;
         }
@@ -210,7 +215,7 @@ class Main {
      */
     static launch(questName) {
         let info;
-        if ((info = this.user.launch(questName)) === INFO.UNKNOWN || info ===INFO.LOCKED) // if quest doesn't exist
+        if ((info = this.user.launch(questName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
             printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
         else if (info === INFO.UNAVAILABLE) {
             printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
@@ -239,6 +244,13 @@ class Main {
      */
     static tree() {
         printMessage(this.user.currentLocation.description("|--", "___", 0));
+    }
+
+    /**
+     * Here goes the code when the user has typed clear.
+     */
+    static clear() {
+        clear();
     }
 
     /**
