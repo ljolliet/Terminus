@@ -352,7 +352,7 @@ QUnit.test("checker.js (depends on command.js)", function (assert) {
     // the first tests does not have any arguments,
     // then 1 argument, then 2, and so on
 
-    let user = new User("test", [], null, []);
+    let user = new User("test", [], new Place("inventaire"), []);
 
     // Check that the command is not valid if the user does not have access to the command
     let checker = new Checker(new Command([
