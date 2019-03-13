@@ -11,7 +11,8 @@ const COMMAND_TYPE = {
     TREE: "tree",
     GREP: "grep",
     JOBS : "jobs",
-    CLEAR : "clear"
+    CLEAR : "clear",
+    MAN : "man"
 };
 
 class Checker {
@@ -154,11 +155,17 @@ class Checker {
             case "grep":
                 this._checkCommand(this._command, COMMAND_TYPE.GREP, [1]);
                 break;
+
             case "jobs":
                 this._checkCommand(this._command, COMMAND_TYPE.JOBS, [0]);
                 break;
+
             case "clear":
                 this._checkCommand(this._command, COMMAND_TYPE.CLEAR, [0]);
+                break;
+
+            case "man":
+                this._checkCommand(this._command, COMMAND_TYPE.MAN, [1]);
                 break;
 
             default:

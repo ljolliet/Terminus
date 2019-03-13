@@ -22,8 +22,7 @@ class User {
         this._currentLocation = Place.home; //null if not initialized
         this._currentQuest = null;
         this._inventory = inventory;
-        if (this.trophies.length !== 0)
-            this.initTrophies();
+        this.initTrophies();
         if (this.inventory !== null)
             for (let i of items)
                 this.inventory.addEntity(i);
@@ -227,6 +226,8 @@ class User {
      * @return {Quest} The quest if finished, null otherwise.
      */
     checkQuest(command) {
+        let d = new Date();
+
         if (this.currentQuest.commandRequired[0].toString() === command.toString()) {
             this.currentQuest.commandRequired.shift(); // remove first element
             console.log("Quest command recognise");
@@ -235,7 +236,7 @@ class User {
             this.currentQuest.status = STATUS.DONE;
             for (let cr of this.currentQuest.commandRewards)
                 this.addCommand(cr);
-            this.addTrophy(this.currentQuest.name);
+            this.addTrophy(this.currentQuest.name +"  "+ d.toLocaleString());
             let copy = this.currentQuest;
             this.currentQuest = null;
             return copy;

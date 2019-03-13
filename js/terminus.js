@@ -1,6 +1,3 @@
-(function() {
-
-})();
 
 let blinkingCursor;
 let consoleFocused = false;

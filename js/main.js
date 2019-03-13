@@ -39,6 +39,7 @@ class Main {
         A21.addQuest(quest2);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
+        bethanie.addEntity(new Item(".caché","contenue caché"));
         let p = new Place("Etage_1");
         let p2 = new Place("201");
         A21.addPlace(p);
@@ -49,7 +50,7 @@ class Main {
 
         let inventory = new Place("inventaire");
         bethanie.addPlace(inventory); // usually inventory is in home Place
-        this.user = new User(login, [new Item("carte", "donnees")], inventory, ["try.sh"]);
+        this.user = new User(login, [new Item("carte", "donnees")], inventory, []);
         if (login === "admin") {
             this.user.addCommand(COMMAND_TYPE.MV);
             this.user.addCommand(COMMAND_TYPE.TREE);
@@ -134,6 +135,10 @@ class Main {
                 if (isValid) Main.clear();
                 else printMessage(errorMessage);
                 break;
+            case COMMAND_TYPE.MAN:
+                if (isValid) Main.man(parsedCommand.args[1]);
+                else printMessage(errorMessage);
+                break;
         }
 
         Main.questAdvancement(command);
@@ -196,16 +201,18 @@ class Main {
         if (this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
-            if (p instanceof Place && p.containsQuestTodo())
-                m += "!";
-            if (p instanceof Quest) {
-                for (let dependency of p.questsRequired)    // to check if the quest is available (all dependencies done)
-                    if (dependency.status !== STATUS.DONE)
-                        questAvailable = false;
-                if (questAvailable)
+            if (!p.name.startsWith(".")) {
+                if (p instanceof Place && p.containsQuestTodo())
+                    m += "!";
+                if (p instanceof Quest) {
+                    for (let dependency of p.questsRequired)    // to check if the quest is available (all dependencies done)
+                        if (dependency.status !== STATUS.DONE)
+                            questAvailable = false;
+                    if (questAvailable)
+                        m += p.name + " ";
+                } else
                     m += p.name + " ";
-            } else
-                m += p.name + " ";
+            }
         }
         printMessage(m);
     }
@@ -295,5 +302,12 @@ class Main {
                     printMessage("Commande(s) : " + quest.commandRewards + " dévérouillée(s)")
             }
         }
+    }
+
+    /**
+     * @param command
+     */
+    static man(command) {
+       //TODO
     }
 }
