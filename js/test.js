@@ -290,6 +290,13 @@ QUnit.test("command.js", function (assert) {
         ["cmd3", "arg1", "arg2"]
     ])).isPipe, true, "test isPipe with complex args");
 
+    // formatOptions test
+    assert.deepEqual(Command.formatOptions("-a-b-c"), ["a", "b", "c"], "Basic test #1");
+    assert.deepEqual(Command.formatOptions("-blabla"), ["blabla"], "Basic test #2");
+    assert.deepEqual(Command.formatOptions(""), [], "Basic test #3");
+    assert.deepEqual(Command.formatOptions("abc"), ["abc"], "Basic test #4");
+    assert.deepEqual(Command.formatOptions("-abc-def"), ["abc", "def"], "Basic test #5");
+
 });
 
 /**
@@ -409,15 +416,28 @@ QUnit.test("checker.js (depends on command.js)", function (assert) {
     checker = new Checker(new Command([
         ["ls"]
     ]), user);
-    assert.equal(checker.isCommandValid(), true, "The ls command does not expect any argument");
+    assert.equal(checker.isCommandValid(), true, "The ls command does expect 0 or 1 argument");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of ls is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LS, "The ls type is LS");
     checker = new Checker(new Command([
-        ["ls", "arg"]
+        ["ls", "-a"]
     ]), user);
-    assert.equal(checker.isCommandValid(), false, "The ls command does not expect any argument");
-    assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of ls is not empty");
+    assert.equal(checker.isCommandValid(), true, "The ls command does expect 0 or 1 argument");
+    assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of ls is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LS, "The ls type is LS");
+    checker = new Checker(new Command([
+        ["ls", "-l", "-a"]
+    ]), user);
+    assert.equal(checker.isCommandValid(), true, "The ls command does expect 0 or 1 argument, and all the options count as 1 argument");
+    assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of ls is not empty");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.LS, "The ls type is LS");
+    checker = new Checker(new Command([
+        ["ls", "-l", "-a", "c"]
+    ]), user);
+    assert.equal(checker.isCommandValid(), false, "The ls command does expect 0 or 1 argument, and all the options count as 1 argument, but c is not an option");
+    assert.notEqual(checker.getErrorMessage(), "", "The error message of a correct use of ls is not empty");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.LS, "The ls type is LS");
+
 
     // Test tree command
     checker = new Checker(new Command([

@@ -50,4 +50,20 @@ class Command {
             return new Command([this._args[index]]);
         }
     }
+
+    /**
+     * It formats options into an array.
+     * Input:  -abc
+     * Output: ["a", "b", "c"]
+     * @param {string} unformattedOptions something like "-a-b-c"
+     * @returns {[string]} something like ["a", "b", "c"]
+     */
+    static formatOptions(unformattedOptions){
+        let formattedOptions = [];
+        let splittedOptions = unformattedOptions.split("-");
+        for(let i = 0; i < splittedOptions.length; i ++){
+            if(splittedOptions[i] !== "") formattedOptions.push(splittedOptions[i]);
+        }
+        return formattedOptions;
+    }
 }

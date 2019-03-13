@@ -78,11 +78,30 @@ class Checker {
      * @param command {Command} command to check,
      * @param type {COMMAND_TYPE} type of the command to check,
      * @param expectedArgc {[int]} expected number of arguments, (it is an array because it could accept 0 as well as 1)
+     * @param expectedOptions {[string]} expected options
      * @param errorMessage {string} error message if argc != expectedArgc (if not set, the default message will be set)
      * @private
      */
-    _checkCommand(command, type, expectedArgc, errorMessage = "") {
-        console.log(command.args[0], [expectedArgc, command.args.length]);
+    _checkCommand(command, type, expectedArgc, expectedOptions = [], errorMessage = "") {
+
+        // First we need to put all the options into only one argument
+        // if we have ls -a -b -c, we will then have ls -abc
+        let options = "";
+        let args = command.args.slice();
+        let delCount = 0;
+        for(let i = 0; i < args.length; i ++){
+            if(args[i].startsWith("-")){
+                // We need to check if the option is expected
+                if((new Set(expectedOptions)).has(args[i])){
+                    //if(delCount === 0) options = "-";
+                    options += args[i];
+                    command.args.splice(i - delCount, 1);
+                    delCount ++;
+                }
+            }
+        }
+        if(delCount !== 0) command.args.push(options);
+
         if (!(new Set(this._user.commandsAuthorized).has(command.args[0]))) {
             this._errorMessage = "Vous n'avez pas accès à cette commande.";
             this._isValid = false;
@@ -133,7 +152,7 @@ class Checker {
                 break;
 
             case "cd":
-                this._checkCommand(this._command, COMMAND_TYPE.CD, [0, 1], "Mauvais usage de cd. 0 ou 1 argument attendu.");
+                this._checkCommand(this._command, COMMAND_TYPE.CD, [0, 1], [], "Mauvais usage de cd. 0 ou 1 argument attendu.");
                 break;
 
             case "cat":
@@ -141,11 +160,11 @@ class Checker {
                 break;
 
             case "ls":
-                this._checkCommand(this._command, COMMAND_TYPE.LS, [0]);
+                this._checkCommand(this._command, COMMAND_TYPE.LS, [0, 1], ["-a", "-l"], "Mauvais usage de ls. 0 ou 1 argument attendu.");
                 break;
 
             case "mv":
-                this._checkCommand(this._command, COMMAND_TYPE.MV, [2], "Mauvais usage de mv. 2 arguments attendus: source et destination.");
+                this._checkCommand(this._command, COMMAND_TYPE.MV, [2], [],  "Mauvais usage de mv. 2 arguments attendus: source et destination.");
                 break;
 
             case "tree":

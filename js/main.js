@@ -104,7 +104,9 @@ class Main {
                 break;
 
             case COMMAND_TYPE.LS:
-                if (isValid) Main.ls();
+                if (isValid)
+                    if(parsedCommand.args.length === 0) Main.ls([]);
+                    else Main.ls(Command.formatOptions(parsedCommand.args[1]));
                 else printMessage(errorMessage);
                 break;
 
@@ -124,17 +126,20 @@ class Main {
                 break;
 
             case COMMAND_TYPE.GREP:
-                if (isValid) Main.grep(parsedCommand.args[1]);
+                if (isValid) Main.grep(parsedCommand.args[1], "");
                 else printMessage(errorMessage);
                 break;
+
             case COMMAND_TYPE.JOBS:
                 if (isValid) Main.jobs();
                 else printMessage(errorMessage);
                 break;
+
             case COMMAND_TYPE.CLEAR:
                 if (isValid) Main.clear();
                 else printMessage(errorMessage);
                 break;
+
             case COMMAND_TYPE.MAN:
                 if (isValid) Main.man(parsedCommand.args[1]);
                 else printMessage(errorMessage);
@@ -194,8 +199,9 @@ class Main {
 
     /**
      * Here goes the code when the user has typed ls.
+     * @param options (formatted this way : ["option1", "option2])
      */
-    static ls() {
+    static ls(options) {
         let m = "";
         let questAvailable = true;
         if (this.user.currentLocation !== Place.root)
