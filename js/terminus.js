@@ -97,7 +97,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     cursor.innerHTML = '&nbsp;';
                     inputTextSecond.innerHTML = "";
 
-                    document.getElementById("chevron").innerHTML = pseudo + "@terminus: $&nbsp;";
+                    document.getElementById("chevron").innerHTML = Main.user.login + "@terminus:" + Main.user.getPath() + " $&nbsp;";
                     firstConnection = false;
                 }
             }
@@ -122,6 +122,9 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 inputTextSecond.innerHTML = "";
 
                 Main.executeCommand(msg.replace(document.getElementById("chevron").innerHTML, ''));
+
+                // Change the path that is print before the command input
+                document.getElementById("chevron").innerHTML = Main.user.login + "@terminus:" + Main.user.getPath() + " $&nbsp;";
             }
         }
 
