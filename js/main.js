@@ -78,6 +78,8 @@ class Main {
         let isValid = commandChecker.isCommandValid();
         let errorMessage = commandChecker.getErrorMessage();
 
+        console.log(parsedCommand.args);
+
         switch (commandChecker.getCommandType()) {
             case COMMAND_TYPE.UNKNOWN:
                 printMessage(errorMessage);
@@ -105,7 +107,7 @@ class Main {
 
             case COMMAND_TYPE.LS:
                 if (isValid)
-                    if(parsedCommand.args.length === 0) Main.ls([]);
+                    if(parsedCommand.args.length === 1) Main.ls([]);
                     else Main.ls(Command.formatOptions(parsedCommand.args[1]));
                 else printMessage(errorMessage);
                 break;

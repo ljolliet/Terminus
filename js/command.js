@@ -59,6 +59,8 @@ class Command {
      * @returns {[string]} something like ["a", "b", "c"]
      */
     static formatOptions(unformattedOptions){
+        if(unformattedOptions === "" || unformattedOptions == null) return [];
+
         let formattedOptions = [];
         let splittedOptions = unformattedOptions.split("-");
         for(let i = 0; i < splittedOptions.length; i ++){
