@@ -289,12 +289,24 @@ QUnit.test("command.js", function (assert) {
         ["cmd3", "arg1", "arg2"]
     ])).isPipe, true, "test isPipe with complex args");
 
-    // formatOptions test
+    // formatOptions tests
     assert.deepEqual(Command.formatOptions("-abc"), ["a", "b", "c"], "Basic test #1");
     assert.deepEqual(Command.formatOptions(""), [], "Basic test #2");
     assert.deepEqual(Command.formatOptions("abc"), ["a", "b", "c"], "Basic test #3");
     assert.deepEqual(Command.formatOptions("-abc -def"), ["a", "b", "c", "d", "e", "f"], "Basic test #4");
 
+    // toString tests
+    assert.equal((new Command([
+        ["ls"]
+    ])).toString(), "ls", "test toString without args");
+    assert.equal((new Command([
+        ["ls", "-a"]
+    ])).toString(), "ls -a", "test toString with simple arg");
+    assert.equal((new Command([
+        ["cmd1", "arg1"],
+        ["cmd2"],
+        ["cmd3", "arg1", "arg2"]
+    ])).toString(), "cmd1 arg1 | cmd2 | cmd3 arg1 arg2", "test toString with pipe");
 });
 
 /**

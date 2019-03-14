@@ -148,7 +148,7 @@ class Main {
                 break;
         }
 
-        Main.questAdvancement(command);
+        Main.questAdvancement((new Parser(command)).getParsedCommand().toString());
         console.log(this.user.getPath());
     }
 

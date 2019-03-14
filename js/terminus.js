@@ -106,7 +106,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             // Else, normal use of the console engine
             else {
                 let msg = "";
-
+              
                 if (size1 > 0)
                     msg += inputTextFirst.innerText;
 
