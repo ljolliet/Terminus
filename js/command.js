@@ -85,4 +85,30 @@ class Command {
         }
         return formattedOptions;
     }
+
+    /**
+     * It returns the closest command according to its index :
+     * 0: the command that is the closest
+     * 1: the second command that is the closest
+     * 2: the third command that is the closest,
+     * and so on.
+     *
+     * It uses modulo, so you don't have to care if the index is out of bounds.
+     *
+     * @param prefix {string} command prefix,
+     * @param index {int} the closest command (its place),
+     * @return {string} the index-th closest command.
+     */
+    static getClosestCommand(prefix, index){
+        let matches = [];
+
+        for (let key in COMMAND_TYPE) {
+            if (COMMAND_TYPE.hasOwnProperty(key)) {
+                console.log(key + " -> " + COMMAND_TYPE[key]);
+                if(COMMAND_TYPE[key].startsWith(prefix))
+                    matches.push(COMMAND_TYPE[key]);
+            }
+        }
+        return matches.length === 0 ? "" : matches[index % matches.length];
+    }
 }
