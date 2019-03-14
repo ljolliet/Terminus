@@ -2,6 +2,8 @@
 let blinkingCursor;
 let consoleFocused = false;
 let firstConnection = true;
+let commandSave = [];
+let saveIndex = -1;
 
 focusConsole();
 
@@ -104,6 +106,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             // Else, normal use of the console engine
             else {
                 let msg = document.getElementById('chevron').innerHTML;
+                commandSave.push(inputTextFirst.innerText);
 
                 if (size1 > 0)
                     msg += inputTextFirst.innerText;
@@ -137,7 +140,12 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         }
 
         else if (code === 38) { // ARROW UP
-            // TODO
+            if(commandSave.length > 0)
+            {
+                if(saveIndex<commandSave.length-1)
+                    saveIndex++;
+                console.log(commandSave[saveIndex]);
+            }
         }
 
         else if (code === 39) { // ARROW RIGHT
@@ -154,7 +162,15 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         }
 
         else if (code === 40) { // ARROW DOWN
-            // TODO
+            if(commandSave.length > 0 && saveIndex>=0)
+            {
+                if(saveIndex>0) {
+                    saveIndex--;
+                    console.log(commandSave[saveIndex]);
+                }
+                else
+                    console.log("");
+            }
         }
 
         else if (code === 32) { // SPACE
