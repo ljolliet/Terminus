@@ -20,6 +20,21 @@ class Command {
     }
 
     /**
+     * @return {string} it returns the original command formatted correctly.
+     */
+    toString(){
+        let cmd = "";
+        for(let i = 0; i < this._args.length; i ++){
+            for(let j = 0; j < this._args[i].length; j ++){
+                if(j === this._args[i].length - 1) cmd += this._args[i][j];
+                else cmd += this._args[i][j] + " ";
+            }
+            if(i !== this._args.length - 1) cmd += " | ";
+        }
+        return cmd;
+    }
+
+    /**
      * @returns {boolean} true whenever the command is a pipe command.
      */
     get isPipe() {

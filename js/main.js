@@ -16,7 +16,7 @@ class Main {
 
         quest2.initialText = "regarder autour de toi ...";
         quest2.endText = "Bien joué !";
-        quest2.addCommandRequired("ls");
+        quest2.addCommandRequired("cd 201");
         quest2.addCommandRewards(COMMAND_TYPE.TREE);
         //quest2.addQuestsRequired(quest);
 
@@ -148,7 +148,7 @@ class Main {
                 break;
         }
 
-        Main.questAdvancement(command);
+        Main.questAdvancement((new Parser(command)).getParsedCommand().toString());
         console.log(this.user.getPath());
     }
 

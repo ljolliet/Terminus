@@ -229,7 +229,7 @@ class User {
     checkQuest(command) {
         let d = new Date();
 
-        if (this.currentQuest.commandRequired[0].toString() === command.toString()) {
+        if (this.currentQuest.commandRequired[0] === command) {
             this.currentQuest.commandRequired.shift(); // remove first element
             console.log("Quest command recognise");
         }
