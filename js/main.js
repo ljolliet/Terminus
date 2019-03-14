@@ -16,9 +16,9 @@ class Main {
 
         quest2.initialText = "regarder autour de toi ...";
         quest2.endText = "Bien joué !";
-        quest2.addCommandRequired("cd 201");
+        quest2.addCommandRequired("ls");
         quest2.addCommandRewards(COMMAND_TYPE.TREE);
-        //quest2.addQuestsRequired(quest);
+        quest2.addQuestsRequired(quest);
 
         /*let ioJson =  new IOjson("World.json");
 
