@@ -262,7 +262,7 @@ class Main {
      * Here goes the code when the user has typed tree.
      */
     static tree() {
-        printMessage(this.user.currentLocation.description("|--", "___", 0));
+        printMessage(this.user.currentLocation.description("|--", NBSPACE + NBSPACE + NBSPACE, 0));
     }
 
     /**

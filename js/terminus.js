@@ -1,4 +1,6 @@
 
+const NBSPACE = "&nbsp;";
+
 let blinkingCursor;
 let consoleFocused = false;
 let firstConnection = true;
@@ -12,7 +14,7 @@ focusConsole();
  * The cursor begin to blink
  * and the textarea is now focused
  */
-document.getElementById("console").addEventListener("click", function() {
+document.addEventListener("click", function() {
     focusConsole();
 });
 
@@ -48,8 +50,6 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
         let code  = event.keyCode;
         let input = event.key;
-
-        // console.log(code, input);
 
         let size1 = inputTextFirst.innerText.length;
         let size2 = inputTextSecond.innerText.length;
@@ -96,17 +96,16 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     printMessage("Bienvenue " + pseudo + " !");
 
                     inputTextFirst.innerHTML = "";
-                    cursor.innerHTML = '&nbsp;';
+                    cursor.innerHTML = NBSPACE;
                     inputTextSecond.innerHTML = "";
 
-                    document.getElementById("chevron").innerHTML = Main.user.login + "@terminus:" + Main.user.getPath() + " $&nbsp;";
+                    document.getElementById("chevron").innerHTML = getConsolePath();
                     firstConnection = false;
                 }
             }
             // Else, normal use of the console engine
             else {
-                let msg = document.getElementById('chevron').innerHTML;
-                commandSave.push(inputTextFirst.innerText);
+                let msg = "";
 
                 if (size1 > 0)
                     msg += inputTextFirst.innerText;
@@ -118,16 +117,17 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
 
-                printMessage(msg);
+                // Print the message with the path before
+                printMessage(msg, true);
 
                 inputTextFirst.innerHTML = "";
-                cursor.innerHTML = '&nbsp;';
+                cursor.innerHTML = NBSPACE;
                 inputTextSecond.innerHTML = "";
 
-                Main.executeCommand(msg.replace(document.getElementById("chevron").innerHTML, ''));
+                Main.executeCommand(msg);
 
                 // Change the path that is print before the command input
-                document.getElementById("chevron").innerHTML = Main.user.login + "@terminus:" + Main.user.getPath() + " $&nbsp;";
+                document.getElementById("chevron").innerHTML = getConsolePath();
             }
         }
 
@@ -155,9 +155,9 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
             }
             else if (size2 === 0) {
-                if (cursor.innerHTML !== '&nbsp;')
+                if (cursor.innerHTML !== NBSPACE)
                     inputTextFirst.innerHTML += cursor.innerHTML;
-                cursor.innerHTML = '&nbsp;';
+                cursor.innerHTML = NBSPACE;
             }
         }
 
@@ -175,7 +175,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
         else if (code === 32) { // SPACE
             // Transform the normal space in an unbreakable space
-            inputTextFirst.innerHTML += '&nbsp;';
+            inputTextFirst.innerHTML += NBSPACE;
         }
 
         else if (input.length === 1) // letter, digit and others
@@ -184,32 +184,47 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 });
 
 /**
- * Clear the console content
+ * Return the path message (with style) to print to the console.
+ * @returns {string} Path string.
+ */
+function getConsolePath() {
+    return '<span style="color: #79e234;">' + Main.user.login + '@terminus:</span>' +
+        '<span style="color: #709ede;">' + Main.user.getPath() + '</span>' + NBSPACE + '$' + NBSPACE;
+}
+
+/**
+ * Clear the console content.
  */
 function clear() {
     document.getElementById("console-output").innerHTML = ''
 }
 
 /**
- * Reload the page
+ * Reload the page.
  */
 function reload() {
     location.reload();
 }
 
 /**
- * Print a message on the screen
+ * Print a message on the screen.
+ * @param message Message to print.
+ * @param path Optional. If true, the function will print the path before the message.
  */
-function printMessage(message) {
-    message = message.replace('&nbsp;', ' ');
+function printMessage(message, path = false) {
+    //message = message.replace('&nbsp;', ' ');
     let msgTab = message.split(/\n/gm);
 
     let childDiv = document.createElement("div");
     childDiv.classList.add("message");
 
+    if (path)
+        childDiv.innerHTML = document.getElementById('chevron').innerHTML;
+
     // Add br elements when message contains \n
     for (let i = 0; i < msgTab.length - 1; i++) {
-        childDiv.appendChild(document.createTextNode(msgTab[i]));
+        //childDiv.appendChild(document.createTextNode(msgTab[i]));
+        childDiv.innerHTML += msgTab[i];
         childDiv.appendChild(document.createElement("br"));
     }
     childDiv.appendChild(document.createTextNode(msgTab[msgTab.length - 1]));
@@ -219,4 +234,12 @@ function printMessage(message) {
     // For browsers that does not auto scroll to the bottom of the page
     // To test
     //document.getElementById("console").scrollTo(0, document.body.scrollHeight);
+}
+
+function print(message, color) {
+    let childSpan = document.createElement("span");
+    childSpan.style.color = color;
+    childSpan.innerText = message;
+
+    document.getElementById("console-output").lastElementChild.appendChild(childSpan);
 }
