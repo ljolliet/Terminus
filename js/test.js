@@ -133,8 +133,7 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(quest.status, STATUS.DONE, "Quest finished");
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
-    assert.equal(user.trophies.includes("quest.sh"), true, "New trophy rewards"); // + .sh
-    assert.equal(user.launch("quest.sh"), INFO.FINISHED, "Ca't do the same quest again");
+    assert.equal(user.launch("quest.sh"), INFO.FINISHED, "Can't do the same quest again");
     assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
 });
 
@@ -359,7 +358,7 @@ QUnit.test("checker.js (depends on command.js)", function (assert) {
     // the first tests does not have any arguments,
     // then 1 argument, then 2, and so on
 
-    let user = new User("test", [], new Place("inventaire"), []);
+    let user = new User("test", [], null, []);
 
     // Check that the command is not valid if the user does not have access to the command
     let checker = new Checker(new Command([

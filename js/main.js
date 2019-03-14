@@ -39,7 +39,7 @@ class Main {
         A21.addQuest(quest2);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
-        bethanie.addEntity(new Item(".caché","contenue caché"));
+        bethanie.addEntity(new Item(".caché", "contenue caché"));
         let p = new Place("Etage_1");
         let p2 = new Place("201");
         A21.addPlace(p);
@@ -107,7 +107,7 @@ class Main {
 
             case COMMAND_TYPE.LS:
                 if (isValid)
-                    if(parsedCommand.args.length === 1) Main.ls([]);
+                    if (parsedCommand.args.length === 1) Main.ls([]);
                     else Main.ls(Command.formatOptions(parsedCommand.args[1]));
                 else printMessage(errorMessage);
                 break;
@@ -201,15 +201,18 @@ class Main {
 
     /**
      * Here goes the code when the user has typed ls.
-     * @param options (formatted this way : ["option1", "option2])
+     * @param {String[]}options (formatted this way : ["option1", "option2])
      */
     static ls(options) {
         let m = "";
         let questAvailable = true;
+        console.log(options);
+
         if (this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
-            if (!p.name.startsWith(".")) {
+            if (!p.name.startsWith(".") ||  options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
+                 console.log("here");
                 if (p instanceof Place && p.containsQuestTodo())
                     m += "!";
                 if (p instanceof Quest) {
@@ -316,6 +319,6 @@ class Main {
      * @param command
      */
     static man(command) {
-       //TODO
+        //TODO
     }
 }

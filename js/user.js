@@ -22,10 +22,11 @@ class User {
         this._currentLocation = Place.home; //null if not initialized
         this._currentQuest = null;
         this._inventory = inventory;
-        this.initTrophies();
-        if (this.inventory !== null)
+        if (this.inventory !== null) {
+            this.initTrophies();
             for (let i of items)
                 this.inventory.addEntity(i);
+        }
     }
 
     /**
@@ -117,7 +118,7 @@ class User {
     /**
      * @return {String} The path of the current location.
      */
-    getPath(){
+    getPath() {
         return this.currentLocation.path;
     }
 
@@ -236,7 +237,7 @@ class User {
             this.currentQuest.status = STATUS.DONE;
             for (let cr of this.currentQuest.commandRewards)
                 this.addCommand(cr);
-            this.addTrophy(this.currentQuest.name +"  "+ d.toLocaleString());
+            this.addTrophy(this.currentQuest.name + "  " + d.toLocaleString());
             let copy = this.currentQuest;
             this.currentQuest = null;
             return copy;
