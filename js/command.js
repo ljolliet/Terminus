@@ -55,16 +55,18 @@ class Command {
      * It formats options into an array.
      * Input:  -abc
      * Output: ["a", "b", "c"]
-     * @param {string} unformattedOptions something like "-a-b-c"
+     * @param {string} unformattedOptions something like "-abc"
      * @returns {[string]} something like ["a", "b", "c"]
      */
     static formatOptions(unformattedOptions){
         if(unformattedOptions === "" || unformattedOptions == null) return [];
 
+        unformattedOptions = unformattedOptions.replaceAll("-", "");
+        unformattedOptions = unformattedOptions.replaceAll(" ", "");
+
         let formattedOptions = [];
-        let splittedOptions = unformattedOptions.split("-");
-        for(let i = 0; i < splittedOptions.length; i ++){
-            if(splittedOptions[i] !== "") formattedOptions.push(splittedOptions[i]);
+        for(let i = 0; i < unformattedOptions.length; i ++){
+            formattedOptions.push(unformattedOptions[i]);
         }
         return formattedOptions;
     }

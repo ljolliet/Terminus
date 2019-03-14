@@ -290,11 +290,10 @@ QUnit.test("command.js", function (assert) {
     ])).isPipe, true, "test isPipe with complex args");
 
     // formatOptions test
-    assert.deepEqual(Command.formatOptions("-a-b-c"), ["a", "b", "c"], "Basic test #1");
-    assert.deepEqual(Command.formatOptions("-blabla"), ["blabla"], "Basic test #2");
-    assert.deepEqual(Command.formatOptions(""), [], "Basic test #3");
-    assert.deepEqual(Command.formatOptions("abc"), ["abc"], "Basic test #4");
-    assert.deepEqual(Command.formatOptions("-abc-def"), ["abc", "def"], "Basic test #5");
+    assert.deepEqual(Command.formatOptions("-abc"), ["a", "b", "c"], "Basic test #1");
+    assert.deepEqual(Command.formatOptions(""), [], "Basic test #2");
+    assert.deepEqual(Command.formatOptions("abc"), ["a", "b", "c"], "Basic test #3");
+    assert.deepEqual(Command.formatOptions("-abc -def"), ["a", "b", "c", "d", "e", "f"], "Basic test #4");
 
 });
 
