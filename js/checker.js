@@ -1,6 +1,6 @@
 // Command list
 const COMMAND_TYPE = {
-    UNKNOWN: -1,
+    UNKNOWN: "",
     EXIT: "exit",
     HELP: "help",
     CD: "cd",
