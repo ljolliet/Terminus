@@ -5,6 +5,7 @@ let blinkingCursor;
 let consoleFocused = false;
 let firstConnection = true;
 let commandSave = [];
+let tmpCommand = '';
 let saveIndex = -1;
 
 focusConsole();
@@ -84,7 +85,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 pseudo = pseudo.substring(0, pseudo.length - 1); // Remove the last char (&nbsp;)
 
-                // If the pseudo is empty, ask for it again
+                // If the pseudo is empty or contains space(s), ask for it again
                 if (pseudo.length === 0) {
                     printMessage("Veuillez entrer un pseudo :");
                 }
@@ -115,6 +116,14 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 if (size2 > 0)
                     msg += inputTextSecond.innerText;
 
+                // Add to command history (at the beginning of the table)
+                // Only if not empty command (1 corresponds to the space char)
+                if (msg.length > 1)
+                    commandSave.unshift(msg);
+
+                // Reset the save index
+                saveIndex = -1;
+
                 msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
 
                 // Print the message with the path before
@@ -140,11 +149,32 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         }
 
         else if (code === 38) { // ARROW UP
-            if(commandSave.length > 0)
-            {
-                if(saveIndex<commandSave.length-1)
+
+            // Save the current line if index equals -1
+            if (saveIndex === -1) {
+                tmpCommand = "";
+
+                if (size1 > 0)
+                    tmpCommand += inputTextFirst.innerText;
+
+                tmpCommand += cursor.innerText;
+
+                if (size2 > 0)
+                    tmpCommand += inputTextSecond.innerText;
+
+                console.log(tmpCommand);
+            }
+
+            if(commandSave.length > 0) {
+
+                if(saveIndex < commandSave.length - 1)
                     saveIndex++;
-                console.log(commandSave[saveIndex]);
+
+                let size = commandSave[saveIndex].length;
+
+                inputTextFirst.innerHTML = commandSave[saveIndex].substring(0, size - 1); // Stop before de last char (&nbsp;)
+                cursor.innerHTML = NBSPACE;
+                inputTextSecond.innerHTML = "";
             }
         }
 
@@ -162,14 +192,23 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         }
 
         else if (code === 40) { // ARROW DOWN
-            if(commandSave.length > 0 && saveIndex>=0)
-            {
-                if(saveIndex>0) {
+            if(commandSave.length > 0 && saveIndex >= 0) {
+                if(saveIndex > 0) {
                     saveIndex--;
-                    console.log(commandSave[saveIndex]);
+
+                    let size = commandSave[saveIndex].length;
+
+                    inputTextFirst.innerHTML = commandSave[saveIndex].substring(0, size - 1); // Stop before de last char (&nbsp;)
+                    cursor.innerHTML = NBSPACE;
+                    inputTextSecond.innerHTML = "";
                 }
-                else
-                    console.log("");
+                else if (saveIndex === 0) {
+                    saveIndex--;
+
+                    inputTextFirst.innerHTML = tmpCommand.substring(0, tmpCommand.length - 1); // Stop before de last char (&nbsp;)
+                    cursor.innerHTML = NBSPACE;
+                    inputTextSecond.innerHTML = "";
+                }
             }
         }
 
