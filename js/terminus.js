@@ -266,7 +266,7 @@ function printMessage(message, path = false) {
         childDiv.innerHTML += msgTab[i];
         childDiv.appendChild(document.createElement("br"));
     }
-    childDiv.appendChild(document.createTextNode(msgTab[msgTab.length - 1]));
+    childDiv.innerHTML += msgTab[msgTab.length - 1]; // Last line, without <br> after
 
     document.getElementById("console-output").appendChild(childDiv);
 
