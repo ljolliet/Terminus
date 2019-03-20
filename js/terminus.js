@@ -86,7 +86,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 pseudo = pseudo.substring(0, pseudo.length - 1); // Remove the last char (&nbsp;)
 
                 // If the pseudo is empty or contains space(s), ask for it again
-                if (pseudo.length === 0) {
+                if (pseudo.length === 0 || pseudo.indexOf(String.fromCharCode(160)) !== -1) {
                     printMessage("Veuillez entrer un pseudo :");
                 }
                 else {
@@ -96,13 +96,13 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     // Say hello to the user
                     printMessage("Bienvenue " + pseudo + " !");
 
-                    inputTextFirst.innerHTML = "";
-                    cursor.innerHTML = NBSPACE;
-                    inputTextSecond.innerHTML = "";
-
                     document.getElementById("chevron").innerHTML = getConsolePath();
                     firstConnection = false;
                 }
+
+                inputTextFirst.innerHTML = "";
+                cursor.innerHTML = NBSPACE;
+                inputTextSecond.innerHTML = "";
             }
             // Else, normal use of the console engine
             else {
