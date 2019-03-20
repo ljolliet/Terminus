@@ -1,3 +1,13 @@
+const COLOR = {
+    QUEST_DONE: "#79e234",
+    QUEST_IN_PROGRESS: "#ef9029",
+    QUEST_TODO: "#ef2929",
+    PLACE: "#709ede",
+    ITEM: "#ffffff",
+    PNJ: "#ba55d3",
+    SCRIPT: "#ffd700"
+};
+
 class Main {
 
     static init(login) {
@@ -205,27 +215,40 @@ class Main {
      */
     static ls(options) {
         let m = "";
-        let questAvailable = true;
+        let objects = [];
         console.log(options);
 
         if (this.user.currentLocation !== Place.root)
             m = ".. ";
         for (let p of this.user.currentLocation.all) {
-            if (!p.name.startsWith(".") ||  options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
-                 console.log("here");
-                if (p instanceof Place && p.containsQuestTodo())
-                    m += "!";
-                if (p instanceof Quest) {
-                    for (let dependency of p.questsRequired)    // to check if the quest is available (all dependencies done)
+            if (!p.name.startsWith(".") || options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
+                if (p instanceof Place) {
+                    if (p.containsQuestTodo())
+                        m += "!";
+                    objects.push([p.name, COLOR.PLACE]);
+                } else if (p instanceof Item) {
+                    objects.push([p.name, COLOR.ITEM]);
+                } else if (p instanceof PNJ) {
+                    objects.push([p.name, COLOR.PNJ]);
+                } else if (p instanceof Quest) {
+                    let questAvailable = true;
+                    for (let dependency of p.questsRequired) // to check if the quest is available (all dependencies done)
                         if (dependency.status !== STATUS.DONE)
                             questAvailable = false;
-                    if (questAvailable)
-                        m += p.name + " ";
-                } else
-                    m += p.name + " ";
+                    if (questAvailable){
+                        if(p.status === STATUS.TODO)
+                            objects.push([p.name, COLOR.QUEST_TODO]);
+                        if(p.status === STATUS.STARTED)
+                            objects.push([p.name, COLOR.QUEST_IN_PROGRESS]);
+                        if(p.status === STATUS.DONE)
+                            objects.push([p.name, COLOR.QUEST_DONE]);
+                    }
+                }
             }
         }
-        printMessage(m);
+        //printMessage(m);
+        console.log(objects);
+        colorMessage(objects);
     }
 
     /**
