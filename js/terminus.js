@@ -67,6 +67,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
         else if (code === 9) { // TAB
             // TODO
+            // use Main.user.currentLocation.getStartWith(<pattern>) in a loop
         }
 
         else if (code === 13) { // ENTER
