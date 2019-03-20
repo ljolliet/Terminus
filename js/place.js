@@ -60,7 +60,19 @@ class Place {
     }
 
     /**
-     * @returns {{Place,Quest}[]} The Quests that are started, with the Place corresponding.
+     * @param {String} pattern The pattern that should start name of the object.
+     * @return {Object[]} every Object that starts with the pattern, it ignores case.
+     */
+    getStartWith(pattern) {
+        let list = [];
+        for (let o of this.all)
+            if (o.name.startsWith(pattern.toLowerCase()) || o.name.startsWith(pattern.toUpperCase()))
+                list.push(o);
+        return list;
+    }
+
+    /**
+     * @return {{Place,Quest}[]} The Quests that are started, with the Place corresponding.
      */
     getQuestStarted() {
         let quests = [];
@@ -97,7 +109,7 @@ class Place {
         else if (this === Place.home)
             return "~/";
         else
-            return this.parent.path+this.name+"/";
+            return this.parent.path + this.name + "/";
     }
 
     /**

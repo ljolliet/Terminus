@@ -149,6 +149,34 @@ QUnit.test("Inventory & trophies", function (assert) {
     assert.equal(inventory.entities.length, 3, "trophy armory is in the items"); // 3 with armoire_a_trophee
 });
 
+QUnit.test("Startwith", function (assert) {
+    let user = new User("user", [], null, []);
+    let parent = new Place("parent");
+    let place = new Place("place");
+    let place2 = new Place("place2");
+    let quest = new Quest("quest");
+    let quest2 = new Quest("quest2");
+    let pnj = new PNJ("Quentin");
+    let item = new Item("paul");
+    parent.addPlace(place);
+    parent.addPlace(place2);
+    parent.addQuest(quest);
+    parent.addEntity(pnj);
+    parent.addEntity(item);
+    place.addQuest(quest2);
+    user.currentLocation = parent;
+    assert.equal(user.currentLocation.getStartWith("").includes(parent), false, "Does not contain itself");
+    assert.equal(user.currentLocation.getStartWith("pla").includes(place), true, "Works with a Place");
+    assert.equal(user.currentLocation.getStartWith("pla").includes(place2), true, "Works with another Place and the same pattern");
+    assert.equal(user.currentLocation.getStartWith("q").includes(quest), true, "Works with a Quest");
+    assert.equal(user.currentLocation.getStartWith("q").includes(quest2), false, "Does not work with something in a subplace");
+    assert.equal(user.currentLocation.getStartWith("Q").includes(pnj), true, "Works with a PNJ");
+    assert.equal(user.currentLocation.getStartWith("q").includes(pnj), true, "Ignore case");
+    assert.equal(user.currentLocation.getStartWith("p").includes(item), true, "Works with an Item");
+    assert.equal(user.currentLocation.getStartWith("p").includes(place), true, "Works with a short pattern");
+    assert.equal(user.currentLocation.getStartWith("place2").includes(place2), true, "Works with a long pattern");
+});
+
 
 /**
  * Tests about the item movement
