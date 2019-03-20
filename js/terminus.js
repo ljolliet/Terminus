@@ -275,10 +275,32 @@ function printMessage(message, path = false) {
     //document.getElementById("console").scrollTo(0, document.body.scrollHeight);
 }
 
-function print(message, color) {
-    let childSpan = document.createElement("span");
-    childSpan.style.color = color;
-    childSpan.innerText = message;
+/**
+ * Print a colored message on the console output.
+ * @param colorMsg [string, string]
+ *          - 0: string to write
+ *          - 1: string corresponding to the color
+ */
+function colorMessage(colorMsg) {
+    let childDiv = document.createElement("div");
+    childDiv.classList.add("message");
 
-    document.getElementById("console-output").lastElementChild.appendChild(childSpan);
+    for (let i = 0; i < colorMsg.length; i++) { // Foreach message
+        let msgTab = colorMsg[i][0].split(/\n/gm);
+
+        let childSpan = document.createElement("span");
+        childSpan.style.color = colorMsg[i][1];
+
+        // Add br elements when message contains \n
+        for (let i = 0; i < msgTab.length - 1; i++) {
+            //childDiv.appendChild(document.createTextNode(msgTab[i]));
+            childSpan.innerHTML += msgTab[i];
+            childSpan.appendChild(document.createElement("br"));
+        }
+        childSpan.innerHTML += msgTab[msgTab.length - 1]; // Last line, without <br> after
+
+        childDiv.appendChild(childSpan);
+    }
+
+    document.getElementById("console-output").appendChild(childDiv);
 }
