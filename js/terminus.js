@@ -4,9 +4,15 @@ const NBSPACE = "&nbsp;";
 let blinkingCursor;
 let consoleFocused = false;
 let firstConnection = true;
+
+// Up / down handling
 let commandSave = [];
 let tmpCommand = '';
 let saveIndex = -1;
+
+// tab handling
+let tabIndex = -1;
+let tabCommandSaved = "";
 
 focusConsole();
 
@@ -55,8 +61,10 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         let size1 = inputTextFirst.innerText.length;
         let size2 = inputTextSecond.innerText.length;
 
-        if (code === 8) // BACKSPACE
-            inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
+
+        if (code === 8) { // BACKSPACE
+            inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1 - 1);
+        }
 
         else if (code === 46) { // DELETE
             if (size2 > 0) {
@@ -66,8 +74,57 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         }
 
         else if (code === 9) { // TAB
-            // TODO
             // use Main.user.currentLocation.getStartWith(<pattern>) in a loop
+
+            let parsedCommand = (new Parser(tabCommandSaved)).getParsedCommand();
+
+            // This is to prevent overflow
+            if (tabIndex > 10000) tabIndex = 0;
+
+            // We need to count the number of TAB typed
+            tabIndex++;
+
+            // There is no extra argument
+            if (parsedCommand.args.length === 1) {
+
+                // The user has typed TAB, we need to retrieve the closest command, then we override the current input
+                let closestCommands = Command.getClosestCommands(tabCommandSaved);
+
+                // We can update the input
+                if (closestCommands.length > 0) inputTextFirst.innerText = closestCommands[tabIndex % closestCommands.length];
+            }
+            else { // there are extra arguments
+                // We get the last argument
+                let lastArgument = parsedCommand.args[parsedCommand.args.length-1];
+
+                // We get the objects that are the closest to the last argument
+                let objects = Main.user.currentLocation.getStartWith(lastArgument);
+
+                if(objects.length > 0){
+                    let objectNames = [];
+
+                    for(let object of objects){
+                        objectNames.push([object.name, COLOR.ITEM]);
+                    }
+
+                    let msg = "";
+
+                    if (size1 > 0)
+                        msg += inputTextFirst.innerText;
+
+                    msg += cursor.innerText;
+
+                    if (size2 > 0)
+                        msg += inputTextSecond.innerText;
+
+                    msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
+
+                    // Print the message with the path before
+                    printMessage(msg, true);
+
+                    colorMessage(objectNames);
+                }
+            }
         }
 
         else if (code === 13) { // ENTER
@@ -218,8 +275,14 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             inputTextFirst.innerHTML += NBSPACE;
         }
 
-        else if (input.length === 1) // letter, digit and others
+        else if (input.length === 1) { // letter, digit and others
             inputTextFirst.innerHTML += input;
+        }
+
+        // When something else than TAB is pressed, we need to update the temp value
+        if(code !== 9){
+            tabCommandSaved = inputTextFirst.innerText;
+        }
     }
 });
 
