@@ -74,7 +74,6 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
         }
 
         else if (code === 9) { // TAB
-            // TODO
             // use Main.user.currentLocation.getStartWith(<pattern>) in a loop
 
             let parsedCommand = (new Parser(tabCommandSaved)).getParsedCommand();
@@ -86,14 +85,15 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             tabIndex++;
 
             // There is no extra argument
-            if(parsedCommand.args.length === 1) {
+            if (parsedCommand.args.length === 1) {
 
                 // The user has typed TAB, we need to retrieve the closest command, then we override the current input
                 let closestCommands = Command.getClosestCommands(tabCommandSaved);
 
                 // We can update the input
                 if (closestCommands.length > 0) inputTextFirst.innerText = closestCommands[tabIndex % closestCommands.length];
-            }else{ // there are extra arguments
+            }
+            else { // there are extra arguments
                 // We get the last argument
                 let lastArgument = parsedCommand.args[parsedCommand.args.length-1];
 
@@ -106,6 +106,22 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     for(let object of objects){
                         objectNames.push([object.name, COLOR.ITEM]);
                     }
+
+                    let msg = "";
+
+                    if (size1 > 0)
+                        msg += inputTextFirst.innerText;
+
+                    msg += cursor.innerText;
+
+                    if (size2 > 0)
+                        msg += inputTextSecond.innerText;
+
+                    msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
+
+                    // Print the message with the path before
+                    printMessage(msg, true);
+
                     colorMessage(objectNames);
                 }
             }
