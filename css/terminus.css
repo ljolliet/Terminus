@@ -13,21 +13,13 @@ body {
 div#console {
   position: absolute;
   left: 0;
-  height: 100%;
-  width: calc(60% - 10px);
-  padding-left: 10px;
+  height: calc(100% - 20px);
+  width: 60%;
+  margin: 10px 20%;
   max-width: 60%;
   display: inline-block;
   word-wrap: break-word;
-  overflow: hidden;
-}
-
-div#side-panel {
-  position: absolute;
-  right: 0;
-  height: 100%;
-  width: 40%;
-  border-left: 1px red dashed;
+  overflow: scroll;
 }
 
 div#console div.message {

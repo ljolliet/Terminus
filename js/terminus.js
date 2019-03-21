@@ -1,43 +1,47 @@
-(function() {
 
-})();
+const NBSPACE = "&nbsp;";
 
 let blinkingCursor;
 let consoleFocused = false;
 let firstConnection = true;
+
+// Up / down handling
+let commandSave = [];
+let tmpCommand = '';
+let saveIndex = -1;
+
+// tab handling
+let tabIndex = -1;
+let tabCommandSaved = "";
+
+focusConsole();
 
 /**
  * Focus detector for the console
  * The cursor begin to blink
  * and the textarea is now focused
  */
-document.getElementById("console").addEventListener("click", function() {
-  /**
-   * Blink method for the cursor
-   */
-  clearInterval(blinkingCursor);
-  let cursor = document.getElementById('cursor');
-  blinkingCursor = window.setInterval(function() {
-      if(cursor.classList.contains('visible'))
-        cursor.classList.remove('visible');
-      else
-        cursor.classList.add('visible');
-  }, 500);
-
-  document.getElementsByClassName("textInput")[0].focus();
-  consoleFocused = true;
+document.addEventListener("click", function() {
+    focusConsole();
 });
 
 /**
- * Unfocus the textarea
- * and the cursor disappear
+ * Blink method for the cursor
  */
-document.getElementById("side-panel").addEventListener("click", function() {
-  document.getElementById('cursor').classList.remove('visible');
-  clearInterval(blinkingCursor);
-  consoleFocused = false;
-});
+function focusConsole() {
+    clearInterval(blinkingCursor);
+    let cursor = document.getElementById('cursor');
+    blinkingCursor = window.setInterval(function() {
+        if(cursor.classList.contains('visible'))
+            cursor.classList.remove('visible');
+        else
+            cursor.classList.add('visible');
+    }, 500);
 
+    document.getElementsByClassName("textInput")[0].focus();
+    document.getElementsByClassName("textInput")[0].select();
+    consoleFocused = true;
+}
 
 let inputTextFirst  = document.getElementById("input-text-first");
 let cursor  = document.getElementById("cursor");
@@ -48,141 +52,320 @@ let inputTextSecond = document.getElementById("input-text-second");
  */
 document.getElementsByClassName("textInput")[0].addEventListener("keydown", function(event) {
 
-  // Detect keyboard events only if console is focused
-  if (consoleFocused) {
+    // Detect keyboard events only if console is focused
+    if (consoleFocused) {
 
-    let code  = event.keyCode;
-    let input = event.key;
+        let code  = event.keyCode;
+        let input = event.key;
 
-    // console.log(code, input);
+        let size1 = inputTextFirst.innerText.length;
+        let size2 = inputTextSecond.innerText.length;
 
-    let size1 = inputTextFirst.innerText.length;
-    let size2 = inputTextSecond.innerText.length;
 
-    if (code === 8) // BACKSPACE
-    inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
+        if (code === 8) { // BACKSPACE
+            inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1 - 1);
+        }
 
-    else if (code === 46) {
-      if (size2 > 0) {
-        cursor.innerText = inputTextSecond.innerText.substring(0, 1);
-        inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
-      }
+        else if (code === 46) { // DELETE
+            if (size2 > 0) {
+                cursor.innerText = inputTextSecond.innerText.substring(0, 1);
+                inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
+            }
+        }
+
+        else if (code === 9) { // TAB
+            // use Main.user.currentLocation.getStartWith(<pattern>) in a loop
+
+            let parsedCommand = (new Parser(tabCommandSaved)).getParsedCommand();
+
+            // This is to prevent overflow
+            if (tabIndex > 10000) tabIndex = 0;
+
+            // We need to count the number of TAB typed
+            tabIndex++;
+
+            // There is no extra argument
+            if (parsedCommand.args.length === 1) {
+
+                // The user has typed TAB, we need to retrieve the closest command, then we override the current input
+                let closestCommands = Command.getClosestCommands(tabCommandSaved);
+
+                // We can update the input
+                if (closestCommands.length > 0) inputTextFirst.innerText = closestCommands[tabIndex % closestCommands.length];
+            }
+            else { // there are extra arguments
+                // We get the last argument
+                let lastArgument = parsedCommand.args[parsedCommand.args.length-1];
+
+                // We get the objects that are the closest to the last argument
+                let objects = Main.user.currentLocation.getStartWith(lastArgument);
+
+                if(objects.length > 0){
+                    let objectNames = [];
+
+                    for(let object of objects){
+                        objectNames.push([object.name, COLOR.ITEM]);
+                    }
+
+                    let msg = "";
+
+                    if (size1 > 0)
+                        msg += inputTextFirst.innerText;
+
+                    msg += cursor.innerText;
+
+                    if (size2 > 0)
+                        msg += inputTextSecond.innerText;
+
+                    msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
+
+                    // Print the message with the path before
+                    printMessage(msg, true);
+
+                    colorMessage(objectNames);
+                }
+            }
+        }
+
+        else if (code === 13) { // ENTER
+
+            // First connection : ask the user for his pseudo
+            if (firstConnection) {
+                let pseudo = "";
+
+                if (size1 > 0)
+                    pseudo += inputTextFirst.innerText;
+
+                pseudo += cursor.innerText;
+
+                if (size2 > 0)
+                    pseudo += inputTextSecond.innerText;
+
+                pseudo = pseudo.substring(0, pseudo.length - 1); // Remove the last char (&nbsp;)
+
+                // If the pseudo is empty or contains space(s), ask for it again
+                if (pseudo.length === 0 || pseudo.indexOf(String.fromCharCode(160)) !== -1) {
+                    printMessage("Veuillez entrer un pseudo valide (sans espace) :");
+                }
+                else {
+                    // Init the engine with the user pseudo
+                    Main.init(pseudo);
+
+                    // Say hello to the user
+                    printMessage("Bienvenue " + pseudo + " !");
+
+                    document.getElementById("chevron").innerHTML = getConsolePath();
+                    firstConnection = false;
+                }
+
+                inputTextFirst.innerHTML = "";
+                cursor.innerHTML = NBSPACE;
+                inputTextSecond.innerHTML = "";
+            }
+            // Else, normal use of the console engine
+            else {
+                let msg = "";
+              
+                if (size1 > 0)
+                    msg += inputTextFirst.innerText;
+
+                msg += cursor.innerText;
+
+                if (size2 > 0)
+                    msg += inputTextSecond.innerText;
+
+                // Add to command history (at the beginning of the table)
+                // Only if not empty command (1 corresponds to the space char)
+                if (msg.length > 1)
+                    commandSave.unshift(msg);
+
+                // Reset the save index
+                saveIndex = -1;
+
+                msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
+
+                // Print the message with the path before
+                printMessage(msg, true);
+
+                inputTextFirst.innerHTML = "";
+                cursor.innerHTML = NBSPACE;
+                inputTextSecond.innerHTML = "";
+
+                Main.executeCommand(msg);
+
+                // Change the path that is print before the command input
+                document.getElementById("chevron").innerHTML = getConsolePath();
+            }
+        }
+
+        else if (code === 37) { // ARROW LEFT
+            if (size1 > 0) {
+                inputTextSecond.innerText = cursor.innerText + inputTextSecond.innerText;
+                cursor.innerText = inputTextFirst.innerText.substring(size1-1, size1);
+                inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
+            }
+        }
+
+        else if (code === 38) { // ARROW UP
+
+            // Save the current line if index equals -1
+            if (saveIndex === -1) {
+                tmpCommand = "";
+
+                if (size1 > 0)
+                    tmpCommand += inputTextFirst.innerText;
+
+                tmpCommand += cursor.innerText;
+
+                if (size2 > 0)
+                    tmpCommand += inputTextSecond.innerText;
+
+                console.log(tmpCommand);
+            }
+
+            if(commandSave.length > 0) {
+
+                if(saveIndex < commandSave.length - 1)
+                    saveIndex++;
+
+                let size = commandSave[saveIndex].length;
+
+                inputTextFirst.innerHTML = commandSave[saveIndex].substring(0, size - 1); // Stop before de last char (&nbsp;)
+                cursor.innerHTML = NBSPACE;
+                inputTextSecond.innerHTML = "";
+            }
+        }
+
+        else if (code === 39) { // ARROW RIGHT
+            if (size2 > 0) {
+                inputTextFirst.innerText += cursor.innerText;
+                cursor.innerText = inputTextSecond.innerText.substring(0, 1);
+                inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
+            }
+            else if (size2 === 0) {
+                if (cursor.innerHTML !== NBSPACE)
+                    inputTextFirst.innerHTML += cursor.innerHTML;
+                cursor.innerHTML = NBSPACE;
+            }
+        }
+
+        else if (code === 40) { // ARROW DOWN
+            if(commandSave.length > 0 && saveIndex >= 0) {
+                if(saveIndex > 0) {
+                    saveIndex--;
+
+                    let size = commandSave[saveIndex].length;
+
+                    inputTextFirst.innerHTML = commandSave[saveIndex].substring(0, size - 1); // Stop before de last char (&nbsp;)
+                    cursor.innerHTML = NBSPACE;
+                    inputTextSecond.innerHTML = "";
+                }
+                else if (saveIndex === 0) {
+                    saveIndex--;
+
+                    inputTextFirst.innerHTML = tmpCommand.substring(0, tmpCommand.length - 1); // Stop before de last char (&nbsp;)
+                    cursor.innerHTML = NBSPACE;
+                    inputTextSecond.innerHTML = "";
+                }
+            }
+        }
+
+        else if (code === 32) { // SPACE
+            // Transform the normal space in an unbreakable space
+            inputTextFirst.innerHTML += NBSPACE;
+        }
+
+        else if (input.length === 1) { // letter, digit and others
+            inputTextFirst.innerHTML += input;
+        }
+
+        // When something else than TAB is pressed, we need to update the temp value
+        if(code !== 9){
+            tabCommandSaved = inputTextFirst.innerText;
+        }
     }
-
-    else if (code === 13) { // ENTER
-
-      // First connection : ask the user for his pseudo
-      if (firstConnection) {
-        let pseudo = "";
-
-        if (size1 > 0)
-          pseudo += inputTextFirst.innerText;
-
-        pseudo += cursor.innerText;
-
-        if (size2 > 0)
-          pseudo += inputTextSecond.innerText;
-
-        pseudo = pseudo.substring(0, pseudo.length - 1); // Remove the last char (&nbsp;)
-
-        // Init the engine with the user pseudo
-        Main.init(pseudo);
-
-        // Say hello to the user
-        printMessage("Bienvenue " + pseudo + " !");
-
-        inputTextFirst.innerHTML = "";
-        cursor.innerHTML = '&nbsp;';
-        inputTextSecond.innerHTML = "";
-
-        document.getElementById("chevron").innerHTML = pseudo + "@terminus: $&nbsp;";
-        firstConnection = false;
-      }
-      // Else, normal use of the console engine
-      else {
-        let msg = document.getElementById('chevron').innerHTML;
-
-        if (size1 > 0)
-          msg += inputTextFirst.innerText;
-
-        msg += cursor.innerText;
-
-        if (size2 > 0)
-          msg += inputTextSecond.innerText;
-
-        msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
-
-        printMessage(msg);
-
-        inputTextFirst.innerHTML = "";
-        cursor.innerHTML = '&nbsp;';
-        inputTextSecond.innerHTML = "";
-
-        Main.executeCommand(msg.replace(document.getElementById("chevron").innerHTML, ''));
-      }
-    }
-
-    else if (code === 37) { // LEFT ARROW
-      if (size1 > 0) {
-        inputTextSecond.innerText = cursor.innerText + inputTextSecond.innerText;
-        cursor.innerText = inputTextFirst.innerText.substring(size1-1, size1);
-        inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
-      }
-    }
-
-    else if (code === 39) { // RIGHT ARROW
-      if (size2 > 0) {
-        inputTextFirst.innerText += cursor.innerText;
-        cursor.innerText = inputTextSecond.innerText.substring(0, 1);
-        inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
-      }
-      else if (size2 === 0) {
-        if (cursor.innerHTML !== '&nbsp;')
-          inputTextFirst.innerHTML += cursor.innerHTML;
-        cursor.innerHTML = '&nbsp;';
-      }
-    }
-
-    else if (code === 32) { // SPACE
-      // Transform the normal space in an unbreakable space
-      inputTextFirst.innerHTML += '&nbsp;';
-    }
-
-    else if (input.length === 1) // letter, digit and others
-      inputTextFirst.innerHTML += input;
-  }
 });
 
 /**
- * Clear the console content
+ * Return the path message (with style) to print to the console.
+ * @returns {string} Path string.
+ */
+function getConsolePath() {
+    return '<span style="color: #79e234;">' + Main.user.login + '@terminus:</span>' +
+        '<span style="color: #709ede;">' + Main.user.getPath() + '</span>' + NBSPACE + '$' + NBSPACE;
+}
+
+/**
+ * Clear the console content.
  */
 function clear() {
-  document.getElementById("console-output").innerHTML = ''
+    document.getElementById("console-output").innerHTML = ''
 }
 
 /**
- * Reload the page
+ * Reload the page.
  */
 function reload() {
-  location.reload();
+    location.reload();
 }
 
 /**
- * Print a message on the screen
+ * Print a message on the screen.
+ * @param message Message to print.
+ * @param path Optional. If true, the function will print the path before the message.
  */
-function printMessage(message) {
-  message = message.replace('&nbsp;', ' ');
-  let msgTab = message.split(/(\r\n|\n|\r)/gm);
+function printMessage(message, path = false) {
+    //message = message.replace('&nbsp;', ' ');
+    let msgTab = message.split(/\n/gm);
 
-  let childDiv = document.createElement("div");
-  childDiv.classList.add("message");
+    let childDiv = document.createElement("div");
+    childDiv.classList.add("message");
 
-  // Add br elements when message contains \n
-  for (let i = 0; i < msgTab.length - 1; i++) {
-    childDiv.appendChild(document.createTextNode(msgTab[i]));
-    childDiv.appendChild(document.createElement("br"));
-  }
-  childDiv.appendChild(document.createTextNode(msgTab[msgTab.length - 1]));
+    if (path)
+        childDiv.innerHTML = document.getElementById('chevron').innerHTML;
 
-  document.getElementById("console-output").appendChild(childDiv);
+    // Add br elements when message contains \n
+    for (let i = 0; i < msgTab.length - 1; i++) {
+        //childDiv.appendChild(document.createTextNode(msgTab[i]));
+        childDiv.innerHTML += msgTab[i];
+        childDiv.appendChild(document.createElement("br"));
+    }
+    childDiv.innerHTML += msgTab[msgTab.length - 1]; // Last line, without <br> after
+
+    document.getElementById("console-output").appendChild(childDiv);
+
+    // For browsers that does not auto scroll to the bottom of the page
+    // To test
+    //document.getElementById("console").scrollTo(0, document.body.scrollHeight);
+}
+
+/**
+ * Print a colored message on the console output.
+ * @param colorMsg [string, string]
+ *          - 0: string to write
+ *          - 1: string corresponding to the color
+ */
+function colorMessage(colorMsg) {
+    let childDiv = document.createElement("div");
+    childDiv.classList.add("message");
+
+    for (let i = 0; i < colorMsg.length; i++) { // Foreach message
+        colorMsg[i][0] += NBSPACE; // Add a space char to separate messages
+        let msgTab = colorMsg[i][0].split(/\n/gm);
+
+        let childSpan = document.createElement("span");
+        childSpan.style.color = colorMsg[i][1];
+
+        // Add br elements when message contains \n
+        for (let i = 0; i < msgTab.length - 1; i++) {
+            //childDiv.appendChild(document.createTextNode(msgTab[i]));
+            childSpan.innerHTML += msgTab[i];
+            childSpan.appendChild(document.createElement("br"));
+        }
+        childSpan.innerHTML += msgTab[msgTab.length - 1]; // Last line, without <br> after
+
+        childDiv.appendChild(childSpan);
+    }
+
+    document.getElementById("console-output").appendChild(childDiv);
 }

@@ -9,7 +9,8 @@ const INFO = {
     UNKNOWN: 0,
     FOUND: 1,
     UNAVAILABLE: 2,
-    FINISHED: 3
+    LOCKED: 3,
+    FINISHED: 4
 };
 
 class Quest {
@@ -20,10 +21,10 @@ class Quest {
         this._initialText = "";
         this._commandRequired = [];
         this._commandRewards = [];
-        this._name = name+".sh";
+        this._name = name + ".sh";
         this._questsRequired = [];
     }
-    
+
     /**
      * @return {String} Name
      */
@@ -96,7 +97,7 @@ class Quest {
     }
 
     /**
-     * @param {COMMAND_TYPE} value To update quest advancement status.
+     * @param {STATUS} value To update quest advancement status.
      */
     set status(value) {
         this._status = value;
@@ -114,6 +115,17 @@ class Quest {
      */
     set initialText(value) {
         this._initialText = value;
+    }
+
+    /**
+     * @param {String} base The String to put before an element.
+     * @param {String} shift between an element and a sub element, not used here.
+     * @param id  not used here
+     * @return {String} The description of the place as a tree.
+     */
+    description(base, shift = "", id = 0) {
+        return "./" + this.name;
+
     }
 
 }

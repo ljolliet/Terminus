@@ -12,19 +12,19 @@ class Parser {
      * @param {string} command the command that the user typed.
      * @param {boolean} verbose if true, it writes information about parsing
      */
-    constructor(command, verbose) {
+    constructor(command, verbose = false) {
         this._command = command;
         this._verbose = verbose;
         this._commands = [];
 
-        this.parseCommand();
+        this._parseCommand();
     }
 
     /**
      * It parses the command.
      * You should use getCommands() to retrieve the command parsed.
      */
-    parseCommand() {
+    _parseCommand() {
         if (this._command.length === 0) {
             if (this._verbose) {
                 console.log("[Parser] The command is empty");
@@ -64,22 +64,18 @@ class Parser {
     setCommand(command) {
         this._command = command;
         this._commands = [];
-        this.parseCommand();
+        this._parseCommand();
     }
 
     /**
      * @returns {Command} the command **can be null**.
      */
     getParsedCommand() {
-        if (this._commands === null) {
-            return null;
-        } else {
-            return new Command(this._commands);
-        }
+        return new Command(this._commands);
     }
 }
 
-String.prototype.replaceAll = function(search, replacement) {
+String.prototype.replaceAll = function (search, replacement) {
     const target = this;
     return target.split(search).join(replacement);
 };

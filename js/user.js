@@ -1,5 +1,10 @@
 const trophiesName = "armoire_a_trophee";
 const inventory = "inventaire";
+const parentConst = "..";
+const placeConst = ".";
+const rootConst = "/";
+const homeConst = "~";
+const inventoryConst = "$INVENTAIRE";
 
 class User {
 
@@ -17,11 +22,11 @@ class User {
         this._currentLocation = Place.home; //null if not initialized
         this._currentQuest = null;
         this._inventory = inventory;
-        if (this.trophies.length !== 0)
+        if (this.inventory !== null) {
             this.initTrophies();
-        if (this.inventory !== null)
             for (let i of items)
                 this.inventory.addEntity(i);
+        }
     }
 
     /**
@@ -58,7 +63,7 @@ class User {
      */
     addTrophy(trophy) {
         this.trophies.push(trophy);
-        if(this.inventory!==null) {
+        if (this.inventory !== null) {
             let entity;
             if ((entity = this.inventory.getEntity(trophiesName)) !== null) {
                 entity.text = entity.text + trophy + "\n";
@@ -77,7 +82,7 @@ class User {
      * Init "armoire_a_trophee" with the trohies already won.
      */
     initTrophies() {
-        if((this.inventory.getEntity(trophiesName))===null) {
+        if ((this.inventory.getEntity(trophiesName)) === null) {
             let text = "";
             for (let t of this.trophies)
                 text += t + "\n";
@@ -110,6 +115,13 @@ class User {
         return it;
     }
 
+    /**
+     * @return {String} The path of the current location.
+     */
+    getPath() {
+        return this.currentLocation.path;
+    }
+
 
     /**
      * @return {COMMAND_TYPE[]} Commands allowed.
@@ -126,6 +138,7 @@ class User {
         return this._currentLocation;
     }
 
+
     /**
      * @param {Place} place New current place/location.
      */
@@ -139,26 +152,26 @@ class User {
      */
     moveTo(placeName) {
         switch (placeName) {
-            case "." :  // current location
+            case placeConst :  // current location
                 return true;
-            case"..":   // parent
+            case parentConst:   // parent
                 if (this.currentLocation.parent === null)
                     return false;
                 this.currentLocation = this.currentLocation.parent;
                 return true;
-            case "~" :  // home
+            case homeConst :  // home
                 if (Place.home !== null) {
                     this.currentLocation = Place.home;
                     return true;
                 }
                 break;
-            case  "/":  // root
+            case  rootConst :  // root
                 if (Place.root !== null) {
                     this.currentLocation = Place.root;
                     return true;
                 }
                 break;
-            case "$INVENTAIRE":
+            case inventoryConst:
                 if (this.inventory !== null) {
                     this.currentLocation = this.inventory;
                     return true;
@@ -176,14 +189,13 @@ class User {
     }
 
     /**
-     * @param entityName
-     * @return
+     * @param entityName The name of the entity.
+     * @return {String} The text that corresponds to the entity, "" if the name doesn't exist
      */
     read(entityName) {
         for (let e of this.currentLocation.entities)
-            if (entityName === e.name) {
-                return e.text
-            }
+            if (entityName === e.name)
+                return e.text;
         return "";
     }
 
@@ -193,18 +205,21 @@ class User {
      * UNAVAILABLE if a quest is already launched and UNKNOWN if the quest doesn't exist.
      */
     launch(questName) {
-        if (this.currentQuest == null) {
+        if (this.currentQuest === null) {   // if a quest is not already launched
             for (let q of this.currentLocation.quests)
                 if (q.name === questName) {
-                    if (q.status === STATUS.DONE)
+                    if (q.status === STATUS.DONE)   // if quest already finished
                         return INFO.FINISHED;
-                    q.status = STATUS.STARTED;
+                    for (let dependency of q.questsRequired)
+                        if (dependency.status !== STATUS.DONE)  // if a dependency (quest)  is not finished
+                            return INFO.LOCKED;
+                    q.status = STATUS.STARTED;  // if quest find, launching quest
                     this.currentQuest = q;
                     return INFO.FOUND;
                 }
-            return INFO.UNKNOWN;
+            return INFO.UNKNOWN;    // else : quest not found
         }
-        return INFO.UNAVAILABLE;
+        return INFO.UNAVAILABLE;   // a quest is already launched
     }
 
     /**
@@ -212,17 +227,86 @@ class User {
      * @return {Quest} The quest if finished, null otherwise.
      */
     checkQuest(command) {
-        if (this.currentQuest.commandRequired[0] === command.toString())
+        if (this.currentQuest.commandRequired[0] === command) {
             this.currentQuest.commandRequired.shift(); // remove first element
+            console.log("Quest command recognise");
+        }
         if (this.currentQuest.commandRequired.length === 0) {   // end quest
+            let d = new Date();
             this.currentQuest.status = STATUS.DONE;
             for (let cr of this.currentQuest.commandRewards)
                 this.addCommand(cr);
-            this.addTrophy(this.currentQuest.name);
+            this.addTrophy(this.currentQuest.name + "  " + d.toLocaleString());
             let copy = this.currentQuest;
             this.currentQuest = null;
             return copy;
         }
         return null;
     }
+
+    /**
+     * Function used to move an item source to destination, if destination does not exist, source is renamed as destination.
+     * @param {String} source    The name of the item to move.
+     * @param {String} destination   The name of the destination of the item.
+     * @returns {boolean}   True if the move is authorized done.
+     */
+    moveItem(source, destination) {
+        let index, cpt = -1;
+        let item = null;
+        //check if the source item exists
+        for (let e of this.currentLocation.entities) {
+            cpt++;
+            if (e.name === source)
+                if (e instanceof Item) {
+                    index = cpt;
+                    item = e;
+                }
+        }
+        //if it exists
+        if (index !== -1 && item !== null) {
+            switch (destination) {
+                case placeConst :  // current location
+                    return true;
+                case parentConst:   // parent
+                    if (this.currentLocation.parent === null)
+                        return false;
+                    this.currentLocation.entities.splice(index, 1);
+                    this.currentLocation.parent.addEntity(item);
+                    return true;
+                case homeConst :  // home
+                    if (Place.home !== null) {
+                        this.currentLocation.entities.splice(index, 1);
+                        Place.home.addEntity(item);
+                        return true;
+                    }
+                    break;
+                case  rootConst :  // root
+                    if (Place.root !== null) {
+                        this.currentLocation.entities.splice(index, 1);
+                        Place.root.addEntity(item);
+                        return true;
+                    }
+                    break;
+                case inventoryConst:
+                    if (this.inventory !== null) {
+                        this.currentLocation.entities.splice(index, 1);
+                        this.inventory.addEntity(item);
+                        return true;
+                    }
+                    break;
+                default : // son
+                    let place;
+                    if ((place = this.currentLocation.getPlace(destination)) === null)
+                        item.name = destination;
+                    else {
+                        this.currentLocation.entities.splice(index, 1);
+                        place.addEntity(item);
+                    }
+                    return true;
+            }
+        }
+        //else
+        return false;
+    }
+
 }

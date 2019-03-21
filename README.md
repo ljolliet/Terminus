@@ -18,6 +18,16 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 
 ## Features
 
+### V1.1
+* Simplify command management
+* Fr version
+* commands mv, tree, jobs, clear
+* Hidden place/entity
+* Options in commands
+* Path after login@terminus
+* Quest dependency 
+* Up/down arrows
+* Admin mode
 
 ### V1.0
 * First version of the js graphics

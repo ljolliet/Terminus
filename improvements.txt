@@ -1,0 +1,13 @@
+For specifications
+
+explain 
+	~ 
+	/
+	..
+	.
+	
+show start of the game
+
+include jobs
+
+

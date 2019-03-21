@@ -1,29 +1,43 @@
-class Command{
+class Command {
 
     /**
-     * @param args [[string]] all the arguments (it is a list because we need to separate the pipe commands)
+     * @param args [[string]] all the arguments (it is a list because we need to separate the pipe commands) **can't be null**
      */
-    constructor(args){
-        this._args = args;
+    constructor(args) {
+        if (args === null) this._args = [
+            [""]
+        ];
+        else this._args = args;
 
-         if(this._args.length > 1){
-            this._isPipe = true;
-        }else{
-            this._isPipe = false;
-        }
+        this._isPipe = this._args.length > 1;
     }
 
     /**
      * @returns {[[string]]} the original command given in the constructor.
      */
-    get originalCommand(){
+    get originalCommand() {
         return this._args;
+    }
+
+    /**
+     * @return {string} it returns the original command formatted correctly.
+     */
+    toString(){
+        let cmd = "";
+        for(let i = 0; i < this._args.length; i ++){
+            for(let j = 0; j < this._args[i].length; j ++){
+                if(j === this._args[i].length - 1) cmd += this._args[i][j];
+                else cmd += this._args[i][j] + " ";
+            }
+            if(i !== this._args.length - 1) cmd += " | ";
+        }
+        return cmd;
     }
 
     /**
      * @returns {boolean} true whenever the command is a pipe command.
      */
-    get isPipe(){
+    get isPipe() {
         return this._isPipe;
     }
 
@@ -31,10 +45,10 @@ class Command{
      * This function is usable when the original command is not a pipe command.
      * You should use getCommand(index) to get the command at a specified index if the original command is a pipe command.
      */
-    get args(){
-        if(this._args.length === 0){
+    get args() {
+        if (this._args.length === 0) {
             return [""];
-        }else {
+        } else {
             return this._args[0];
         }
     }
@@ -44,11 +58,49 @@ class Command{
      * @param index Integer the index of the command (only if the command is a pipe command)
      * @returns {Command} the command at the specified index.
      */
-    getCommand(index){
-        if(index > this._args.length){
+    getCommand(index) {
+        if (index > this._args.length) {
             throw "The command at index " + index + " does not exist. There are only " + this._args.length + " commands.";
-        }else{
+        } else {
             return new Command([this._args[index]]);
         }
+    }
+
+    /**
+     * It formats options into an array.
+     * Input:  -abc
+     * Output: ["a", "b", "c"]
+     * @param {string} unformattedOptions something like "-abc"
+     * @returns {[string]} something like ["a", "b", "c"]
+     */
+    static formatOptions(unformattedOptions){
+        if(unformattedOptions === "" || unformattedOptions == null) return [];
+
+        unformattedOptions = unformattedOptions.replaceAll("-", "");
+        unformattedOptions = unformattedOptions.replaceAll(" ", "");
+
+        let formattedOptions = [];
+        for(let i = 0; i < unformattedOptions.length; i ++){
+            formattedOptions.push(unformattedOptions[i]);
+        }
+        return formattedOptions;
+    }
+
+    /**
+     * It returns the closest commands according to the given prefix :
+     *
+     * @param prefix {string} command prefix,
+     * @return {[string]} the closest commands.
+     */
+    static getClosestCommands(prefix){
+        let matches = [];
+
+        for (let key in COMMAND_TYPE) {
+            if (COMMAND_TYPE.hasOwnProperty(key)) {
+                if(COMMAND_TYPE[key].startsWith(prefix))
+                    matches.push(COMMAND_TYPE[key]);
+            }
+        }
+        return matches;
     }
 }
