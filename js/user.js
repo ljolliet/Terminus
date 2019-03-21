@@ -196,7 +196,7 @@ class User {
         for (let e of this.currentLocation.entities)
             if (entityName === e.name)
                 return e.text;
-        return "";
+        return null;
     }
 
     /**

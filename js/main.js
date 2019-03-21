@@ -203,7 +203,7 @@ class Main {
     static cat(args) {
         // does not support a path, only place name
         let text;
-        if ((text = this.user.read(args[1])) === "") // if move refused
+        if ((text = this.user.read(args[1])) === null ) // if move refused
             printMessage("cat: " + args[1] + " : Aucun item ou personnage de ce type");
         else
             printMessage(text);
@@ -246,7 +246,6 @@ class Main {
                 }
             }
         }
-        //printMessage(m);
         console.log(objects);
         colorMessage(objects);
     }
