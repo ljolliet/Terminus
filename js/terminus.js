@@ -88,7 +88,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 // If the pseudo is empty or contains space(s), ask for it again
                 if (pseudo.length === 0 || pseudo.indexOf(String.fromCharCode(160)) !== -1) {
-                    printMessage("Veuillez entrer un pseudo :");
+                    printMessage("Veuillez entrer un pseudo valide (sans espace) :");
                 }
                 else {
                     // Init the engine with the user pseudo
@@ -287,7 +287,7 @@ function colorMessage(colorMsg) {
     childDiv.classList.add("message");
 
     for (let i = 0; i < colorMsg.length; i++) { // Foreach message
-        colorMsg[i][0] += NBSPACE;
+        colorMsg[i][0] += NBSPACE; // Add a space char to separate messages
         let msgTab = colorMsg[i][0].split(/\n/gm);
 
         let childSpan = document.createElement("span");
@@ -296,7 +296,7 @@ function colorMessage(colorMsg) {
         // Add br elements when message contains \n
         for (let i = 0; i < msgTab.length - 1; i++) {
             //childDiv.appendChild(document.createTextNode(msgTab[i]));
-            childSpan.innerHTML += msgTab[i] ;
+            childSpan.innerHTML += msgTab[i];
             childSpan.appendChild(document.createElement("br"));
         }
         childSpan.innerHTML += msgTab[msgTab.length - 1]; // Last line, without <br> after
