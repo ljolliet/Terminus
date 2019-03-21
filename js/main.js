@@ -214,18 +214,18 @@ class Main {
      * @param {String[]}options (formatted this way : ["option1", "option2])
      */
     static ls(options) {
-        let m = "";
+        let tmp = "";
         let objects = [];
         console.log(options);
 
         if (this.user.currentLocation !== Place.root)
-            m = ".. ";
+            objects.push(["..", COLOR.PLACE]);
         for (let p of this.user.currentLocation.all) {
             if (!p.name.startsWith(".") || options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
                 if (p instanceof Place) {
                     if (p.containsQuestTodo())
-                        m += "!";
-                    objects.push([p.name, COLOR.PLACE]);
+                        tmp += "!";
+                    objects.push([tmp+p.name, COLOR.PLACE]);
                 } else if (p instanceof Item) {
                     objects.push([p.name, COLOR.ITEM]);
                 } else if (p instanceof PNJ) {
