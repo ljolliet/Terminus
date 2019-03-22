@@ -1,4 +1,3 @@
-
 const NBSPACE = "&nbsp;";
 
 let blinkingCursor;
@@ -21,7 +20,7 @@ focusConsole();
  * The cursor begin to blink
  * and the textarea is now focused
  */
-document.addEventListener("click", function() {
+document.addEventListener("click", function () {
     focusConsole();
 });
 
@@ -31,8 +30,8 @@ document.addEventListener("click", function() {
 function focusConsole() {
     clearInterval(blinkingCursor);
     let cursor = document.getElementById('cursor');
-    blinkingCursor = window.setInterval(function() {
-        if(cursor.classList.contains('visible'))
+    blinkingCursor = window.setInterval(function () {
+        if (cursor.classList.contains('visible'))
             cursor.classList.remove('visible');
         else
             cursor.classList.add('visible');
@@ -43,19 +42,19 @@ function focusConsole() {
     consoleFocused = true;
 }
 
-let inputTextFirst  = document.getElementById("input-text-first");
-let cursor  = document.getElementById("cursor");
+let inputTextFirst = document.getElementById("input-text-first");
+let cursor = document.getElementById("cursor");
 let inputTextSecond = document.getElementById("input-text-second");
 
 /**
  * Detect keyboard events
  */
-document.getElementsByClassName("textInput")[0].addEventListener("keydown", function(event) {
+document.getElementsByClassName("textInput")[0].addEventListener("keydown", function (event) {
 
     // Detect keyboard events only if console is focused
     if (consoleFocused) {
 
-        let code  = event.keyCode;
+        let code = event.keyCode;
         let input = event.key;
 
         let size1 = inputTextFirst.innerText.length;
@@ -64,18 +63,12 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
         if (code === 8) { // BACKSPACE
             inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1 - 1);
-        }
-
-        else if (code === 46) { // DELETE
+        } else if (code === 46) { // DELETE
             if (size2 > 0) {
                 cursor.innerText = inputTextSecond.innerText.substring(0, 1);
                 inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
             }
-        }
-
-        else if (code === 9) { // TAB
-            // use Main.user.currentLocation.getStartWith(<pattern>) in a loop
-
+        } else if (code === 9) { // TAB
             let parsedCommand = (new Parser(tabCommandSaved)).getParsedCommand();
 
             // This is to prevent overflow
@@ -92,19 +85,18 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 // We can update the input
                 if (closestCommands.length > 0) inputTextFirst.innerText = closestCommands[tabIndex % closestCommands.length];
-            }
-            else { // there are extra arguments
+            } else { // there are extra arguments
                 // We get the last argument
-                let lastArgument = parsedCommand.args[parsedCommand.args.length-1];
+                let lastArgument = parsedCommand.args[parsedCommand.args.length - 1];
 
                 // We get the objects that are the closest to the last argument
                 let objects = Main.user.currentLocation.getStartWith(lastArgument);
 
-                if(objects.length > 0){
+                if (objects.length > 0) {
                     let objectNames = [];
 
-                    for(let object of objects){
-                        objectNames.push([object.name, COLOR.ITEM]);
+                    for (let object of objects) {
+                        objectNames.push(colorize(object));
                     }
 
                     let msg = "";
@@ -125,9 +117,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     colorMessage(objectNames);
                 }
             }
-        }
-
-        else if (code === 13) { // ENTER
+        } else if (code === 13) { // ENTER
 
             // First connection : ask the user for his pseudo
             if (firstConnection) {
@@ -146,8 +136,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 // If the pseudo is empty or contains space(s), ask for it again
                 if (pseudo.length === 0 || pseudo.indexOf(String.fromCharCode(160)) !== -1) {
                     printMessage("Veuillez entrer un pseudo valide (sans espace) :");
-                }
-                else {
+                } else {
                     // Init the engine with the user pseudo
                     Main.init(pseudo);
 
@@ -165,7 +154,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             // Else, normal use of the console engine
             else {
                 let msg = "";
-              
+
                 if (size1 > 0)
                     msg += inputTextFirst.innerText;
 
@@ -196,17 +185,13 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 // Change the path that is print before the command input
                 document.getElementById("chevron").innerHTML = getConsolePath();
             }
-        }
-
-        else if (code === 37) { // ARROW LEFT
+        } else if (code === 37) { // ARROW LEFT
             if (size1 > 0) {
                 inputTextSecond.innerText = cursor.innerText + inputTextSecond.innerText;
-                cursor.innerText = inputTextFirst.innerText.substring(size1-1, size1);
-                inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1-1);
+                cursor.innerText = inputTextFirst.innerText.substring(size1 - 1, size1);
+                inputTextFirst.innerText = inputTextFirst.innerText.substring(0, size1 - 1);
             }
-        }
-
-        else if (code === 38) { // ARROW UP
+        } else if (code === 38) { // ARROW UP
 
             // Save the current line if index equals -1
             if (saveIndex === -1) {
@@ -223,9 +208,9 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 console.log(tmpCommand);
             }
 
-            if(commandSave.length > 0) {
+            if (commandSave.length > 0) {
 
-                if(saveIndex < commandSave.length - 1)
+                if (saveIndex < commandSave.length - 1)
                     saveIndex++;
 
                 let size = commandSave[saveIndex].length;
@@ -234,24 +219,19 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 cursor.innerHTML = NBSPACE;
                 inputTextSecond.innerHTML = "";
             }
-        }
-
-        else if (code === 39) { // ARROW RIGHT
+        } else if (code === 39) { // ARROW RIGHT
             if (size2 > 0) {
                 inputTextFirst.innerText += cursor.innerText;
                 cursor.innerText = inputTextSecond.innerText.substring(0, 1);
                 inputTextSecond.innerText = inputTextSecond.innerText.substring(1, size2);
-            }
-            else if (size2 === 0) {
+            } else if (size2 === 0) {
                 if (cursor.innerHTML !== NBSPACE)
                     inputTextFirst.innerHTML += cursor.innerHTML;
                 cursor.innerHTML = NBSPACE;
             }
-        }
-
-        else if (code === 40) { // ARROW DOWN
-            if(commandSave.length > 0 && saveIndex >= 0) {
-                if(saveIndex > 0) {
+        } else if (code === 40) { // ARROW DOWN
+            if (commandSave.length > 0 && saveIndex >= 0) {
+                if (saveIndex > 0) {
                     saveIndex--;
 
                     let size = commandSave[saveIndex].length;
@@ -259,8 +239,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     inputTextFirst.innerHTML = commandSave[saveIndex].substring(0, size - 1); // Stop before de last char (&nbsp;)
                     cursor.innerHTML = NBSPACE;
                     inputTextSecond.innerHTML = "";
-                }
-                else if (saveIndex === 0) {
+                } else if (saveIndex === 0) {
                     saveIndex--;
 
                     inputTextFirst.innerHTML = tmpCommand.substring(0, tmpCommand.length - 1); // Stop before de last char (&nbsp;)
@@ -268,19 +247,15 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     inputTextSecond.innerHTML = "";
                 }
             }
-        }
-
-        else if (code === 32) { // SPACE
+        } else if (code === 32) { // SPACE
             // Transform the normal space in an unbreakable space
             inputTextFirst.innerHTML += NBSPACE;
-        }
-
-        else if (input.length === 1) { // letter, digit and others
+        } else if (input.length === 1) { // letter, digit and others
             inputTextFirst.innerHTML += input;
         }
 
         // When something else than TAB is pressed, we need to update the temp value
-        if(code !== 9){
+        if (code !== 9) {
             tabCommandSaved = inputTextFirst.innerText;
         }
     }
@@ -368,4 +343,28 @@ function colorMessage(colorMsg) {
     }
 
     document.getElementById("console-output").appendChild(childDiv);
+}
+
+function colorize(object) {
+    if (object instanceof Place) {
+        return [object.name, COLOR.PLACE];
+    } else if (object instanceof Item) {
+        return [object.name, COLOR.ITEM];
+    } else if (object instanceof PNJ) {
+        return [object.name, COLOR.PNJ];
+    } else if (object instanceof Quest) {
+        let questAvailable = true;
+        for (let dependency of object.questsRequired) // to check if the quest is available (all dependencies done)
+            if (dependency.status !== STATUS.DONE)
+                questAvailable = false;
+        if (questAvailable) {
+            if (object.status === STATUS.TODO)
+                return [object.name, COLOR.QUEST_TODO];
+            if (object.status === STATUS.STARTED)
+                return [object.name, COLOR.QUEST_IN_PROGRESS];
+            if (object.status === STATUS.DONE)
+                return [object.name, COLOR.QUEST_DONE];
+        }
+    }
+    return null;
 }
