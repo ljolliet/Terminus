@@ -1,11 +1,11 @@
-class Place {
+class Place extends UnixObject{
 
 
-    constructor(name) {
+    constructor(name){
+        super(name);
         this._places = [];
         this._entities = [];
         this._quests = [];
-        this._name = name;
         this._parent = null;
         //static attributes (see below the class):
         //Place.root
@@ -110,13 +110,6 @@ class Place {
             return "~/";
         else
             return this.parent.path + this.name + "/";
-    }
-
-    /**
-     * @return {String} Name
-     */
-    get name() {
-        return this._name;
     }
 
     /**

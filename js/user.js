@@ -201,7 +201,7 @@ class User {
 
     /**
      * @param objectName The name of the object.
-     * @return {Object} The object that corresponds to the name, null if the object doesn't exist
+     * @return {UnixObject} The object that corresponds to the name, null if the object doesn't exist
      */
     getAll(objectName) {
         for (let e of this.currentLocation.all)
