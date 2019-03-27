@@ -32,6 +32,7 @@ class Entity extends UnixObject {
 class PNJ extends Entity {
     constructor(name, text) {
         super(name, text);
+        this.writeAccess = false;
     }
 }
 

@@ -254,6 +254,55 @@ QUnit.test("questDependency", function (assert) {
 
 });
 
+QUnit.test("Rights on unixObjects", function(assert){
+   let place = new Place("place");
+   let item = new Item("item");
+    let pnj = new PNJ("item");
+    let quest = new Quest("quest");
+   let script = new Script("script");
+
+   //place init
+    assert.equal(place.readAccess, true, "Read access authorized for a place when it is created");
+    assert.equal(place.writeAccess, true, "Write access authorized for a place when it is created");
+    assert.equal(place.execAccess, true, "Execution access authorized for a place when it is created");
+    // item init
+    assert.equal(item.readAccess, true, "Read access authorized for an item when it is created");
+    assert.equal(item.writeAccess, true, "Write access authorized for an item when it is created");
+    assert.equal(item.execAccess, true, "Execution access authorized for an item when it is created");
+    // pnj init
+    assert.equal(pnj.readAccess, true, "Read access authorized for a pnj when it is created");
+    assert.equal(pnj.writeAccess, false, "Write access NOT authorized for a pnj when it is created");
+    assert.equal(pnj.execAccess, true, "Execution access authorized for a pnj when it is created");
+    // script init
+    assert.equal(script.readAccess, false, "Read access NOT authorized for a script when it is created");
+    assert.equal(script.writeAccess, false, "Write access NOT authorized for a script when it is created");
+    assert.equal(script.execAccess, false, "Execution access NOT authorized for a script when it is created");
+    // quest init
+    assert.equal(quest.readAccess, true, "Read access authorized for a quest when it is created");
+    assert.equal(quest.writeAccess, false, "Write access NOT authorized for a quest when it is created");
+    assert.equal(quest.execAccess, true, "Execution access authorized for a quest when it is created");
+    // changing access example with script
+    assert.equal(script.setRights("8"), false, "code 8 not authorized");
+    assert.equal(script.setRights("0"), true, "code - authorized");
+    assert.equal(script.readAccess, false, "Read access also not authorized");
+    assert.equal(script.writeAccess, false, "Write access also not authorized");
+    assert.equal(script.execAccess, false, "Execution access also not authorized");
+    assert.equal(script.setRights("+x"), true, "code +x authorized");
+    assert.equal(script.readAccess, false, "Read access also not authorized");
+    assert.equal(script.writeAccess, false, "Write access also not authorized");
+    assert.equal(script.execAccess, true, "Execution access now authorized");
+    assert.equal(script.setRights("7"), true, "code 7 authorized");
+    assert.equal(script.readAccess, true, "Read access now authorized");
+    assert.equal(script.writeAccess, true, "Write access now authorized");
+    assert.equal(script.execAccess, true, "Execution access now authorized");
+    assert.equal(script.setRights("+xwr"), true, "code +xwr authorized");
+    assert.equal(script.setRights("hhgcgh"), false, "random code not authorized");
+    assert.equal(script.setRights("+hj"), false, "random code not authorized");
+
+
+
+});
+
 /**
  * command.js tests
  */

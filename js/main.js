@@ -373,31 +373,10 @@ class Main {
      * @param {String} objectName The target of the command.
      */
     static chmod(options, objectName) {
-        // found the object
-        let object, accepted = true;
-        if((object = this.user.getAll(objectName))===null)
+        let object;
+        if((object = this.user.getAll(objectName))===null) // found the object
             printMessage("chmod: impossible d'accéder à '"+ objectName+"': Aucun Lieu, Item ou Script de ce type");
-        // if pattern chmod +xwr object
-        let rights = [];
-        if(options.startsWith("+")) {
-            let optionsSlice = options.slice(1, options.length);
-            for (let i = 0; i < optionsSlice.length; i++) {
-               if(optionsSlice.charAt(i) in ["r","w","x"])
-                   rights.push(optionsSlice.charAt(i));
-               else
-               {
-                   printMessage("chmod: mode incorrect : '" + options + "'");
-                   accepted = false;
-                   break;
-               }
-            }
-            if(accepted)
-                object.addRights(rights);
-        }
-        // if pattern chmod 647 object
-        else{
-
-        }
-        // default ?
+        else if(object.setRights(options) === false)    // set the rights
+            printMessage("chmod: mode incorrect : '" + options + "'");
     }
 }

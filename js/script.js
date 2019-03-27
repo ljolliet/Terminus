@@ -8,11 +8,16 @@ class Script extends UnixObject {
      */
     constructor(name, args) {
         super(name);
-        this._requiredargs = args;
         this._content = [];
         this._args = args;
+        this.readAccess = false;
+        this.writeAccess = false;
+        this.execAccess = false;
     }
 
+    /**
+     * Scrpt launching
+     */
     run() {
         for (let command of this.content) {
             //TODO execute each command like if the user was typing commands
@@ -27,10 +32,16 @@ class Script extends UnixObject {
         this._args = value;
     }
 
+    /**
+     * @returns {String[]} The list of command contained in the script.
+     */
     get content() {
         return this._content;
     }
 
+    /**
+     * @param {String[]} value To set the list of command contained in the script.
+     */
     set content(value) {
         this._content = value;
     }

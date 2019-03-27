@@ -23,6 +23,7 @@ class Quest extends UnixObject{
         this._commandRequired = [];
         this._commandRewards = [];
         this._questsRequired = [];
+        this.writeAccess = false;
     }
 
     /**
