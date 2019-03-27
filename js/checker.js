@@ -193,7 +193,7 @@ class Checker {
                 this._checkCommand(this._command, COMMAND_TYPE.YES, [0,1]);
                 break;
             case "chmod":
-                this._checkCommand(this._command, COMMAND_TYPE.CHMOD, [1]);
+                this._checkCommand(this._command, COMMAND_TYPE.CHMOD, [2]);
                 break;
 
             default:

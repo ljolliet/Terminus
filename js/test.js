@@ -337,7 +337,7 @@ QUnit.test("command.js", function (assert) {
     ])).toString(), "cmd1 arg1 | cmd2 | cmd3 arg1 arg2", "test toString with pipe");
 
     // getClosestCommand tests : it will be broken each time we add commands
-    assert.deepEqual(Command.getClosestCommands("c"), ["cd", "cat", "clear"], "test closes commands");
+    assert.deepEqual(Command.getClosestCommands("c"), ["cd", "cat", "clear", "chmod"], "test closes commands");
 });
 
 /**

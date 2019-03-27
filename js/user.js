@@ -190,12 +190,23 @@ class User {
 
     /**
      * @param entityName The name of the entity.
-     * @return {String} The text that corresponds to the entity, "" if the name doesn't exist
+     * @return {String} The text that corresponds to the entity, null if the name doesn't exist
      */
     read(entityName) {
         for (let e of this.currentLocation.entities)
             if (entityName === e.name)
                 return e.text;
+        return null;
+    }
+
+    /**
+     * @param objectName The name of the object.
+     * @return {Object} The object that corresponds to the name, null if the object doesn't exist
+     */
+    getAll(objectName) {
+        for (let e of this.currentLocation.all)
+            if (objectName === e.name)
+                return e;
         return null;
     }
 

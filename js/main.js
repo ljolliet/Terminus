@@ -11,7 +11,7 @@ const COLOR = {
 class Main {
 
     static init(login) {
-
+        this.stopped = false;
         //creating small world
         let quest = new Quest("quete");
 
@@ -68,6 +68,7 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.JOBS);
             this.user.addCommand(COMMAND_TYPE.CLEAR);
             this.user.addCommand(COMMAND_TYPE.YES);
+            this.user.addCommand(COMMAND_TYPE.CHMOD);
         }
         console.log(this.user); //here current location is bethanie (home)
     }
@@ -212,7 +213,7 @@ class Main {
     static cat(args) {
         // does not support a path, only place name
         let text;
-        if ((text = this.user.read(args[1])) === null ) // if move refused
+        if ((text = this.user.read(args[1])) === null) // if move refused
             printMessage("cat: " + args[1] + " : Aucun item ou personnage de ce type");
         else
             printMessage(text);
@@ -234,7 +235,7 @@ class Main {
                 if (p instanceof Place) {
                     if (p.containsQuestTodo())
                         tmp += "!";
-                    objects.push([tmp+p.name, COLOR.PLACE]);
+                    objects.push([tmp + p.name, COLOR.PLACE]);
                 } else if (p instanceof Item) {
                     objects.push([p.name, COLOR.ITEM]);
                 } else if (p instanceof PNJ) {
@@ -244,12 +245,12 @@ class Main {
                     for (let dependency of p.questsRequired) // to check if the quest is available (all dependencies done)
                         if (dependency.status !== STATUS.DONE)
                             questAvailable = false;
-                    if (questAvailable){
-                        if(p.status === STATUS.TODO)
+                    if (questAvailable) {
+                        if (p.status === STATUS.TODO)
                             objects.push([p.name, COLOR.QUEST_TODO]);
-                        if(p.status === STATUS.STARTED)
+                        if (p.status === STATUS.STARTED)
                             objects.push([p.name, COLOR.QUEST_IN_PROGRESS]);
-                        if(p.status === STATUS.DONE)
+                        if (p.status === STATUS.DONE)
                             objects.push([p.name, COLOR.QUEST_DONE]);
                     }
                 }
@@ -357,16 +358,46 @@ class Main {
      *
      * @param command
      */
-    static yes(command){
-
-        //TODO
+    static yes(command) {
+        console.log("yes");
+        //   while(!this.stopped){
+        //     console.log("print");
+        //   printMessage(command);
+        // sleep(1000);
     }
 
+
     /**
-     *
-     * @param command
+     *  Chmod command implementation
+     * @param {String} options The rights to apply to the object.
+     * @param {String} objectName The target of the command.
      */
-    static chmod(command){
-        //TODO
+    static chmod(options, objectName) {
+        // found the object
+        let object, accepted = true;
+        if((object = this.user.getAll(objectName))===null)
+            printMessage("chmod: impossible d'accéder à '"+ objectName+"': Aucun Lieu, Item ou Script de ce type");
+        // if pattern chmod +xwr object
+        let rights = [];
+        if(options.startsWith("+")) {
+            let optionsSlice = options.slice(1, options.length);
+            for (let i = 0; i < optionsSlice.length; i++) {
+               if(optionsSlice.charAt(i) in ["r","w","x"])
+                   rights.push(optionsSlice.charAt(i));
+               else
+               {
+                   printMessage("chmod: mode incorrect : '" + options + "'");
+                   accepted = false;
+                   break;
+               }
+            }
+            if(accepted)
+                object.addRights(rights);
+        }
+        // if pattern chmod 647 object
+        else{
+
+        }
+        // default ?
     }
 }
