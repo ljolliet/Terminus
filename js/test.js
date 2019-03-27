@@ -89,7 +89,7 @@ QUnit.test("Reading entity", function (assert) {
     let pnj = new PNJ("pnj", "welcome");
     let item = new Item("item", "content");
     place.addEntity(pnj);
-    place.addEntity(item);tree
+    place.addEntity(item);
     user.currentLocation = place;
     assert.equal(user.read("pnj"), "welcome", "PNJ text read");
     assert.equal(user.read("item"), "content", "Item text read");

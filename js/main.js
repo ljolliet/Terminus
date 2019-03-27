@@ -67,6 +67,7 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.GREP);
             this.user.addCommand(COMMAND_TYPE.JOBS);
             this.user.addCommand(COMMAND_TYPE.CLEAR);
+            this.user.addCommand(COMMAND_TYPE.YES);
         }
         console.log(this.user); //here current location is bethanie (home)
     }
@@ -154,6 +155,14 @@ class Main {
 
             case COMMAND_TYPE.MAN:
                 if (isValid) Main.man(parsedCommand.args[1]);
+                else printMessage(errorMessage);
+                break;
+            case COMMAND_TYPE.YES:
+                if (isValid) Main.yes(parsedCommand.args[1]);
+                else printMessage(errorMessage);
+                break;
+            case COMMAND_TYPE.CHMOD:
+                if (isValid) Main.chmod(parsedCommand.args[1]);
                 else printMessage(errorMessage);
                 break;
         }
@@ -341,6 +350,23 @@ class Main {
      * @param command
      */
     static man(command) {
+        //TODO
+    }
+
+    /**
+     *
+     * @param command
+     */
+    static yes(command){
+
+        //TODO
+    }
+
+    /**
+     *
+     * @param command
+     */
+    static chmod(command){
         //TODO
     }
 }
