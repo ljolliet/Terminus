@@ -7,58 +7,83 @@ class UnixObject {
         this._execAccess = true;
     }
 
+    setAccesses(read, write, exec){
+        this.readAccess = read;
+        this.writeAccess = write;
+        this.execAccess = exec;
+    }
+    addAccesses(read, write, exec){
+        if(read != null) this.readAccess = true;
+        if(write != null) this.writeAccess = true;
+        if(exec != null) this.execAccess = true;
+    }
+    removeAccesses(read, write, exec){
+        if(read != null) this.readAccess = false;
+        if(write != null) this.writeAccess = false;
+        if(exec != null) this.execAccess = false;
+    }
+
+
     setRights(value) {
         let options;
+        let r = null, w = null, x = null;
         // if pattern chmod +xwr object
-        if (value.startsWith("+"))
+        if (value.startsWith("+") || value.startsWith("-") || value.startsWith("=")) {
             options = value.slice(1, value.length);
+            for (let i = 0; i < options.length; i++) {
+                switch (options.charAt(i)) {
+                    case "r":
+                        r = true;
+                        break;
+                    case "w":
+                        w = true;
+                        break;
+                    case "x":
+                        x = true;
+                        break;
+                    case "-":
+                        break;
+                    default :
+                        return false;
+                }
+            }
+            if (value.startsWith("+") )
+                this.addAccesses(r,w,x);
+            else if (value.startsWith("-") )
+                this.removeAccesses(r,w,x);
+            else if (value.startsWith("=") )
+                this.setAccesses(r,w,x);
+            }
         else        // if pattern chmod 647 object
             switch (parseInt(value)) {
                 case 0 :
-                    options = "---";
+                    this.setAccesses(false,false,false);
                     break;
                 case 1 :
-                    options = "--x";
+                    this.setAccesses(false,false,true);
                     break;
                 case 2 :
-                    options = "-w-";
+                    this.setAccesses(false,true,false);
                     break;
                 case 3 :
-                    options = "-wx";
+                    this.setAccesses(false,true,true);
                     break;
                 case 4 :
-                    options = "r--";
+                    this.setAccesses(true,false,false);
                     break;
                 case 5 :
-                    options = "r-x";
+                    this.setAccesses(true,false,true);
                     break;
                 case 6 :
-                    options = "rw-";
+                    this.setAccesses(true,true,false);
                     break;
                 case 7 :
-                    options = "rwx";
+                    this.setAccesses(true,true,true);
                     break;
                 default :
                     return false;
             }
 
-        for (let i = 0; i < options.length; i++) {
-            switch (options.charAt(i)) {
-                case "r":
-                    this.readAccess = true;
-                    break;
-                case "w":
-                    this.writeAccess = true;
-                    break;
-                case "x":
-                    this.execAccess = true;
-                    break;
-                case "-":
-                    break;
-                default :
-                    return false;
-            }
-        }
         return true;
     }
 
