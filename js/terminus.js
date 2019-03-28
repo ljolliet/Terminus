@@ -92,7 +92,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 // We get the objects that are the closest to the last argument
                 let objects = Main.user.currentLocation.getStartWith(lastArgument);
 
-                if (objects.length > 0) {
+                if (objects.length > 1) {
                     let objectNames = [];
 
                     for (let object of objects) {
@@ -115,6 +115,11 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     printMessage(msg, true);
 
                     colorMessage(objectNames);
+                } else if (objects.length === 1) {
+                    console.log(lastArgument, inputTextFirst.innerText);
+                    // We need to remove what the user has written with the write object name
+                    inputTextFirst.innerText = inputTextFirst.innerText.substring(0, inputTextFirst.innerText.length - lastArgument.length) + objects[0].name;
+                    tabCommandSaved = inputTextFirst.innerText;
                 }
             }
         } else if (code === 13) { // ENTER
