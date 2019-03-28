@@ -23,7 +23,7 @@ class Place extends UnixObject{
         }*/
 
     /**
-     * @return {Object[]} All the entities, places, quests, ordered alphabetically.
+     * @return {UnixObject[]} All the entities, places, quests, ordered alphabetically.
      */
     get all() {
         let all = [];

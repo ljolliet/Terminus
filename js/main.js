@@ -163,7 +163,7 @@ class Main {
                 else printMessage(errorMessage);
                 break;
             case COMMAND_TYPE.CHMOD:
-                if (isValid) Main.chmod(parsedCommand.args[1]);
+                if (isValid) Main.chmod(parsedCommand.args[1], parsedCommand.args[2]);
                 else printMessage(errorMessage);
                 break;
         }
@@ -224,17 +224,17 @@ class Main {
      * @param {String[]}options (formatted this way : ["option1", "option2])
      */
     static ls(options) {
-        let tmp = "";
         let objects = [];
         console.log(options);
 
         if (this.user.currentLocation !== Place.root)
             objects.push(["..", COLOR.PLACE]);
         for (let p of this.user.currentLocation.all) {
+            let tmp = "";
             if (!p.name.startsWith(".") || options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
                 if (p instanceof Place) {
                     if (p.containsQuestTodo())
-                        tmp += "!";
+                        tmp = "!";
                     objects.push([tmp + p.name, COLOR.PLACE]);
                 } else if (p instanceof Item) {
                     objects.push([p.name, COLOR.ITEM]);
@@ -360,10 +360,11 @@ class Main {
      */
     static yes(command) {
         console.log("yes");
-        //   while(!this.stopped){
-        //     console.log("print");
-        //   printMessage(command);
-        // sleep(1000);
+          while(!this.stopped) {
+              console.log("print");
+              printMessage(command);
+              sleep(1000);
+          }
     }
 
 
