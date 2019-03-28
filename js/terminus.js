@@ -77,8 +77,40 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             // We need to count the number of TAB typed
             tabIndex++;
 
+            // If there is no extra arguments, we will check if the command typed starts with ./
+            if(parsedCommand.args.length === 1) {
+                let cmdChecker = new Checker(parsedCommand, Main.user);
+                if (cmdChecker.getCommandType() === COMMAND_TYPE.LAUNCH) {
+                    console.log(parsedCommand.toString());
+                    let objects = Main.user.currentLocation.getStartWith(parsedCommand.toString());
+                    let scripts = [];
+                    for(let object of objects){
+                        if(object instanceof Quest){
+                            scripts.push(colorize(object));
+                        }
+                    }
+
+                    if(scripts.length === 1){
+                        // We need to remove what the user has written with the write object name
+                        inputTextFirst.innerText = "./" + scripts[0][0];
+                        tabCommandSaved = inputTextFirst.innerText;
+                    }else if(scripts.length > 1){
+                        let msg = "";
+                        if (size1 > 0)
+                            msg += inputTextFirst.innerText;
+                        msg += cursor.innerText;
+                        if (size2 > 0)
+                            msg += inputTextSecond.innerText;
+                        msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
+
+                        // Print the message with the path before
+                        printMessage(msg, true);
+
+                        colorMessage(scripts);
+                    }
+                }
             // There is no extra argument
-            if (parsedCommand.args.length === 1) {
+            } else if (parsedCommand.args.length === 1) {
 
                 // The user has typed TAB, we need to retrieve the closest command, then we override the current input
                 let closestCommands = Command.getClosestCommands(tabCommandSaved);
@@ -100,15 +132,11 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     }
 
                     let msg = "";
-
                     if (size1 > 0)
                         msg += inputTextFirst.innerText;
-
                     msg += cursor.innerText;
-
                     if (size2 > 0)
                         msg += inputTextSecond.innerText;
-
                     msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
 
                     // Print the message with the path before
@@ -116,7 +144,6 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                     colorMessage(objectNames);
                 } else if (objects.length === 1) {
-                    console.log(lastArgument, inputTextFirst.innerText);
                     // We need to remove what the user has written with the write object name
                     inputTextFirst.innerText = inputTextFirst.innerText.substring(0, inputTextFirst.innerText.length - lastArgument.length) + objects[0].name;
                     tabCommandSaved = inputTextFirst.innerText;
