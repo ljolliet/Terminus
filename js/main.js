@@ -90,8 +90,6 @@ class Main {
         let isValid = commandChecker.isCommandValid();
         let errorMessage = commandChecker.getErrorMessage();
 
-        console.log(parsedCommand.args);
-
         switch (commandChecker.getCommandType()) {
             case COMMAND_TYPE.UNKNOWN:
                 printMessage(errorMessage);
@@ -125,7 +123,7 @@ class Main {
                 break;
 
             case COMMAND_TYPE.LAUNCH:
-                if (isValid) Main.launch(parsedCommand.args[0]);
+                if (isValid) Main.launch(parsedCommand.args[0].slice(2));
                 else printMessage(errorMessage);
                 break;
 
@@ -225,7 +223,6 @@ class Main {
      */
     static ls(options) {
         let objects = [];
-        console.log(options);
 
         if (this.user.currentLocation !== Place.root)
             objects.push(["..", COLOR.PLACE]);
@@ -256,7 +253,6 @@ class Main {
                 }
             }
         }
-        console.log(objects);
         colorMessage(objects);
     }
 

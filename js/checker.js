@@ -207,7 +207,6 @@ class Checker {
                     } else {
                         this._errorMessage = "";
                         this._isValid = true;
-                        this._command.args[0] = this._command.args[0].replace("./", "");
                     }
                     this._type = COMMAND_TYPE.LAUNCH;
                 } else {

@@ -81,8 +81,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             if(parsedCommand.args.length === 1) {
                 let cmdChecker = new Checker(parsedCommand, Main.user);
                 if (cmdChecker.getCommandType() === COMMAND_TYPE.LAUNCH) {
-                    console.log(parsedCommand.toString());
-                    let objects = Main.user.currentLocation.getStartWith(parsedCommand.toString());
+                    let objects = Main.user.currentLocation.getStartWith(parsedCommand.toString().slice(2));
                     let scripts = [];
                     for(let object of objects){
                         if(object instanceof Quest){
@@ -236,8 +235,6 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 if (size2 > 0)
                     tmpCommand += inputTextSecond.innerText;
-
-                console.log(tmpCommand);
             }
 
             if (commandSave.length > 0) {
