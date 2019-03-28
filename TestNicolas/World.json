@@ -1,69 +1,119 @@
 {
-
-  "World" : {
-    "Places" : {
-      "Place_1" : {
-        "PlaceName" : "Place_1",
-        "Next_Place" : [
+  "World": {
+    "Places": [
+      {
+        "placeName": "Place_1",
+        "parent" : "null",
+        "next_Place": [
           "Place_3",
           "Place_5"
-          ],
-        "Quests" : [
+        ],
+        "quests": [
           "Quest_1"
-          ],
-        "Entities" : [
-          "Dumbledor"
-          ]
+        ],
+        "pnj": [
+          {
+            "name": "Dumbledor",
+            "text": "Je suis Dumbledor le plus grand magicien de Poudlard !!!! "
+          }
+        ],
+        "items": [
+          {
+            "name": "Lampe",
+            "text": "Utilise la lampe pour te reperer"
+          }
+        ],
+        "script" : [
+          {
+            "name" : "Script_1",
+            "content" : [
+              "abc",
+              "rgb"
+            ],
+            "args" : [
+              "arg_1",
+              "arg_2"
+            ]
+          }
+        ]
       },
-      "Place_2" : {
-        "Next_Place" : [
+      {
+        "placeName": "Place_2",
+        "parent" : "Place_1",
+        "next_Place": [
           "Place_3",
           "Place_5"
         ],
-        "Quests" : [
+        "quests": [
           "Quest_1"
         ],
-        "Entities" : [
-          "Dumbledor"
+        "pnj": [
+          {
+            "name": "Voldemor",
+            "text": "Je suis Voldemor le plus grand mechant de Poudlard !!!! "
+          }
+        ],
+        "items": [
+          {
+            "name": "Lampe",
+            "text": "Utilise la lampe pour te reperer"
+          }
+        ],
+        "script" : [
+          {
+            "name" : "Script_1",
+            "content" : [
+              "aasbc",
+              "rgfzdb"
+            ],
+            "args" : [
+              "arg_3",
+              "arg_4"
+            ]
+          }
         ]
       }
-    },
-    "Quests" : {
-      "Quest_1" : {
-        "Name" : "Super Nom de Quête",
-        "Requirement" : [
+    ],
+    "Quests": [
+      {
+        "number" : 1,
+        "name": "Super Nom de Quête",
+        "requirement": [
           "Quest_X"
-          ],
-        "Rewards" : "MyReward",
-        "Commands_Rewards" : [
+        ],
+        "commands_Rewards": [
           "Command_1",
           "Command_2"
-          ],
-        "PNJ" : [
+        ],
+        "pnj": [
           "Dumbledor",
           "PNJ 2"
-          ],
-        "Statut" : "Bloquée",
-        "Texte" : "azertyuiopqsdfghjklmwxcvbn",
-        "Objectifs" : [
-          "Pas sûr"
-          ]
-      }
-    },
-    "User" : {
-      "Pseudo" : "XxSuperEtudiantTrôFort33xX",
-      "Inventaire" : [
-        "La POO pour les nuls",
-        "Mots croisés"
         ],
-      "Commandes" : [
+        "status": "Bloquée",
+        "text_Start": "azertyuiopqsdfghjklmwxcvbn",
+        "text_End": "azertyuiopqsdfghjklmwxcvbn",
+        "commandRequired": [
+          "ls -a",
+          "cat myFile.txt"
+        ]
+      }
+    ],
+    "User": {
+      "pseudo": "XxSuperEtudiantTrôFort33xX",
+      "inventaire": [
+        {
+          "name": "Lampe",
+          "text": "Utilise blablabla"
+        }
+      ],
+      "commands": [
         "ls",
         "cat",
         "cd"
-        ],
-      "QuestsEnded" : [
+      ],
+      "questsEnded": [
         "Quest_1"
-        ]
+      ]
     }
-  } 
+  }
 }
