@@ -1,11 +1,11 @@
 class Place extends UnixObject{
 
-
     constructor(name){
         super(name);
         this._places = [];
         this._entities = [];
         this._quests = [];
+        this._scripts = [];
         this._parent = null;
         //static attributes (see below the class):
         //Place.root
@@ -33,10 +33,11 @@ class Place extends UnixObject{
             all.push(p);
         for (let q of this.quests)
             all.push(q);
+        for (let s of this.scripts)
+            all.push(s);
         all.sort((a, b) => a.name > b.name); // sort the array alphabetically comparing the names of the Objects
+
         return all;
-
-
     }
 
     /**
@@ -142,6 +143,13 @@ class Place extends UnixObject{
     }
 
     /**
+     * @return {Script[]} The scripts array.
+     */
+    get scripts() {
+        return this._scripts;
+    }
+
+    /**
      * @return {Place} Parent place.
      */
     get parent() {
@@ -176,7 +184,13 @@ class Place extends UnixObject{
      */
     addEntity(entity) {
         this.entities.push(entity);
+    }
 
+    /**
+     * @param {Script} script To add in scripts array.
+     */
+    addScript(script) {
+        this.scripts.push(script);
     }
 
     /**

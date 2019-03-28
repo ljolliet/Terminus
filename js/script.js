@@ -16,11 +16,11 @@ class Script extends UnixObject {
     }
 
     /**
-     * Scrpt launching
+     * Script launching
      */
     run() {
         for (let command of this.content) {
-            //TODO execute each command like if the user was typing commands
+           Main.executeCommand(command);
         }
     }
 

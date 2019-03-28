@@ -5,7 +5,8 @@ const COLOR = {
     PLACE: "#709ede",
     ITEM: "#ffffff",
     PNJ: "#ba55d3",
-    SCRIPT: "#ffd700"
+    SCRIPT: "#ffd700",
+    OTHER: "#444444"
 };
 
 class Main {
@@ -30,6 +31,16 @@ class Main {
         quest2.addCommandRewards(COMMAND_TYPE.TREE);
         quest2.addQuestsRequired(quest);
 
+        let script1 = new Script("hack-quetes.sh", "");
+        script1.content = [
+            "./quete.sh",
+            "help",
+            "ls",
+            "cd A21",
+            "./quete2.sh",
+            "ls"
+        ];
+
         /*let ioJson =  new IOjson("World.json");
 
         let Place_1 = ioJson.getPlace("Place_1");
@@ -47,6 +58,7 @@ class Main {
         campus.addPlace(bethanie);
         bethanie.addQuest(quest);
         A21.addQuest(quest2);
+        bethanie.addScript(script1);
         bethanie.addPlace(A22);
         bethanie.addPlace(A21);
         bethanie.addEntity(new Item(".caché", "contenue caché"));
@@ -179,7 +191,7 @@ class Main {
             printMessage("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-            // printMessage("Tu es sur que tu souhaite quitter Terminus ? (yes/no)")
+            // printMessage("Tu es sur que tu souhaites quitter Terminus ? (yes/no)")
             reload();
         }
     }
@@ -250,6 +262,10 @@ class Main {
                         if (p.status === STATUS.DONE)
                             objects.push([p.name, COLOR.QUEST_DONE]);
                     }
+                } else if (p instanceof Script) {
+                    objects.push([p.name, COLOR.SCRIPT])
+                } else {
+                    objects.push([p.name, COLOR.OTHER])
                 }
             }
         }
@@ -258,20 +274,27 @@ class Main {
 
     /**
      * Here goes the code when the user has launched a quest.
-     * @param {String} questName The name of the quest.
+     * @param {String} scriptName The name of the script.
      */
-    static launch(questName) {
-        let info;
-        if ((info = this.user.launch(questName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
-            printMessage("lancement de quête : " + questName + " : Aucune quête de ce type");
-        else if (info === INFO.UNAVAILABLE) {
-            printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
-        } else if (info === INFO.FINISHED) {
-            printMessage("La quête " + questName + " est déjà terminée");
-        } else // INFO.FOUND
-        {
-            printMessage("Quête " + this.user.currentQuest.name + " lancée");
-            printMessage(this.user.currentQuest.initialText);
+    static launch(scriptName) {
+
+        // We try to launch the script
+        let scriptLaunched = this.user.launchScript(scriptName);
+
+        // If it did not launch, we check if it is a quest
+        if(!scriptLaunched) {
+            let info;
+            if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
+                printMessage("lancement de quête : " + scriptName + " : Aucune quête de ce type");
+            else if (info === INFO.UNAVAILABLE) {
+                printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
+            } else if (info === INFO.FINISHED) {
+                printMessage("La quête " + scriptName + " est déjà terminée");
+            } else // INFO.FOUND
+            {
+                printMessage("Quête " + this.user.currentQuest.name + " lancée");
+                printMessage(this.user.currentQuest.initialText);
+            }
         }
     }
 
