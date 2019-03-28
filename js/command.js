@@ -23,6 +23,7 @@ class Command {
      * @return {string} it returns the original command formatted correctly.
      */
     toString(){
+        console.log(this._args);
         let cmd = "";
         for(let i = 0; i < this._args.length; i ++){
             for(let j = 0; j < this._args[i].length; j ++){
