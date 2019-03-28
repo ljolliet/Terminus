@@ -298,6 +298,17 @@ QUnit.test("Rights on unixObjects", function(assert){
     assert.equal(script.setRights("+xwr"), true, "code +xwr authorized");
     assert.equal(script.setRights("hhgcgh"), false, "random code not authorized");
     assert.equal(script.setRights("+hj"), false, "random code not authorized");
+    assert.equal(script.setRights("hhgcgh"), false, "random code not authorized");
+    assert.equal(script.setRights("+hj"), false, "random code not authorized");
+    assert.equal(script.setRights("-xwr"), true, "code -xwr authorized");
+    assert.equal(script.readAccess, false, "Read access now not authorized");
+    assert.equal(script.writeAccess, false, "Write access now not authorized");
+    assert.equal(script.execAccess, false, "Execution access now not authorized");
+    assert.equal(script.setRights("=xwr"), true, "code -xwr authorized");
+    assert.equal(script.readAccess, true, "Read access now authorized");
+    assert.equal(script.writeAccess, true, "Write access now authorized");
+    assert.equal(script.execAccess, true, "Execution access now authorized");
+
 
 
 
