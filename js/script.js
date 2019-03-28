@@ -19,9 +19,16 @@ class Script extends UnixObject {
      * Script launching
      */
     run() {
-        for (let command of this.content) {
-           Main.executeCommand(command);
-        }
+        let index = 0;
+        let that = this;
+        let runner = setInterval(function(){
+            if(index === that.content.length){
+                clearInterval(runner)
+            }else{
+                Main.executeCommand(that.content[index]);
+                index ++;
+            }
+        },50);
     }
 
     get args() {

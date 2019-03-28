@@ -399,6 +399,10 @@ function colorize(object) {
             if (object.status === STATUS.DONE)
                 return [object.name, COLOR.QUEST_DONE];
         }
+    } else if (object instanceof Script) {
+        return [object.name, COLOR.SCRIPT];
+    } else {
+        return [object.name, COLOR.OTHER];
     }
     return null;
 }
