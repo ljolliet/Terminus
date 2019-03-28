@@ -97,8 +97,13 @@ class Command {
 
         for (let key in COMMAND_TYPE) {
             if (COMMAND_TYPE.hasOwnProperty(key)) {
-                if(COMMAND_TYPE[key].startsWith(prefix))
-                    matches.push(COMMAND_TYPE[key]);
+                // Check if the command starts with the command typed
+                if(COMMAND_TYPE[key].startsWith(prefix)){
+                    // Check if the command is authorized
+                    if(Main.user.commandsAuthorized.indexOf(COMMAND_TYPE[key]) > -1){
+                        matches.push(COMMAND_TYPE[key]);
+                    }
+                }
             }
         }
         return matches;
