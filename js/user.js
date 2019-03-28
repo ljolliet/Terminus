@@ -215,7 +215,7 @@ class User {
      * @return {INFO} FOUND if the quest exists and the launching succeed,
      * UNAVAILABLE if a quest is already launched and UNKNOWN if the quest doesn't exist.
      */
-    launch(questName) {
+    launchQuest(questName) {
         if (this.currentQuest === null) {   // if a quest is not already launched
             for (let q of this.currentLocation.quests)
                 if (q.name === questName) {
@@ -231,6 +231,21 @@ class User {
             return INFO.UNKNOWN;    // else : quest not found
         }
         return INFO.UNAVAILABLE;   // a quest is already launched
+    }
+
+    /**
+     * @param {String} scriptName Name of the script to launch.
+     * @return {boolean} True if the script was found and launched, false otherwise.
+     */
+    launchScript(scriptName){
+        for(let script of this.currentLocation.scripts){
+            if(script.name === scriptName){
+                console.log("found");
+                script.run();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
