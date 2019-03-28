@@ -84,7 +84,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     let objects = Main.user.currentLocation.getStartWith(parsedCommand.toString().slice(2));
                     let scripts = [];
                     for(let object of objects){
-                        if(object instanceof Quest){
+                        if(object instanceof Quest || object instanceof Script){
                             scripts.push(colorize(object));
                         }
                     }
