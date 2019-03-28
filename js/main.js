@@ -12,7 +12,6 @@ const COLOR = {
 class Main {
 
     static init(login) {
-        this.stopped = false;
         //creating small world
         let quest = new Quest("quete");
 
@@ -378,12 +377,20 @@ class Main {
      * @param command
      */
     static yes(command) {
-        console.log("yes");
-          while(!this.stopped) {
-              console.log("print");
-              printMessage(command);
-              sleep(1000);
-          }
+        this.actualProcess = window.setInterval(() => {
+            console.log("print");
+            printMessage(command);
+        }, 100);
+    }
+
+    /**
+     * Stop the process that is running
+     */
+    static stop() {
+        if (this.actualProcess != null) {
+            clearInterval(this.actualProcess);
+            this.actualProcess = null;
+        }
     }
 
 

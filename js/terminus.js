@@ -276,6 +276,9 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     inputTextSecond.innerHTML = "";
                 }
             }
+        } else if (input === 'c' && event.ctrlKey) {
+            printMessage("^C");
+            Main.stop();
         } else if (code === 32) { // SPACE
             // Transform the normal space in an unbreakable space
             inputTextFirst.innerHTML += NBSPACE;
@@ -338,9 +341,8 @@ function printMessage(message, path = false) {
 
     document.getElementById("console-output").appendChild(childDiv);
 
-    // For browsers that does not auto scroll to the bottom of the page
-    // To test
-    //document.getElementById("console").scrollTo(0, document.body.scrollHeight);
+    // Scroll to page bottom
+    document.getElementsByClassName("textInput")[0].scrollIntoView(true);
 }
 
 /**
@@ -372,6 +374,9 @@ function colorMessage(colorMsg) {
     }
 
     document.getElementById("console-output").appendChild(childDiv);
+
+    // Scroll to page bottom
+    document.getElementsByClassName("textInput")[0].scrollIntoView(true);
 }
 
 function colorize(object) {
