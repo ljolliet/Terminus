@@ -6,6 +6,7 @@ class UnixObject {
         this._writeAccess = true;
         this._execAccess = true;
     }
+    description(base, shift, id) { return null;}
 
     setAccesses(read, write, exec){
         this.readAccess = read;

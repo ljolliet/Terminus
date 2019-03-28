@@ -66,15 +66,15 @@ QUnit.test("User place change", function (assert) {
     parent.addPlace(son);
     user.currentLocation = parent;
     assert.equal(user.currentLocation, parent, "Current location is set");
-    assert.equal(user.moveTo("son"), true, "Going to a sub-place that exists is accepted");
+    assert.equal(user.moveTo("son"), COMMAND_STATUS.CORRECT, "Going to a sub-place that exists is accepted");
     assert.equal(user.currentLocation, son, "Current location is updated as sub-place");
-    assert.equal(user.moveTo("else"), false, "Going to a sub-place that doesn't exist is refused");
+    assert.equal(user.moveTo("else"), COMMAND_STATUS.INCORRECT, "Going to a sub-place that doesn't exist is refused");
     assert.equal(user.currentLocation, son, "Current location stay the same");
-    assert.equal(user.moveTo("."), true, "Going to the current location ('.') is accepted");
+    assert.equal(user.moveTo("."), COMMAND_STATUS.CORRECT, "Going to the current location ('.') is accepted");
     assert.equal(user.currentLocation, son, "Current location stay the same");
-    assert.equal(user.moveTo(".."), true, "Going to parent ('..') is accepted");
+    assert.equal(user.moveTo(".."), COMMAND_STATUS.CORRECT, "Going to parent ('..') is accepted");
     assert.equal(user.currentLocation, parent, "Current location is updated as parent");
-    assert.equal(user.moveTo(".."), false, "Going to parent ('..') is refused if the current is root (no parent)");
+    assert.equal(user.moveTo(".."), COMMAND_STATUS.INCORRECT, "Going to parent ('..') is refused if the current is root (no parent)");
     assert.equal(user.currentLocation, parent, "Current location stay the same");
 
 

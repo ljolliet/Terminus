@@ -210,8 +210,11 @@ class Main {
      * @param {[string]} args the command detail.
      */
     static cd(args) {
-        if (!this.user.moveTo(args[1])) // if move refused
+        let status;
+        if ((status = this.user.moveTo(args[1])) === COMMAND_STATUS.INCORRECT) // if move refused
             printMessage("cd: " + args[1] + " : Aucun lieu de ce type");
+        else if (status === COMMAND_STATUS.PERMISSION_ISSUE)
+            printMessage(this.permissionMessage("cd", args[1]));
         //else : move done
     }
 
@@ -224,6 +227,8 @@ class Main {
         let text;
         if ((text = this.user.read(args[1])) === null) // if move refused
             printMessage("cat: " + args[1] + " : Aucun item ou personnage de ce type");
+        else if (text === COMMAND_STATUS.PERMISSION_ISSUE)
+            printMessage(this.permissionMessage("cat", args[1]));
         else
             printMessage(text);
     }
@@ -234,7 +239,10 @@ class Main {
      */
     static ls(options) {
         let objects = [];
-
+        if (!this.user.currentLocation.readAccess) {
+            printMessage(this.permissionMessage("ls", this.user.currentLocation.name));
+            return 0;
+        }
         if (this.user.currentLocation !== Place.root)
             objects.push(["..", COLOR.PLACE]);
         for (let p of this.user.currentLocation.all) {
@@ -279,17 +287,20 @@ class Main {
 
         // We try to launch the script
         let scriptLaunched = this.user.launchScript(scriptName);
-
+        if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
+            printMessage(this.permissionMessage("./", scriptName));
         // If it did not launch, we check if it is a quest
-        if(!scriptLaunched) {
+        else if (scriptLaunched===COMMAND_STATUS.INCORRECT) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
                 printMessage("lancement de quête : " + scriptName + " : Aucune quête de ce type");
-            else if (info === INFO.UNAVAILABLE) {
+            else if (info === COMMAND_STATUS.PERMISSION_ISSUE)
+                printMessage(this.permissionMessage("./", scriptName));
+            else if (info === INFO.UNAVAILABLE)
                 printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
-            } else if (info === INFO.FINISHED) {
+            else if (info === INFO.FINISHED)
                 printMessage("La quête " + scriptName + " est déjà terminée");
-            } else // INFO.FOUND
+            else// INFO.FOUND
             {
                 printMessage("Quête " + this.user.currentQuest.name + " lancée");
                 printMessage(this.user.currentQuest.initialText);
@@ -303,8 +314,11 @@ class Main {
      * @param {String} destination
      */
     static mv(source, destination) {
-        if (!this.user.moveItem(source, destination)) // if move refused
+        let status = this.user.moveItem(source, destination);
+        if ( status === COMMAND_STATUS.INCORRECT) // if move refused
             printMessage("mv: impossible d'évaluer '" + source + "' Aucun item ce type");
+        else if (status === COMMAND_STATUS.PERMISSION_ISSUE)
+            printMessage(this.permissionMessage("mv", source));
         //else : move done
     }
 
@@ -401,9 +415,18 @@ class Main {
      */
     static chmod(options, objectName) {
         let object;
-        if((object = this.user.getAll(objectName))===null) // found the object
-            printMessage("chmod: impossible d'accéder à '"+ objectName+"': Aucun Lieu, Item ou Script de ce type");
-        else if(object.setRights(options) === false)    // set the rights
+        if ((object = this.user.getAll(objectName)) === null) // found the object
+            printMessage("chmod: impossible d'accéder à '" + objectName + "': Aucun Lieu, Item ou Script de ce type");
+        else if (object.setRights(options) === false)    // set the rights
             printMessage("chmod: mode incorrect : '" + options + "'");
+    }
+
+    /**
+     * @param command The command typed by the user.
+     * @param objectName The name of the object concerned.
+     * @returns {String} The message to print.
+     */
+    static permissionMessage(command, objectName) {
+        return command + ": " + objectName + ": Permission non accordée";
     }
 }

@@ -1,3 +1,10 @@
+const COMMAND_STATUS = {
+    CORRECT : 0,
+    INCORRECT : 1,
+    PERMISSION_ISSUE : 2
+};
+
+
 class Command {
 
     /**

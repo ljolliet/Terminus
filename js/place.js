@@ -1,6 +1,6 @@
-class Place extends UnixObject{
+class Place extends UnixObject {
 
-    constructor(name){
+    constructor(name) {
         super(name);
         this._places = [];
         this._entities = [];
@@ -49,14 +49,13 @@ class Place extends UnixObject{
      */
     description(base, shift, id) {
         let tree = this.name;
-        for (let el of this.all) {
-            tree += "\n";
-            for (let i = 0; i < id; i++) {
-                tree += shift;
+        if (this.readAccess)
+            for (let el of this.all) {
+                tree += "\n";
+                for (let i = 0; i < id; i++)
+                    tree += shift;
+                tree += base + el.description(base, shift, id + 1);
             }
-
-            tree += base + el.description(base, shift, id + 1);
-        }
         return tree;
     }
 

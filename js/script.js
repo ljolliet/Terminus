@@ -30,6 +30,9 @@ class Script extends UnixObject {
             }
         },50);
     }
+    description(base, shift = "", id = 0) {
+        return "./" + this.name;
+    }
 
     get args() {
         return this._args;
