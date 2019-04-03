@@ -104,21 +104,95 @@
         "script": []
       },
       {
-        "placeName": "example",
+        "placeName": "Inventaire",
         "next_Place": [],
-        "quests": [],
-        "pnj": [],
+        "quests": [
+          "armoire_a_trophées.sh"
+        ],
+        "pnj": [
+          {
+            "name": "A.Dibou",
+            "text": ""
+          }
+        ],
+        "items": [
+          {
+            "name": "armoire_a_trophées",
+            "text": ""
+          },
+          {
+            "name": "liens_utiles",
+            "text": ""
+          }
+        ],
+        "script": []
+      },
+      {
+        "placeName": "CREMI",
+        "next_Place": [
+          "1er_Etage",
+          "2eme_Etage",
+          "3eme_Etage"
+        ],
+        "quests": [
+          "ENT_legendaire.sh"
+        ],
+        "pnj": [
+          {
+            "name": "Fred&Jamy",
+            "text": ""
+          }
+        ],
+        "items": [
+          {
+            "name": "lien_ent",
+            "text": ""
+          }
+        ],
+        "script": []
+      },
+      {
+        "placeName": "3eme_Etage",
+        "next_Place": [
+          "passage_interdit"
+        ],
+        "quests": [
+          "power.sh"
+        ],
+        "pnj": [
+          {
+            "name": "Dark_Lord",
+            "text": ""
+          }
+        ],
+        "items": [],
+        "script": []
+      },
+      {
+        "placeName": "pont",
+        "next_Place": [
+          "passage_interdit"
+        ],
+        "quests": [
+          "les_constructeurs_de_l'extreme.sh"
+        ],
+        "pnj": [
+          {
+            "name": "Frodon",
+            "text": ""
+          },
+          {
+            "name": "Gandalf",
+            "text": ""
+          }
+        ],
         "items": [],
         "script": [
           {
-            "name": "Script_1",
+            "name": "traversée_pont.sh",
             "content": [
-              "aasbc",
-              "rgfzdb"
             ],
             "args": [
-              "arg_3",
-              "arg_4"
             ]
           }
         ]
@@ -166,4 +240,5 @@
       ]
     }
   }
+}
 
