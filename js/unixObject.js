@@ -6,6 +6,7 @@ class UnixObject {
         this._writeAccess = true;
         this._execAccess = true;
     }
+
     description(base, shift, id) { return null;}
 
     setAccesses(read, write, exec){
@@ -13,17 +14,18 @@ class UnixObject {
         this.writeAccess = write;
         this.execAccess = exec;
     }
+
     addAccesses(read, write, exec){
         if(read != null) this.readAccess = true;
         if(write != null) this.writeAccess = true;
         if(exec != null) this.execAccess = true;
     }
+
     removeAccesses(read, write, exec){
         if(read != null) this.readAccess = false;
         if(write != null) this.writeAccess = false;
         if(exec != null) this.execAccess = false;
     }
-
 
     setRights(value) {
         let options;

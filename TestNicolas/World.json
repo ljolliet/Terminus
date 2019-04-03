@@ -2,71 +2,121 @@
   "World": {
     "Places": [
       {
-        "placeName": "Place_1",
-        "parent" : "null",
+        "placeName": "Campus",
         "next_Place": [
-          "Place_3",
-          "Place_5"
+          "Arts_et_Metiers",
+          "Bethanie",
+          "Doyen_Brus"
         ],
-        "quests": [
-          "Quest_1"
-        ],
-        "pnj": [
-          {
-            "name": "Dumbledor",
-            "text": "Je suis Dumbledor le plus grand magicien de Poudlard !!!! "
-          }
-        ],
-        "items": [
-          {
-            "name": "Lampe",
-            "text": "Utilise la lampe pour te reperer"
-          }
-        ],
-        "script" : [
-          {
-            "name" : "Script_1",
-            "content" : [
-              "abc",
-              "rgb"
-            ],
-            "args" : [
-              "arg_1",
-              "arg_2"
-            ]
-          }
-        ]
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
       },
       {
-        "placeName": "Place_2",
-        "parent" : "Place_1",
+        "placeName": "Bethanie",
         "next_Place": [
-          "Place_3",
-          "Place_5"
+          "A21",
+          "A22",
+          "CREMI",
+          "pont"
         ],
         "quests": [
-          "Quest_1"
+          "la_traversée_eternelle.sh"
         ],
         "pnj": [
           {
-            "name": "Voldemor",
-            "text": "Je suis Voldemor le plus grand mechant de Poudlard !!!! "
+            "name": "Pr.Chen",
+            "text": ""
+          }
+        ],
+        "items": [],
+        "script": []
+      },
+      {
+        "placeName": "A22",
+        "next_Place": [
+          "Amphi_Henri_Poincaré",
+          "Amphi_Thomas_Edison",
+          "guichet_unique"
+        ],
+        "quests": [
+          "le_vaste_monde.sh"
+        ],
+        "pnj": [
+          {
+            "name": "Pr.Ofaite",
+            "text": ""
+          }
+        ],
+        "items": [],
+        "script": []
+      },
+      {
+        "placeName": "Amphi_Henri_Poincaré",
+        "next_Place": [],
+        "quests": [
+          "les_documents_confidentiels.sh"
+        ],
+        "pnj": [
+          {
+            "name": "A.Dumbledore",
+            "text": ""
+          }
+        ],
+        "items": [],
+        "script": []
+      },
+      {
+        "placeName": "Amphi_Thomas_Edison",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      },
+      {
+        "placeName": "guichet_unique",
+        "next_Place": [],
+        "quests": [
+          "le_rangement_IKEA.sh"
+        ],
+        "pnj": [
+          {
+            "name": "A.Dibou",
+            "text": ""
+          },
+          {
+            "name": "Deadpool",
+            "text": ""
           }
         ],
         "items": [
           {
-            "name": "Lampe",
-            "text": "Utilise la lampe pour te reperer"
+            "name": "carte_etudiante",
+            "text": ""
+          },
+          {
+            "name": "certificat_de_scolarité",
+            "text": ""
           }
         ],
-        "script" : [
+        "script": []
+      },
+      {
+        "placeName": "example",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": [
           {
-            "name" : "Script_1",
-            "content" : [
+            "name": "Script_1",
+            "content": [
               "aasbc",
               "rgfzdb"
             ],
-            "args" : [
+            "args": [
               "arg_3",
               "arg_4"
             ]
@@ -76,7 +126,7 @@
     ],
     "Quests": [
       {
-        "number" : 1,
+        "number": 1,
         "name": "Super Nom de Quête",
         "requirement": [
           "Quest_X"
@@ -116,4 +166,4 @@
       ]
     }
   }
-}
+

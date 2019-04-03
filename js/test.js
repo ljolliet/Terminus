@@ -237,7 +237,7 @@ QUnit.test("questDependency", function (assert) {
     quest2.addQuestsRequired(quest);
     quest3.addQuestsRequired(quest2);
     let place = new Place("place");
-    let user = new User("toto",[],null,[]);
+    let user = new User("toto", [], null, []);
     user.currentLocation = place;
     place.addQuest(quest);
     place.addQuest(quest2);
@@ -254,14 +254,14 @@ QUnit.test("questDependency", function (assert) {
 
 });
 
-QUnit.test("Rights on unixObjects", function(assert){
-   let place = new Place("place");
-   let item = new Item("item");
+QUnit.test("Rights on unixObjects", function (assert) {
+    let place = new Place("place");
+    let item = new Item("item");
     let pnj = new PNJ("item");
     let quest = new Quest("quest");
-   let script = new Script("script");
+    let script = new Script("script");
 
-   //place init
+    //place init
     assert.equal(place.readAccess, true, "Read access authorized for a place when it is created");
     assert.equal(place.writeAccess, true, "Write access authorized for a place when it is created");
     assert.equal(place.execAccess, true, "Execution access authorized for a place when it is created");
@@ -308,8 +308,6 @@ QUnit.test("Rights on unixObjects", function(assert){
     assert.equal(script.readAccess, true, "Read access now authorized");
     assert.equal(script.writeAccess, true, "Write access now authorized");
     assert.equal(script.execAccess, true, "Execution access now authorized");
-
-
 
 
 });
