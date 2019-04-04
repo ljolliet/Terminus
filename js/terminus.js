@@ -300,6 +300,10 @@ function clearConsoleInput() {
     inputTextSecond.innerHTML = "";
 }
 
+/**
+ * Get the console input content
+ * @returns {string} Return the console input content
+ */
 function getConsoleInputContent() {
     let size1 = inputTextFirst.innerText.length;
     let size2 = inputTextSecond.innerText.length;
