@@ -75,6 +75,14 @@ class Command {
     }
 
     /**
+     * It returns the number of commands (useful only if the original command is a pipe command)
+     * @return {number}
+     */
+    get size() {
+        return this._args.length;
+    }
+
+    /**
      * It formats options into an array.
      * Input:  -abc
      * Output: ["a", "b", "c"]
