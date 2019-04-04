@@ -399,12 +399,16 @@ class Main {
 
     /**
      * Stop the process that is running
+     * @returns {boolean} Returns true if a process is stopped
      */
     static stop() {
         if (this.actualProcess != null) {
             clearInterval(this.actualProcess);
             this.actualProcess = null;
+            return true;
         }
+
+        return false;
     }
 
 

@@ -50,7 +50,6 @@ let inputTextSecond = document.getElementById("input-text-second");
  * Detect keyboard events
  */
 document.getElementsByClassName("textInput")[0].addEventListener("keydown", function (event) {
-
     // Detect keyboard events only if console is focused
     if (consoleFocused) {
 
@@ -89,17 +88,13 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                         }
                     }
 
-                    if(scripts.length === 1){
+                    if(scripts.length === 1) {
                         // We need to remove what the user has written with the write object name
                         inputTextFirst.innerText = "./" + scripts[0][0];
                         tabCommandSaved = inputTextFirst.innerText;
-                    }else if(scripts.length > 1){
-                        let msg = "";
-                        if (size1 > 0)
-                            msg += inputTextFirst.innerText;
-                        msg += cursor.innerText;
-                        if (size2 > 0)
-                            msg += inputTextSecond.innerText;
+                    } else if(scripts.length > 1) {
+                        // Get console input
+                        let msg = getConsoleInputContent();
                         msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
 
                         // Print the message with the path before
@@ -130,12 +125,8 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                         objectNames.push(colorize(object));
                     }
 
-                    let msg = "";
-                    if (size1 > 0)
-                        msg += inputTextFirst.innerText;
-                    msg += cursor.innerText;
-                    if (size2 > 0)
-                        msg += inputTextSecond.innerText;
+                    // Get console input
+                    let msg = getConsoleInputContent();
                     msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
 
                     // Print the message with the path before
@@ -178,21 +169,12 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     firstConnection = false;
                 }
 
-                inputTextFirst.innerHTML = "";
-                cursor.innerHTML = NBSPACE;
-                inputTextSecond.innerHTML = "";
+                // Clear the console input
+                clearConsoleInput();
             }
             // Else, normal use of the console engine
             else {
-                let msg = "";
-
-                if (size1 > 0)
-                    msg += inputTextFirst.innerText;
-
-                msg += cursor.innerText;
-
-                if (size2 > 0)
-                    msg += inputTextSecond.innerText;
+                let msg = getConsoleInputContent();
 
                 // Add to command history (at the beginning of the table)
                 // Only if not empty command (1 corresponds to the space char)
@@ -207,9 +189,8 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 // Print the message with the path before
                 printMessage(msg, true);
 
-                inputTextFirst.innerHTML = "";
-                cursor.innerHTML = NBSPACE;
-                inputTextSecond.innerHTML = "";
+                // Clear the console input
+                clearConsoleInput();
 
                 Main.executeCommand(msg);
 
@@ -277,8 +258,16 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 }
             }
         } else if (input === 'c' && event.ctrlKey) {
-            printMessage("^C");
-            Main.stop();
+            if (Main.stop())
+                printMessage("^C");
+            else {
+                let msg = getConsoleInputContent();
+                msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
+                msg += "^C";
+                printMessage(msg, true);
+
+                clearConsoleInput();
+            }
         } else if (code === 32) { // SPACE
             // Transform the normal space in an unbreakable space
             inputTextFirst.innerHTML += NBSPACE;
@@ -300,6 +289,29 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 function getConsolePath() {
     return '<span style="color: #79e234;">' + Main.user.login + '@terminus:</span>' +
         '<span style="color: #709ede;">' + Main.user.getPath() + '</span>' + NBSPACE + '$' + NBSPACE;
+}
+
+/**
+ * Clear the console input
+ */
+function clearConsoleInput() {
+    inputTextFirst.innerHTML = "";
+    cursor.innerHTML = NBSPACE;
+    inputTextSecond.innerHTML = "";
+}
+
+function getConsoleInputContent() {
+    let size1 = inputTextFirst.innerText.length;
+    let size2 = inputTextSecond.innerText.length;
+
+    let msg = "";
+    if (size1 > 0)
+        msg += inputTextFirst.innerText;
+    msg += cursor.innerText;
+    if (size2 > 0)
+        msg += inputTextSecond.innerText;
+
+    return msg;
 }
 
 /**
