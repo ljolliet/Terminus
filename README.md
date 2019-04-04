@@ -3,8 +3,9 @@
 Game that teach to IT students how to use a shell, and in the same time gives information about the [University of Bordeaux](https://www.u-bordeaux.fr/Universite/Campus/Campus-Talence-Pessac-Gradignan).
 ## Getting Started
 
-This game will be online and will be accessible [here](https://ljolliet.github.io/Terminus/) after each version release. 
-However the main page is terminus.html and is reachable in sources.
+On the master branch, are available the different released version of the project. Open terminus.html to launch the project.
+If you want to see the project in development (that can contain issues), checkout dev branch.
+
 ### Prerequisites
 
 This project uses [ECMAScript 6](http://es6-features.org/) and is compatible with recent versions of the following navigators :
@@ -13,7 +14,7 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 * Chrome
 * Edge
 * Firefox
-* Opera
+* Opera 
 * Safari
 
 ## Features
@@ -32,6 +33,7 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 * Fr version
 
 ### V1.0
+
 * First version of the js graphics
 * The 5 basic commands : cat, cd, ls, exit help
 * Basic places sample
@@ -42,6 +44,11 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 * Root directory/place --> '/' and home --> '~'
 * Alphabetic order when the user list (ls) the content of a Place
 
+## Known issues
+
+*
+*
+
 ## Running the tests
 
 Open the page tests.html that uses [QUnit](https://code.jquery.com/qunit) library.
@@ -49,7 +56,7 @@ Open the page tests.html that uses [QUnit](https://code.jquery.com/qunit) librar
 
 ## Deployment
 
-Not done yet
+Last realeased available at [https://ljolliet.github.io/Terminus/](https://ljolliet.github.io/Terminus/), which is a deployment of the master branch.
 
 ## Versioning
 
