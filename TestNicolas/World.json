@@ -29,7 +29,7 @@
         "pnj": [
           {
             "name": "Pr.Chen",
-            "text": ""
+            "text": "Bonjour le nouveau, comment ça va ? Alors, il est pas génial le début de ce jeu ? Prêt pour une aventure de folie ? Très bien, je ne peux pas entendre ta réponse mais je suis sûr que tu t’éclates déjà. Pour commencer ce voyage palpitant, choisis ton premier poke… Ah mince, je me suis trompé de jeu. J’ai régressé dans le métier de PNJ pour arriver dans un jeu pareil après mon précédent job… Reprenons. \nUtilise la commande help pour voir toutes les commandes à ta disposition.\nUtilise la commande cd pour te déplacer aux lieux alentours (de couleur bleue lorsque tu fais ls). Surtout, n’oublie pas de lancer la quête (de couleur rouge lorsque tu fais ls) en faisant ./la_traversée_éternelle.sh."
           }
         ],
         "items": [],
@@ -276,39 +276,30 @@
     "Quests": [
       {
         "number": 1,
-        "name": "Super Nom de Quête",
-        "requirement": [
-          "Quest_X"
-        ],
-        "commands_Rewards": [
-          "Command_1",
-          "Command_2"
-        ],
-        "status": "Bloquée",
-        "text_Start": "azertyuiopqsdfghjklmwxcvbn",
-        "text_End": "azertyuiopqsdfghjklmwxcvbn",
+        "name": "la_traversée_eternelle.sh",
+        "requirement": [],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Rends-toi à l’Amphithéâtre Henri Poincaré dans le bâtiment A22, tu es en retard jeune dress… *hum hum* élève. Dépêche-toi." ,
+        "text_End": null,
         "commandRequired": [
-          "ls -a",
-          "cat myFile.txt"
+          "cd A22",
+          "cd Amphi_Henri_Poincaré"
         ]
       }
     ],
     "User": {
-      "pseudo": "XxSuperEtudiantTrôFort33xX",
-      "inventaire": [
-        {
-          "name": "Lampe",
-          "text": "Utilise blablabla"
-        }
-      ],
+      "pseudo": null,
+      "inventory": [],
       "commands": [
         "ls",
         "cat",
-        "cd"
+        "cd",
+        "help",
+        "exit",
+        "man"
       ],
-      "questsEnded": [
-        "Quest_1"
-      ]
+      "questsEnded": []
     }
   }
 }
