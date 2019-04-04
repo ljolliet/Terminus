@@ -8,6 +8,8 @@ body {
     color: white;
     font-family: monospace;
     font-size: 15px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 div#console {
@@ -19,7 +21,6 @@ div#console {
     max-width: 60%;
     display: inline-block;
     word-wrap: break-word;
-    overflow: scroll;
 }
 
 div#console div.message {
