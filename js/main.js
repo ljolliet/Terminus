@@ -423,6 +423,8 @@ class Main {
             printMessage("chmod: impossible d'accéder à '" + objectName + "': Aucun Lieu, Item ou Script de ce type");
         else if (object.setRights(options) === false)    // set the rights
             printMessage("chmod: mode incorrect : '" + options + "'");
+
+        console.log(object);
     }
 
     /**
