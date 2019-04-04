@@ -5,57 +5,21 @@ class Main {
 
     static init() {
 
-        //creating small world
-        /*let quest = new Quest("quete");
-
-        quest.initialText = "tente help puis essaie de regarder autour de toi ...";
-        quest.endText = "Bien joué !";
-        quest.addCommandRequired("help");
-        quest.addCommandRequired("ls");
-
-        quest.addCommandRewards(COMMAND_TYPE.MV);*/
-
-
         console.log("Création du IOjson");
 
         let ioJson = new IOjson();
 
+        //Récuperation de toutes les places (tableau d'objets)
         let places = ioJson.getAllPlaces();
+
+        //Création dynamique des Objets Place et push dans un tableau global
         for (let i = 0; i < places.length; i++) {
             PlaceTab.push(new Place(places[i]));
         }
 
-        PlaceTab.forEach((place) => {
-            console.log(place.name + " : ");
-            place.places.forEach( (nextPlace) =>{
-                let p = this.findPlace(nextPlace);              //Problème avec le parent à regler !!!
-                /*place.addPlace(p);
-                console.log(place);*/
-            })
-        });
 
-        //console.log(PlaceTab[0]);
+        ioJson.getAccessiblePlace("Campus");
 
-
-        /*let campus = new Place("campus");
-        Place.root = campus;
-        let bethanie = new Place("bethanie");
-        Place.home = bethanie; // will be set has user's current location.
-        let A22 = new Place("A22");
-        let A21 = new Place("A21");
-
-        let pnj = new PNJ("tata", "bonjour");
-        campus.addPlace(bethanie);
-        bethanie.addQuest(quest);
-        bethanie.addPlace(A22);
-        bethanie.addPlace(A21);
-        bethanie.addEntity(pnj);
-        console.log(bethanie);
-
-        let inventory = new Place("inventaire");
-        bethanie.addPlace(inventory); // usually inventory is in home Place
-        this.user = new User("toto", [new Item("carte","donnees")], inventory,["try.sh"]);
-        console.log(this.user); //here current location is bethanie (home)*/
     }
 
     static findPlace(name){
