@@ -125,7 +125,13 @@ class Main {
             let output = "";
             for(let i = 0; i < parsedCommand.size; i ++){
                 if(i === parsedCommand.size - 1) this.printAllowed = true;
-                output = this._executeCommand(output, parsedCommand.getCommand(i));
+
+                let command = parsedCommand.getCommand(i);
+
+                if(command.args[0] === "yes")
+                    printMessage("Il est interdit d'utiliser yes avec pipe. On va donc ignorer yes.");
+                else
+                    output = this._executeCommand(output, command);
             }
         }else{
             this._executeCommand("", parsedCommand);
@@ -437,10 +443,12 @@ class Main {
      */
     static grep(input, options) {
         let message = "";
-        for (let line of input.split("\n")) {
-            for(let word of line.split(" ")){
-                if(word.includes(options)){
-                    message += word + "\n";
+        if(input !== undefined) {
+            for (let line of input.split("\n")) {
+                for (let word of line.split(" ")) {
+                    if (word.includes(options)) {
+                        message += word + "\n";
+                    }
                 }
             }
         }
@@ -515,7 +523,6 @@ class Main {
             else
                 this.print(arg);
         }, 100);
-        // TODO: when the interval stops, we need to handle the pipe command (if it was a pipe command)
     }
 
     /**
