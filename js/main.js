@@ -527,7 +527,7 @@ class Main {
 
     /**
      * Stop the process that is running
-     * @return {string} the command output.
+     * @return {boolean} true if a process was stopped.
      */
     static stop() {
         if (this.actualProcess != null) {
@@ -535,8 +535,8 @@ class Main {
             this.actualProcess = null;
             return true;
         }
-      
-        return "";
+
+        return false;
     }
 
     /**
