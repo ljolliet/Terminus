@@ -10,7 +10,6 @@ const COLOR = {
 };
 
 class Main {
-    static printAllowed = true;
 
     static init(login) {
         //creating small world
@@ -568,3 +567,5 @@ class Main {
         return command + ": " + objectName + ": Permission non accordée";
     }
 }
+
+Main.printAllowed = true;
