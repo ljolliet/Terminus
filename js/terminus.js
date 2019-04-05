@@ -77,7 +77,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             tabIndex++;
 
             // If there is no extra arguments, we will check if the command typed starts with ./
-            if(parsedCommand.args.length === 1) {
+            if(parsedCommand.args[0].startsWith("./")) {
                 let cmdChecker = new Checker(parsedCommand, Main.user);
                 if (cmdChecker.getCommandType() === COMMAND_TYPE.LAUNCH) {
                     let objects = Main.user.currentLocation.getStartWith(parsedCommand.toString().slice(2));
