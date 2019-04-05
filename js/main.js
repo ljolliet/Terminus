@@ -10,6 +10,7 @@ const COLOR = {
 };
 
 class Main {
+    static printAllowed = true;
 
     static init(login) {
         //creating small world
@@ -85,6 +86,32 @@ class Main {
     }
 
     /**
+     * THIS FUNCTION SHOULD BE CALLED INSTEAD OF this.printMessage.
+     * It will cancel this.printing if a pipe command is running.
+     * @param message Message to this.print.
+     * @param path Optional. If true, the function will this.print the path before the message.
+     */
+    static print(message, path = false){
+        if(this.printAllowed){
+            printMessage(message, path);
+        }
+    }
+
+    /**
+     * THIS FUNCTION SHOULD BE CALLED INSTEAD OF colorMessage.
+     * It will cancel this.printing if a pipe command is running.
+     * Print a colored message on the console output.
+     * @param colorMsg [string, string]
+     *          - 0: string to write
+     *          - 1: string corresponding to the color
+     */
+    static colorPrint(colorMsg){
+        if(this.printAllowed){
+            colorMessage(colorMsg);
+        }
+    }
+
+    /**
      * THIS FUNCTION SHOULD BE CALLED FROM THE TERMINAL.
      * It calls executeCommand(input, command) correctly by handling pipes.
      * @param {string} command a command typed by the user.
@@ -94,8 +121,10 @@ class Main {
         let parsedCommand = parser.getParsedCommand();
 
         if(parsedCommand.isPipe){
+            this.printAllowed = false;
             let output = "";
             for(let i = 0; i < parsedCommand.size; i ++){
+                if(i === parsedCommand.size - 1) this.printAllowed = true;
                 output = this._executeCommand(output, parsedCommand.getCommand(i));
             }
         }else{
@@ -121,77 +150,77 @@ class Main {
 
         switch (commandChecker.getCommandType()) {
             case COMMAND_TYPE.UNKNOWN:
-                printMessage(errorMessage);
+                this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.EXIT:
                 if (isValid) output = Main.exit();
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.HELP:
                 if (isValid) output = Main.help();
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.CD:
                 if (isValid) output = Main.cd(parsedCommand.args);
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.CAT:
                 if (isValid) output = Main.cat(input, parsedCommand.args);
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.LS:
                 if (isValid)
                     if (parsedCommand.args.length === 1) output = Main.ls([]);
                     else output = Main.ls(Command.formatOptions(parsedCommand.args[1]));
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.LAUNCH:
                 if (isValid) output = Main.launch(input, parsedCommand.args[0].slice(2));
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.MV:
                 if (isValid) output = Main.mv(parsedCommand.args[1], parsedCommand.args[2]);
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.TREE:
                 if (isValid) output = Main.tree();
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.GREP:
                 if (isValid) output = Main.grep(input, parsedCommand.args[1]);
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.JOBS:
                 if (isValid) output = Main.jobs();
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.CLEAR:
                 if (isValid) output = Main.clear();
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.MAN:
                 if (isValid) output = Main.man(parsedCommand.args[1]);
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
             case COMMAND_TYPE.YES:
                 if (isValid) output = Main.yes(parsedCommand.args[1], parsedCommand.isPipe);
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
             case COMMAND_TYPE.CHMOD:
                 if (isValid) output = output = Main.chmod(parsedCommand.args[1], parsedCommand.args[2]);
-                else printMessage(errorMessage);
+                else this.print(errorMessage);
                 break;
         }
 
@@ -206,12 +235,14 @@ class Main {
      */
     static exit() {
         if (this.user.currentQuest !== null) {
-            printMessage("Quête " + this.user.currentQuest.name + " stoppée");
+            this.print("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-            // printMessage("Tu es sur que tu souhaites quitter Terminus ? (yes/no)")
+            // this.print("Tu es sur que tu souhaites quitter Terminus ? (yes/no)")
             reload();
         }
+
+        return "";
     }
 
     /**
@@ -222,7 +253,7 @@ class Main {
         let commands = "";
         for (let c of this.user.commandsAuthorized)
             commands += c.toString() + " ";
-        printMessage(commands);
+        this.print(commands);
 
         return commands;
     }
@@ -243,7 +274,7 @@ class Main {
         //else : move done
 
         if(message !== "")
-            printMessage(message);
+            this.print(message);
 
         return message;
     }
@@ -265,7 +296,7 @@ class Main {
         else
             message = text;
 
-        printMessage(message);
+        this.print(message);
 
         return message;
     }
@@ -286,7 +317,7 @@ class Main {
             for (let p of this.user.currentLocation.all) {
                 let tmp = "";
                 if (!p.name.startsWith(".") || options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
-                    message += p.name;
+                    message += p.name + " ";
                     if (p instanceof Place) {
                         if (p.containsQuestTodo())
                             tmp = "!";
@@ -315,7 +346,7 @@ class Main {
                     }
                 }
             }
-            colorMessage(objects);
+            this.colorPrint(objects);
         }
 
         return message;
@@ -339,21 +370,21 @@ class Main {
         else if (scriptLaunched===COMMAND_STATUS.INCORRECT) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
-                message = "lancement de quête : " + scriptName + " : Aucune quête de ce type";
+                message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
             else if (info === COMMAND_STATUS.PERMISSION_ISSUE)
                 message = this.permissionMessage("./", scriptName);
             else if (info === INFO.UNAVAILABLE)
-                message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'";
+                message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
             else if (info === INFO.FINISHED)
-                message = "La quête " + scriptName + " est déjà terminée";
+                message = "La quête " + scriptName + " est déjà terminée.";
             else// INFO.FOUND
             {
-                message = "Quête " + this.user.currentQuest.name + " lancée";
-                message = this.user.currentQuest.initialText;
+                message = "Quête " + this.user.currentQuest.name + " lancée.\n";
+                message += this.user.currentQuest.initialText;
             }
         }
 
-        printMessage(message);
+        this.print(message);
         return message;
     }
 
@@ -373,7 +404,7 @@ class Main {
         //else : move done
 
         if(message !== "")
-            printMessage(message);
+            this.print(message);
 
         return message;
     }
@@ -384,7 +415,7 @@ class Main {
      */
     static tree() {
         let message = this.user.currentLocation.description("|--", NBSPACE + NBSPACE + NBSPACE, 0);
-        printMessage(message);
+        this.print(message);
 
         return message;
     }
@@ -405,14 +436,19 @@ class Main {
      * @return {string} the command output.
      */
     static grep(input, options) {
-        let result = "";
+        let message = "";
         for (let line of input.split("\n")) {
-            if (line.includes(options)) {
-                result += line + "\n";
+            for(let word of line.split(" ")){
+                if(word.includes(options)){
+                    message += word + "\n";
+                }
             }
         }
-        let message = result.slice(0, result.length - 1);
-        printMessage(message);
+
+        if(message === "")
+            this.print("Aucune occurence trouvée.");
+        else
+            this.print(message);
 
         return message;
     }
@@ -426,8 +462,8 @@ class Main {
         for (let q of Place.root.getQuestStarted())
             jobList += q[0].name + " : " + q[1].name + "\n";
 
-        let message = jobList.slice(0, jobList.length - 1); // print and also remove the last '\n'
-        printMessage(message);
+        let message = jobList.slice(0, jobList.length - 1); // this.print and also remove the last '\n'
+        this.print(message);
 
         return message;
     }
@@ -444,14 +480,14 @@ class Main {
             if ((quest = this.user.checkQuest(command)) !== null) {
                 console.log("check quets not null");
                 message = quest.endText;
-                message = "Quête : " + quest.name + " terminée";
+                message += "Quête : " + quest.name + " terminée.";
                 if (quest.commandRewards.length !== 0)
-                    message = "Commande(s) : " + quest.commandRewards + " dévérouillée(s)";
+                    message = "Commande(s) : " + quest.commandRewards + " dévérouillée(s).";
             }
         }
 
         if(message !== "")
-            printMessage(message);
+            this.print(message);
 
         return message;
     }
@@ -466,18 +502,18 @@ class Main {
     }
 
     /**
-     *
-     * @param arg
+     * @param arg {string} yes argument,
+     * @param isPipe {boolean} true whenever the command is a pipe command,
      * @return {string} the command output.
      */
     static yes(arg, isPipe) {
         let message = "";
         this.actualProcess = window.setInterval(() => {
-            console.log("print");
+            console.log("this.print");
             if(isPipe)
                 message += arg;
             else
-                printMessage(arg);
+                this.print(arg);
         }, 100);
         // TODO: when the interval stops, we need to handle the pipe command (if it was a pipe command)
     }
@@ -509,7 +545,7 @@ class Main {
             message = "chmod: mode incorrect : '" + options + "'";
 
         if(message !== "")
-            printMessage(message);
+            this.print(message);
 
         return message;
     }
@@ -517,7 +553,7 @@ class Main {
     /**
      * @param command The command typed by the user.
      * @param objectName The name of the object concerned.
-     * @returns {String} The message to print.
+     * @returns {String} The message to this.print.
      */
     static permissionMessage(command, objectName) {
         return command + ": " + objectName + ": Permission non accordée";
