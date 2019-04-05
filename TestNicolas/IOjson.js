@@ -1,122 +1,3 @@
-const json = '{\n' +
-    '  "World": {\n' +
-    '    "Places": [\n' +
-    '      {\n' +
-    '        "placeName": "Place_1",\n' +
-    '        "parent" : "null",\n' +
-    '        "next_Place": [\n' +
-    '          "Place_2",\n' +
-    '          "Place_3"\n' +
-    '        ],\n' +
-    '        "quests": [\n' +
-    '          "Quest_1"\n' +
-    '        ],\n' +
-    '        "pnj": [\n' +
-    '          {\n' +
-    '            "name": "Dumbledor",\n' +
-    '            "text": "Je suis Dumbledor le plus grand magicien de Poudlard !!!! "\n' +
-    '          }\n' +
-    '        ],\n' +
-    '        "items": [\n' +
-    '          {\n' +
-    '            "name": "Lampe",\n' +
-    '            "text": "Utilise la lampe pour te reperer"\n' +
-    '          }\n' +
-    '        ],\n' +
-    '        "script" : [\n' +
-    '          {\n' +
-    '            "name" : "Script_1",\n' +
-    '            "content" : [\n' +
-    '              "abc",\n' +
-    '              "rgb"\n' +
-    '            ],\n' +
-    '            "args" : [\n' +
-    '              "arg_1",\n' +
-    '              "arg_2"\n' +
-    '            ]\n' +
-    '          }\n' +
-    '        ]\n' +
-    '      },\n' +
-    '      {\n' +
-    '        "placeName": "Place_2",\n' +
-    '        "parent" : "Place_1",\n' +
-    '        "next_Place": [\n' +
-    '          "Place_3",\n' +
-    '          "Place_5"\n' +
-    '        ],\n' +
-    '        "quests": [\n' +
-    '          "Quest_1"\n' +
-    '        ],\n' +
-    '        "pnj": [\n' +
-    '          {\n' +
-    '            "name": "Voldemor",\n' +
-    '            "text": "Je suis Voldemor le plus grand mechant de Poudlard !!!! "\n' +
-    '          }\n' +
-    '        ],\n' +
-    '        "items": [\n' +
-    '          {\n' +
-    '            "name": "Lampe",\n' +
-    '            "text": "Utilise la lampe pour te reperer"\n' +
-    '          }\n' +
-    '        ],\n' +
-    '        "script" : [\n' +
-    '          {\n' +
-    '            "name" : "Script_1",\n' +
-    '            "content" : [\n' +
-    '              "aasbc",\n' +
-    '              "rgfzdb"\n' +
-    '            ],\n' +
-    '            "args" : [\n' +
-    '              "arg_3",\n' +
-    '              "arg_4"\n' +
-    '            ]\n' +
-    '          }\n' +
-    '        ]\n' +
-    '      }\n' +
-    '    ],\n' +
-    '    "Quests": [\n' +
-    '      {\n' +
-    '        "number" : 1,\n' +
-    '        "name": "Super Nom de Quête",\n' +
-    '        "requirement": [\n' +
-    '          "Quest_X"\n' +
-    '        ],\n' +
-    '        "commands_Rewards": [\n' +
-    '          "Command_1",\n' +
-    '          "Command_2"\n' +
-    '        ],\n' +
-    '        "pnj": [\n' +
-    '          "Dumbledor",\n' +
-    '          "PNJ 2"\n' +
-    '        ],\n' +
-    '        "status": "Bloquée",\n' +
-    '        "text_Start": "azertyuiopqsdfghjklmwxcvbn",\n' +
-    '        "text_End": "azertyuiopqsdfghjklmwxcvbn",\n' +
-    '        "commandRequired": [\n' +
-    '          "ls -a",\n' +
-    '          "cat myFile.txt"\n' +
-    '        ]\n' +
-    '      }\n' +
-    '    ],\n' +
-    '    "User": {\n' +
-    '      "pseudo": "XxSuperEtudiantTrôFort33xX",\n' +
-    '      "inventaire": [\n' +
-    '        {\n' +
-    '          "name": "Lampe",\n' +
-    '          "text": "Utilise blablabla"\n' +
-    '        }\n' +
-    '      ],\n' +
-    '      "commands": [\n' +
-    '        "ls",\n' +
-    '        "cat",\n' +
-    '        "cd"\n' +
-    '      ],\n' +
-    '      "questsEnded": [\n' +
-    '        "Quest_1"\n' +
-    '      ]\n' +
-    '    }\n' +
-    '  }\n' +
-    '}\n';
 
 class IOjson{
 
@@ -128,11 +9,13 @@ class IOjson{
     /**
      * @param {string} file the file to read or write.
      */
-     constructor(/*file*/) {
-        this._json = JSON.parse(json);
+    constructor(file) {
+        this._file = file;
+
     }
 
-     /*loadJSON(callback) {
+    loadJSON(callback) {
+
 
         var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");
@@ -145,18 +28,32 @@ class IOjson{
         };
         xobj.send(null);
     }
-*/
+
+
     /**
      * return all places of the _file.json
      */
     getAllPlaces(){
-        return this._json.World.Places;
+        let json;
+
+        return new Promise( (resolve, reject) => {
+            this.loadJSON((response) => {
+                json = JSON.parse(response);
+                console.log(json.World.Places);
+                resolve (json.World.Places);
+            })
+        }).catch( (err) => {
+            console.log(err);
+            reject(err);
+        })
     }
 
 
     getPlace(placeName){
-
-        return this.getAllPlaces()[placeName];
+        this.getAllPlaces().then( (places) => {
+            console.log(places[placeName]);
+            return places[placeName];
+        })
     }
 
     /**

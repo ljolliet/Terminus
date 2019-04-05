@@ -5,8 +5,6 @@
 
 # added by @ljolliet
 .idea/*
-*.zip
-*.txt
 
 ### Java-Web ###
 ## ignoring target file

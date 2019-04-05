@@ -12,9 +12,7 @@ const COMMAND_TYPE = {
     GREP: "grep",
     JOBS : "jobs",
     CLEAR : "clear",
-    MAN : "man",
-    YES : "yes",
-    CHMOD : "chmod"
+    MAN : "man"
 };
 
 class Checker {
@@ -189,13 +187,6 @@ class Checker {
                 this._checkCommand(this._command, COMMAND_TYPE.MAN, [1]);
                 break;
 
-            case "yes":
-                this._checkCommand(this._command, COMMAND_TYPE.YES, [0,1]);
-                break;
-            case "chmod":
-                this._checkCommand(this._command, COMMAND_TYPE.CHMOD, [2]);
-                break;
-
             default:
                 if (this._command.args[0].startsWith("./")) {
                     if (this._command.args.length !== 1) {
@@ -207,6 +198,7 @@ class Checker {
                     } else {
                         this._errorMessage = "";
                         this._isValid = true;
+                        this._command.args[0] = this._command.args[0].replace("./", "");
                     }
                     this._type = COMMAND_TYPE.LAUNCH;
                 } else {

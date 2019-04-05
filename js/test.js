@@ -66,15 +66,15 @@ QUnit.test("User place change", function (assert) {
     parent.addPlace(son);
     user.currentLocation = parent;
     assert.equal(user.currentLocation, parent, "Current location is set");
-    assert.equal(user.moveTo("son"), COMMAND_STATUS.CORRECT, "Going to a sub-place that exists is accepted");
+    assert.equal(user.moveTo("son"), true, "Going to a sub-place that exists is accepted");
     assert.equal(user.currentLocation, son, "Current location is updated as sub-place");
-    assert.equal(user.moveTo("else"), COMMAND_STATUS.INCORRECT, "Going to a sub-place that doesn't exist is refused");
+    assert.equal(user.moveTo("else"), false, "Going to a sub-place that doesn't exist is refused");
     assert.equal(user.currentLocation, son, "Current location stay the same");
-    assert.equal(user.moveTo("."), COMMAND_STATUS.CORRECT, "Going to the current location ('.') is accepted");
+    assert.equal(user.moveTo("."), true, "Going to the current location ('.') is accepted");
     assert.equal(user.currentLocation, son, "Current location stay the same");
-    assert.equal(user.moveTo(".."), COMMAND_STATUS.CORRECT, "Going to parent ('..') is accepted");
+    assert.equal(user.moveTo(".."), true, "Going to parent ('..') is accepted");
     assert.equal(user.currentLocation, parent, "Current location is updated as parent");
-    assert.equal(user.moveTo(".."), COMMAND_STATUS.INCORRECT, "Going to parent ('..') is refused if the current is root (no parent)");
+    assert.equal(user.moveTo(".."), false, "Going to parent ('..') is refused if the current is root (no parent)");
     assert.equal(user.currentLocation, parent, "Current location stay the same");
 
 
@@ -93,7 +93,7 @@ QUnit.test("Reading entity", function (assert) {
     user.currentLocation = place;
     assert.equal(user.read("pnj"), "welcome", "PNJ text read");
     assert.equal(user.read("item"), "content", "Item text read");
-    assert.equal(user.read("else"), null, "No entity found");
+    assert.equal(user.read("else"), "", "No entity found");
 });
 
 /**
@@ -119,11 +119,11 @@ QUnit.test("Launching and checking quest", function (assert) {
 
     assert.equal(quest.status, STATUS.TODO, "Quest status initialized, to start");
     assert.equal(user.currentQuest, null, "No quest running");
-    assert.equal(user.launchQuest("else"), INFO.UNKNOWN, "Wrong quest name, quest not launched");
-    assert.equal(user.launchQuest("quest.sh"), INFO.FOUND, "Quest launched"); // add .sh to the name
+    assert.equal(user.launch("else"), INFO.UNKNOWN, "Wrong quest name, quest not launched");
+    assert.equal(user.launch("quest.sh"), INFO.FOUND, "Quest launched"); // add .sh to the name
     assert.equal(quest.status, STATUS.STARTED, "Status updated");
     assert.equal(user.currentQuest, quest, "Quest is running");
-    assert.equal(user.launchQuest("quest2.sh"), INFO.UNAVAILABLE, "Can't launch a second quest at the same time");
+    assert.equal(user.launch("quest2.sh"), INFO.UNAVAILABLE, "Can't launch a second quest at the same time");
     assert.equal(user.currentQuest.commandRequired.length, 2, "Two command required");
     assert.equal(user.currentQuest.commandRequired[0], "ls", "Right command entered");
     assert.equal(user.checkQuest("ls"), null, "Write command entered but one left");
@@ -133,8 +133,8 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(quest.status, STATUS.DONE, "Quest finished");
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
-    assert.equal(user.launchQuest("quest.sh"), INFO.FINISHED, "Can't do the same quest again");
-    assert.equal(user.launchQuest("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
+    assert.equal(user.launch("quest.sh"), INFO.FINISHED, "Can't do the same quest again");
+    assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
 });
 
 
@@ -202,25 +202,25 @@ QUnit.test("Move an item", function (assert) {
     place.addEntity(item3);
     place.addEntity(item4);
     place.addEntity(pnj);
-    assert.equal(user.moveItem("item", "subplace"), COMMAND_STATUS.CORRECT, "Move an item is authorized");
+    assert.equal(user.moveItem("item", "subplace"), true, "Move an item is authorized");
     assert.equal(subplace.entities.includes(item), true, "Move has been done");
     assert.equal(place.entities.includes(item), false, "Item no longer in the origin place");
-    assert.equal(user.moveItem("pnj", "subplace"), COMMAND_STATUS.INCORRECT, "Move a pnj is not authorized");
+    assert.equal(user.moveItem("pnj", "subplace"), false, "Move a pnj is not authorized");
     assert.equal(subplace.entities.includes(pnj), false, "Move has not been done");
     assert.equal(place.entities.includes(pnj), true, "PNJ stayed in the origin place");
-    assert.equal(user.moveItem("item2", "something"), COMMAND_STATUS.CORRECT, "Move an item to something that does not exist works");
+    assert.equal(user.moveItem("item2", "something"), true, "Move an item to something that does not exist works");
     assert.equal(item2.name, "something", "Move has been done, item's name has changed");
-    assert.equal(user.moveItem("something", "."), COMMAND_STATUS.CORRECT, "Move an item to the same place works");
+    assert.equal(user.moveItem("something", "."), true, "Move an item to the same place works");
     assert.equal(place.entities.includes(item2), true, "Move has been done");
     assert.equal(item2.name, "something", "The name hasn't change.");
-    assert.equal(user.moveItem("something", ".."), COMMAND_STATUS.CORRECT, "Move an item to his parent works");
+    assert.equal(user.moveItem("something", ".."), true, "Move an item to his parent works");
     assert.equal(parent.entities.includes(item2), true, "Move has been done");
-    assert.equal(user.moveItem("item3", "~"), COMMAND_STATUS.CORRECT, "Move an item to home works");
+    assert.equal(user.moveItem("item3", "~"), true, "Move an item to home works");
     assert.equal(place.entities.includes(item3), true, "Move has been done");
-    assert.equal(user.moveItem("item4", "/"), COMMAND_STATUS.CORRECT, "Move an item to root works");
+    assert.equal(user.moveItem("item4", "/"), true, "Move an item to root works");
     assert.equal(parent.entities.includes(item4), true, "Move has been done");
     assert.equal(subplace.entities.includes(pnj), false, "Move has not been done");
-    assert.equal(user.moveItem("pnj", "something"), COMMAND_STATUS.INCORRECT, "Move a pnj to something that does not exist does not works");
+    assert.equal(user.moveItem("pnj", "something"), false, "Move a pnj to something that does not exist does not works");
     assert.equal(pnj.name, "pnj", "Move not done, name unchanged");
 });
 
@@ -237,78 +237,20 @@ QUnit.test("questDependency", function (assert) {
     quest2.addQuestsRequired(quest);
     quest3.addQuestsRequired(quest2);
     let place = new Place("place");
-    let user = new User("toto", [], null, []);
+    let user = new User("toto",[],null,[]);
     user.currentLocation = place;
     place.addQuest(quest);
     place.addQuest(quest2);
     place.addQuest(quest3);
-    assert.equal(user.launchQuest("quest2.sh"), INFO.LOCKED, "Second quest not available");
-    assert.equal(user.launchQuest("quest3.sh"), INFO.LOCKED, "Third quest not available");
-    assert.equal(user.launchQuest("quest.sh"), INFO.FOUND, "First quest available");
+    assert.equal(user.launch("quest2.sh"), INFO.LOCKED, "Second quest not available");
+    assert.equal(user.launch("quest3.sh"), INFO.LOCKED, "Third quest not available");
+    assert.equal(user.launch("quest.sh"), INFO.FOUND, "First quest available");
     assert.equal(user.checkQuest("ls"), quest, "First quest finished");
-    assert.equal(user.launchQuest("quest3.sh"), INFO.LOCKED, "Third quest not available");
-    assert.equal(user.launchQuest("quest2.sh"), INFO.FOUND, "Now the second quest is available");
+    assert.equal(user.launch("quest3.sh"), INFO.LOCKED, "Third quest not available");
+    assert.equal(user.launch("quest2.sh"), INFO.FOUND, "Now the second quest is available");
     assert.equal(user.checkQuest("cat"), quest2, "Second quest finished");
-    assert.equal(user.launchQuest("quest3.sh"), INFO.FOUND, "Now the third quest is available");
+    assert.equal(user.launch("quest3.sh"), INFO.FOUND, "Now the third quest is available");
     assert.equal(user.checkQuest("cd toto"), quest3, "third quest finished");
-
-});
-
-QUnit.test("Rights on unixObjects", function (assert) {
-    let place = new Place("place");
-    let item = new Item("item");
-    let pnj = new PNJ("item");
-    let quest = new Quest("quest");
-    let script = new Script("script");
-
-    //place init
-    assert.equal(place.readAccess, true, "Read access authorized for a place when it is created");
-    assert.equal(place.writeAccess, true, "Write access authorized for a place when it is created");
-    assert.equal(place.execAccess, true, "Execution access authorized for a place when it is created");
-    // item init
-    assert.equal(item.readAccess, true, "Read access authorized for an item when it is created");
-    assert.equal(item.writeAccess, true, "Write access authorized for an item when it is created");
-    assert.equal(item.execAccess, true, "Execution access authorized for an item when it is created");
-    // pnj init
-    assert.equal(pnj.readAccess, true, "Read access authorized for a pnj when it is created");
-    assert.equal(pnj.writeAccess, false, "Write access NOT authorized for a pnj when it is created");
-    assert.equal(pnj.execAccess, true, "Execution access authorized for a pnj when it is created");
-    // script init
-    assert.equal(script.readAccess, false, "Read access NOT authorized for a script when it is created");
-    assert.equal(script.writeAccess, false, "Write access NOT authorized for a script when it is created");
-    assert.equal(script.execAccess, false, "Execution access NOT authorized for a script when it is created");
-    // quest init
-    assert.equal(quest.readAccess, true, "Read access authorized for a quest when it is created");
-    assert.equal(quest.writeAccess, false, "Write access NOT authorized for a quest when it is created");
-    assert.equal(quest.execAccess, true, "Execution access authorized for a quest when it is created");
-    // changing access example with script
-    assert.equal(script.setRights("8"), false, "code 8 not authorized");
-    assert.equal(script.setRights("0"), true, "code - authorized");
-    assert.equal(script.readAccess, false, "Read access also not authorized");
-    assert.equal(script.writeAccess, false, "Write access also not authorized");
-    assert.equal(script.execAccess, false, "Execution access also not authorized");
-    assert.equal(script.setRights("+x"), true, "code +x authorized");
-    assert.equal(script.readAccess, false, "Read access also not authorized");
-    assert.equal(script.writeAccess, false, "Write access also not authorized");
-    assert.equal(script.execAccess, true, "Execution access now authorized");
-    assert.equal(script.setRights("7"), true, "code 7 authorized");
-    assert.equal(script.readAccess, true, "Read access now authorized");
-    assert.equal(script.writeAccess, true, "Write access now authorized");
-    assert.equal(script.execAccess, true, "Execution access now authorized");
-    assert.equal(script.setRights("+xwr"), true, "code +xwr authorized");
-    assert.equal(script.setRights("hhgcgh"), false, "random code not authorized");
-    assert.equal(script.setRights("+hj"), false, "random code not authorized");
-    assert.equal(script.setRights("hhgcgh"), false, "random code not authorized");
-    assert.equal(script.setRights("+hj"), false, "random code not authorized");
-    assert.equal(script.setRights("-xwr"), true, "code -xwr authorized");
-    assert.equal(script.readAccess, false, "Read access now not authorized");
-    assert.equal(script.writeAccess, false, "Write access now not authorized");
-    assert.equal(script.execAccess, false, "Execution access now not authorized");
-    assert.equal(script.setRights("=xwr"), true, "code -xwr authorized");
-    assert.equal(script.readAccess, true, "Read access now authorized");
-    assert.equal(script.writeAccess, true, "Write access now authorized");
-    assert.equal(script.execAccess, true, "Execution access now authorized");
-
 
 });
 
@@ -395,10 +337,7 @@ QUnit.test("command.js", function (assert) {
     ])).toString(), "cmd1 arg1 | cmd2 | cmd3 arg1 arg2", "test toString with pipe");
 
     // getClosestCommand tests : it will be broken each time we add commands
-    Main.init("someone");
-    assert.deepEqual(Command.getClosestCommands("c"), ["cd", "cat"], "test closest commands (random user)");
-    Main.init("admin");
-    assert.deepEqual(Command.getClosestCommands("c"), ["cd", "cat", "clear", "chmod"], "test closest commands (admin)");
+    assert.deepEqual(Command.getClosestCommands("c"), ["cd", "cat", "clear"], "test closes commands");
 });
 
 /**
@@ -432,17 +371,6 @@ QUnit.test("parser.js (depends on command.js)", function (assert) {
 
     // Command with arguments and pipe
     parser.setCommand("cmd1 arg1 |cmd2 arg2| cmd3 arg3");
-    cmd = parser.getParsedCommand();
-    assert.equal(cmd.isPipe, true, "The command is a pipe command since we use 2 pipes");
-    assert.equal(cmd.getCommand(0).args[0], "cmd1", "The main command should be 'cmd1'");
-    assert.equal(cmd.getCommand(0).args[1], "arg1", "The 1st arg should be 'arg1'");
-    assert.equal(cmd.getCommand(1).args[0], "cmd2", "The main command should be 'cmd2'");
-    assert.equal(cmd.getCommand(1).args[1], "arg2", "The 1st arg should be 'arg2'");
-    assert.equal(cmd.getCommand(2).args[0], "cmd3", "The main command should be 'cmd3'");
-    assert.equal(cmd.getCommand(2).args[1], "arg3", "The 1st arg should be 'arg3'");
-
-    // Command with arguments and pipe 2
-    parser.setCommand("cmd1 arg1 | cmd2 arg2 | cmd3 arg3");
     cmd = parser.getParsedCommand();
     assert.equal(cmd.isPipe, true, "The command is a pipe command since we use 2 pipes");
     assert.equal(cmd.getCommand(0).args[0], "cmd1", "The main command should be 'cmd1'");
