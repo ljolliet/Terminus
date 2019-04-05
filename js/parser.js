@@ -46,7 +46,6 @@ class Parser {
             // We divide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");
 
-            console.log(cmds);
             // For each commands between the pipe, we will add its details to the array
             for (let i = 0; i < cmds.length; i++) {
                 let args = cmds[i].split(" ");
