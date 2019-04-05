@@ -8,14 +8,15 @@
 
 
 </body>
+<script src="IOjson.js" charset="utf-8"></script>
+<script src="place.js" charset="utf-8"></script>
 
-<script src="IOjson.js" charset="utf-8">
-</script>
-
+<script src="main.js" charset="utf-8"></script>
 <script>
-    let ioJson = new IOjson("World.json");
-    //ioJson.getAllPlaces();
-    ioJson.getPlace("Place_1");
+    (function () {
+        Main.init();
+    })();
 </script>
+
 
 </html>

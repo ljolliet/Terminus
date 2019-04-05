@@ -1,4 +1,4 @@
-class Entity {
+class Entity extends UnixObject {
 
     /**
      * Do not use simple entity but prefer PNJ and Item directly.
@@ -6,12 +6,8 @@ class Entity {
      * @param {String} text
      */
     constructor(name, text) {
-        this._name = name;
+        super(name);
         this._text = text;
-    }
-
-    get name() {
-        return this._name;
     }
 
     get text() {
@@ -20,10 +16,6 @@ class Entity {
 
     set text(text) {
         this._text = text;
-    }
-
-    set name(name) {
-        this._name = name;
     }
 
     /**
@@ -40,8 +32,8 @@ class Entity {
 class PNJ extends Entity {
     constructor(name, text) {
         super(name, text);
+        this.writeAccess = false;
     }
-
 }
 
 class Item extends Entity {

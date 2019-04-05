@@ -1,49 +1,49 @@
 
 body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  background-color: black;
-  color: white;
-  font-family: monospace;
-  font-size: 15px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    color: white;
+    font-family: monospace;
+    font-size: 15px;
 }
 
 div#console {
-  position: absolute;
-  left: 0;
-  height: calc(100% - 20px);
-  width: 60%;
-  margin: 10px 20%;
-  max-width: 60%;
-  display: inline-block;
-  word-wrap: break-word;
-  overflow: scroll;
+    position: absolute;
+    left: 0;
+    height: calc(100% - 20px);
+    width: 60%;
+    margin: 10px 20%;
+    max-width: 60%;
+    display: inline-block;
+    word-wrap: break-word;
+    overflow: scroll;
 }
 
 div#console div.message {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 div#console #div-input-text span {
-  float: left;
+    float: left;
 }
 
 span#cursor.visible {
-  background-color: white;
-  color: black;
+    background-color: white;
+    color: black;
 }
 
 span#cursor {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 textarea.textInput {
-  /* visibility: hidden; */
-  width: 0;
-  height: 0;
-  opacity: 0.01;
-  resize: none;
+    /* visibility: hidden; */
+    width: 0;
+    height: 0;
+    opacity: 0.01;
+    resize: none;
 }

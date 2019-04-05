@@ -1,11 +1,11 @@
-class Place {
-
+class Place extends UnixObject {
 
     constructor(name) {
+        super(name);
         this._places = [];
         this._entities = [];
         this._quests = [];
-        this._name = name;
+        this._scripts = [];
         this._parent = null;
         //static attributes (see below the class):
         //Place.root
@@ -23,7 +23,7 @@ class Place {
         }*/
 
     /**
-     * @return {Object[]} All the entities, places, quests, ordered alphabetically.
+     * @return {UnixObject[]} All the entities, places, quests, ordered alphabetically.
      */
     get all() {
         let all = [];
@@ -33,10 +33,11 @@ class Place {
             all.push(p);
         for (let q of this.quests)
             all.push(q);
+        for (let s of this.scripts)
+            all.push(s);
         all.sort((a, b) => a.name > b.name); // sort the array alphabetically comparing the names of the Objects
+
         return all;
-
-
     }
 
     /**
@@ -48,14 +49,13 @@ class Place {
      */
     description(base, shift, id) {
         let tree = this.name;
-        for (let el of this.all) {
-            tree += "\n";
-            for (let i = 0; i < id; i++) {
-                tree += shift;
+        if (this.readAccess)
+            for (let el of this.all) {
+                tree += "\n";
+                for (let i = 0; i < id; i++)
+                    tree += shift;
+                tree += base + el.description(base, shift, id + 1);
             }
-
-            tree += base + el.description(base, shift, id + 1);
-        }
         return tree;
     }
 
@@ -113,13 +113,6 @@ class Place {
     }
 
     /**
-     * @return {String} Name
-     */
-    get name() {
-        return this._name;
-    }
-
-    /**
      * @return {Place[]} The places array.
      */
     get places() {
@@ -146,6 +139,13 @@ class Place {
      */
     get quests() {
         return this._quests;
+    }
+
+    /**
+     * @return {Script[]} The scripts array.
+     */
+    get scripts() {
+        return this._scripts;
     }
 
     /**
@@ -183,7 +183,13 @@ class Place {
      */
     addEntity(entity) {
         this.entities.push(entity);
+    }
 
+    /**
+     * @param {Script} script To add in scripts array.
+     */
+    addScript(script) {
+        this.scripts.push(script);
     }
 
     /**

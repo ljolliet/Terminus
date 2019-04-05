@@ -148,55 +148,71 @@ class User {
 
     /**
      * @param {String} placeName To update the current location.
-     * @return {boolean} True if the update is possible (if value place is contained in the current location).
+     * @return {COMMAND_STATUS} True if the update is possible (if value place is contained in the current location).
      */
     moveTo(placeName) {
         switch (placeName) {
             case placeConst :  // current location
-                return true;
+                return COMMAND_STATUS.CORRECT;
             case parentConst:   // parent
                 if (this.currentLocation.parent === null)
-                    return false;
+                    return COMMAND_STATUS.INCORRECT;
                 this.currentLocation = this.currentLocation.parent;
-                return true;
+                return COMMAND_STATUS.CORRECT;
             case homeConst :  // home
                 if (Place.home !== null) {
                     this.currentLocation = Place.home;
-                    return true;
+                    return COMMAND_STATUS.CORRECT;
                 }
                 break;
             case  rootConst :  // root
                 if (Place.root !== null) {
                     this.currentLocation = Place.root;
-                    return true;
+                    return COMMAND_STATUS.CORRECT;
                 }
                 break;
             case inventoryConst:
                 if (this.inventory !== null) {
                     this.currentLocation = this.inventory;
-                    return true;
+                    return COMMAND_STATUS.CORRECT;
                 }
                 break;
             default : // son
                 for (let p of this.currentLocation.places)
                     if (p.name === placeName) { //contains
+                        if (!p.execAccess)
+                            return COMMAND_STATUS.PERMISSION_ISSUE;
                         this.currentLocation = p;
-                        return true;
+                        return COMMAND_STATUS.CORRECT;
                     }
                 break;
         }
-        return false;
+        return COMMAND_STATUS.INCORRECT;
     }
 
     /**
      * @param entityName The name of the entity.
-     * @return {String} The text that corresponds to the entity, "" if the name doesn't exist
+     * @return {String} The text that corresponds to the entity, null if the name doesn't exist
      */
     read(entityName) {
         for (let e of this.currentLocation.entities)
-            if (entityName === e.name)
+            if (entityName === e.name) {
+                if (!e.readAccess)
+                    return COMMAND_STATUS.PERMISSION_ISSUE;
                 return e.text;
-        return "";
+            }
+        return null;
+    }
+
+    /**
+     * @param objectName The name of the object.
+     * @return {UnixObject} The object that corresponds to the name, null if the object doesn't exist
+     */
+    getAll(objectName) {
+        for (let e of this.currentLocation.all)
+            if (objectName === e.name)
+                return e;
+        return null;
     }
 
     /**
@@ -204,10 +220,12 @@ class User {
      * @return {INFO} FOUND if the quest exists and the launching succeed,
      * UNAVAILABLE if a quest is already launched and UNKNOWN if the quest doesn't exist.
      */
-    launch(questName) {
+    launchQuest(questName) {
         if (this.currentQuest === null) {   // if a quest is not already launched
             for (let q of this.currentLocation.quests)
                 if (q.name === questName) {
+                    if(!q.execAccess)
+                        return COMMAND_STATUS.PERMISSION_ISSUE;
                     if (q.status === STATUS.DONE)   // if quest already finished
                         return INFO.FINISHED;
                     for (let dependency of q.questsRequired)
@@ -220,6 +238,22 @@ class User {
             return INFO.UNKNOWN;    // else : quest not found
         }
         return INFO.UNAVAILABLE;   // a quest is already launched
+    }
+
+    /**
+     * @param {String} scriptName Name of the script to launch.
+     * @return {boolean} True if the script was found and launched, false otherwise.
+     */
+    launchScript(scriptName) {
+        for (let script of this.currentLocation.scripts) {
+            if (script.name === scriptName) {
+                if(!script.execAccess)
+                    return COMMAND_STATUS.PERMISSION_ISSUE;
+                script.run();
+                return COMMAND_STATUS.CORRECT;
+            }
+        }
+        return COMMAND_STATUS.INCORRECT;
     }
 
     /**
@@ -264,34 +298,36 @@ class User {
         }
         //if it exists
         if (index !== -1 && item !== null) {
+            if(!item.writeAccess)
+                return COMMAND_STATUS.PERMISSION_ISSUE;
             switch (destination) {
                 case placeConst :  // current location
-                    return true;
+                    return COMMAND_STATUS.CORRECT;
                 case parentConst:   // parent
                     if (this.currentLocation.parent === null)
                         return false;
                     this.currentLocation.entities.splice(index, 1);
                     this.currentLocation.parent.addEntity(item);
-                    return true;
+                    return COMMAND_STATUS.CORRECT;
                 case homeConst :  // home
                     if (Place.home !== null) {
                         this.currentLocation.entities.splice(index, 1);
                         Place.home.addEntity(item);
-                        return true;
+                        return COMMAND_STATUS.CORRECT;
                     }
                     break;
                 case  rootConst :  // root
                     if (Place.root !== null) {
                         this.currentLocation.entities.splice(index, 1);
                         Place.root.addEntity(item);
-                        return true;
+                        return COMMAND_STATUS.CORRECT;
                     }
                     break;
                 case inventoryConst:
                     if (this.inventory !== null) {
                         this.currentLocation.entities.splice(index, 1);
                         this.inventory.addEntity(item);
-                        return true;
+                        return COMMAND_STATUS.CORRECT;
                     }
                     break;
                 default : // son
@@ -302,11 +338,11 @@ class User {
                         this.currentLocation.entities.splice(index, 1);
                         place.addEntity(item);
                     }
-                    return true;
+                    return COMMAND_STATUS.CORRECT;
             }
         }
         //else
-        return false;
+        return COMMAND_STATUS.INCORRECT;
     }
 
 }
