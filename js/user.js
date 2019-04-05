@@ -209,6 +209,16 @@ class User {
      * @return {UnixObject} The object that corresponds to the name, null if the object doesn't exist
      */
     getAll(objectName) {
+        switch (objectName) {
+            case placeConst :  // current location
+                return this.currentLocation;
+            case parentConst:   // parent
+                if (this.currentLocation.parent === null)
+                    return null;
+
+                return this.currentLocation.parent;
+        }
+
         for (let e of this.currentLocation.all)
             if (objectName === e.name)
                 return e;

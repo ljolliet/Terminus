@@ -533,7 +533,9 @@ class Main {
         if (this.actualProcess != null) {
             clearInterval(this.actualProcess);
             this.actualProcess = null;
+            return true;
         }
+      
         return "";
     }
 
