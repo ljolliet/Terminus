@@ -446,7 +446,8 @@ class Main {
             for (let line of input.split("\n")) {
                 for (let word of line.split(" ")) {
                     if (word.includes(options)) {
-                        message += word + "\n";
+                        message += line + "\n";
+                        break;
                     }
                 }
             }
