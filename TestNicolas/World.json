@@ -1,244 +1,69 @@
 {
-  "World": {
-    "Places": [
-      {
-        "placeName": "Campus",
-        "next_Place": [
-          "Arts_et_Metiers",
-          "Bethanie",
-          "Doyen_Brus"
-        ],
-        "quests": [],
-        "pnj": [],
-        "items": [],
-        "script": []
+
+  "World" : {
+    "Places" : {
+      "Place_1" : {
+        "PlaceName" : "Place_1",
+        "Next_Place" : [
+          "Place_3",
+          "Place_5"
+          ],
+        "Quests" : [
+          "Quest_1"
+          ],
+        "Entities" : [
+          "Dumbledor"
+          ]
       },
-      {
-        "placeName": "Bethanie",
-        "next_Place": [
-          "A21",
-          "A22",
-          "CREMI",
-          "pont"
+      "Place_2" : {
+        "Next_Place" : [
+          "Place_3",
+          "Place_5"
         ],
-        "quests": [
-          "la_traversée_eternelle.sh"
+        "Quests" : [
+          "Quest_1"
         ],
-        "pnj": [
-          {
-            "name": "Pr.Chen",
-            "text": ""
-          }
-        ],
-        "items": [],
-        "script": []
-      },
-      {
-        "placeName": "A22",
-        "next_Place": [
-          "Amphi_Henri_Poincaré",
-          "Amphi_Thomas_Edison",
-          "guichet_unique"
-        ],
-        "quests": [
-          "le_vaste_monde.sh"
-        ],
-        "pnj": [
-          {
-            "name": "Pr.Ofaite",
-            "text": ""
-          }
-        ],
-        "items": [],
-        "script": []
-      },
-      {
-        "placeName": "Amphi_Henri_Poincaré",
-        "next_Place": [],
-        "quests": [
-          "les_documents_confidentiels.sh"
-        ],
-        "pnj": [
-          {
-            "name": "A.Dumbledore",
-            "text": ""
-          }
-        ],
-        "items": [],
-        "script": []
-      },
-      {
-        "placeName": "Amphi_Thomas_Edison",
-        "next_Place": [],
-        "quests": [],
-        "pnj": [],
-        "items": [],
-        "script": []
-      },
-      {
-        "placeName": "guichet_unique",
-        "next_Place": [],
-        "quests": [
-          "le_rangement_IKEA.sh"
-        ],
-        "pnj": [
-          {
-            "name": "A.Dibou",
-            "text": ""
-          },
-          {
-            "name": "Deadpool",
-            "text": ""
-          }
-        ],
-        "items": [
-          {
-            "name": "carte_etudiante",
-            "text": ""
-          },
-          {
-            "name": "certificat_de_scolarité",
-            "text": ""
-          }
-        ],
-        "script": []
-      },
-      {
-        "placeName": "Inventaire",
-        "next_Place": [],
-        "quests": [
-          "armoire_a_trophées.sh"
-        ],
-        "pnj": [
-          {
-            "name": "A.Dibou",
-            "text": ""
-          }
-        ],
-        "items": [
-          {
-            "name": "armoire_a_trophées",
-            "text": ""
-          },
-          {
-            "name": "liens_utiles",
-            "text": ""
-          }
-        ],
-        "script": []
-      },
-      {
-        "placeName": "CREMI",
-        "next_Place": [
-          "1er_Etage",
-          "2eme_Etage",
-          "3eme_Etage"
-        ],
-        "quests": [
-          "ENT_legendaire.sh"
-        ],
-        "pnj": [
-          {
-            "name": "Fred&Jamy",
-            "text": ""
-          }
-        ],
-        "items": [
-          {
-            "name": "lien_ent",
-            "text": ""
-          }
-        ],
-        "script": []
-      },
-      {
-        "placeName": "3eme_Etage",
-        "next_Place": [
-          "passage_interdit"
-        ],
-        "quests": [
-          "power.sh"
-        ],
-        "pnj": [
-          {
-            "name": "Dark_Lord",
-            "text": ""
-          }
-        ],
-        "items": [],
-        "script": []
-      },
-      {
-        "placeName": "pont",
-        "next_Place": [
-          "passage_interdit"
-        ],
-        "quests": [
-          "les_constructeurs_de_l'extreme.sh"
-        ],
-        "pnj": [
-          {
-            "name": "Frodon",
-            "text": ""
-          },
-          {
-            "name": "Gandalf",
-            "text": ""
-          }
-        ],
-        "items": [],
-        "script": [
-          {
-            "name": "traversée_pont.sh",
-            "content": [
-            ],
-            "args": [
-            ]
-          }
+        "Entities" : [
+          "Dumbledor"
         ]
       }
-    ],
-    "Quests": [
-      {
-        "number": 1,
-        "name": "Super Nom de Quête",
-        "requirement": [
+    },
+    "Quests" : {
+      "Quest_1" : {
+        "Name" : "Super Nom de Quête",
+        "Requirement" : [
           "Quest_X"
-        ],
-        "commands_Rewards": [
+          ],
+        "Rewards" : "MyReward",
+        "Commands_Rewards" : [
           "Command_1",
           "Command_2"
-        ],
-        "pnj": [
+          ],
+        "PNJ" : [
           "Dumbledor",
           "PNJ 2"
-        ],
-        "status": "Bloquée",
-        "text_Start": "azertyuiopqsdfghjklmwxcvbn",
-        "text_End": "azertyuiopqsdfghjklmwxcvbn",
-        "commandRequired": [
-          "ls -a",
-          "cat myFile.txt"
-        ]
+          ],
+        "Statut" : "Bloquée",
+        "Texte" : "azertyuiopqsdfghjklmwxcvbn",
+        "Objectifs" : [
+          "Pas sûr"
+          ]
       }
-    ],
-    "User": {
-      "pseudo": "XxSuperEtudiantTrôFort33xX",
-      "inventaire": [
-        {
-          "name": "Lampe",
-          "text": "Utilise blablabla"
-        }
-      ],
-      "commands": [
+    },
+    "User" : {
+      "Pseudo" : "XxSuperEtudiantTrôFort33xX",
+      "Inventaire" : [
+        "La POO pour les nuls",
+        "Mots croisés"
+        ],
+      "Commandes" : [
         "ls",
         "cat",
         "cd"
-      ],
-      "questsEnded": [
+        ],
+      "QuestsEnded" : [
         "Quest_1"
-      ]
+        ]
     }
-  }
+  } 
 }
-

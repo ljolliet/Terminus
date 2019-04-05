@@ -13,17 +13,23 @@ const INFO = {
     FINISHED: 4
 };
 
-class Quest extends UnixObject{
+class Quest {
 
     constructor(name) {
-        super(name + ".sh");
         this._status = STATUS.TODO;
         this._endText = "";
         this._initialText = "";
         this._commandRequired = [];
         this._commandRewards = [];
+        this._name = name + ".sh";
         this._questsRequired = [];
-        this.writeAccess = false;
+    }
+
+    /**
+     * @return {String} Name
+     */
+    get name() {
+        return this._name;
     }
 
     /**
