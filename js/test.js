@@ -441,6 +441,17 @@ QUnit.test("parser.js (depends on command.js)", function (assert) {
     assert.equal(cmd.getCommand(2).args[0], "cmd3", "The main command should be 'cmd3'");
     assert.equal(cmd.getCommand(2).args[1], "arg3", "The 1st arg should be 'arg3'");
 
+    // Command with arguments and pipe 2
+    parser.setCommand("cmd1 arg1 | cmd2 arg2 | cmd3 arg3");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.isPipe, true, "The command is a pipe command since we use 2 pipes");
+    assert.equal(cmd.getCommand(0).args[0], "cmd1", "The main command should be 'cmd1'");
+    assert.equal(cmd.getCommand(0).args[1], "arg1", "The 1st arg should be 'arg1'");
+    assert.equal(cmd.getCommand(1).args[0], "cmd2", "The main command should be 'cmd2'");
+    assert.equal(cmd.getCommand(1).args[1], "arg2", "The 1st arg should be 'arg2'");
+    assert.equal(cmd.getCommand(2).args[0], "cmd3", "The main command should be 'cmd3'");
+    assert.equal(cmd.getCommand(2).args[1], "arg3", "The 1st arg should be 'arg3'");
+
     // Command with arguments and the 132 space (&nbsp;)
     parser.setCommand("cmd arg1 arg2 arg3");
     cmd = parser.getParsedCommand();
