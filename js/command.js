@@ -30,7 +30,6 @@ class Command {
      * @return {string} it returns the original command formatted correctly.
      */
     toString(){
-        console.log(this._args);
         let cmd = "";
         for(let i = 0; i < this._args.length; i ++){
             for(let j = 0; j < this._args[i].length; j ++){
@@ -72,6 +71,14 @@ class Command {
         } else {
             return new Command([this._args[index]]);
         }
+    }
+
+    /**
+     * It returns the number of commands (useful only if the original command is a pipe command)
+     * @return {number}
+     */
+    get size() {
+        return this._args.length;
     }
 
     /**

@@ -10,6 +10,7 @@ const COLOR = {
 };
 
 class Main {
+    static printAllowed = true;
 
     static init(login) {
         //creating small world
@@ -85,100 +86,153 @@ class Main {
     }
 
     /**
-     * It parses, analyses and interprets the command given in argument.
-     * It also writes the result to the terminal.
+     * THIS FUNCTION SHOULD BE CALLED INSTEAD OF this.printMessage.
+     * It will cancel this.printing if a pipe command is running.
+     * @param message Message to this.print.
+     * @param path Optional. If true, the function will this.print the path before the message.
+     */
+    static print(message, path = false){
+        if(this.printAllowed){
+            printMessage(message, path);
+        }
+    }
+
+    /**
+     * THIS FUNCTION SHOULD BE CALLED INSTEAD OF colorMessage.
+     * It will cancel this.printing if a pipe command is running.
+     * Print a colored message on the console output.
+     * @param colorMsg [string, string]
+     *          - 0: string to write
+     *          - 1: string corresponding to the color
+     */
+    static colorPrint(colorMsg){
+        if(this.printAllowed){
+            colorMessage(colorMsg);
+        }
+    }
+
+    /**
+     * THIS FUNCTION SHOULD BE CALLED FROM THE TERMINAL.
+     * It calls executeCommand(input, command) correctly by handling pipes.
      * @param {string} command a command typed by the user.
      */
-    static executeCommand(command) {
-
-        // First we need to parse the command
+    static executeCommand(command){
         let parser = new Parser(command, false);
         let parsedCommand = parser.getParsedCommand();
 
-        // Now we have the command list, so we can check if there are some errors
+        if(parsedCommand.isPipe){
+            this.printAllowed = false;
+            let output = "";
+            for(let i = 0; i < parsedCommand.size; i ++){
+                if(i === parsedCommand.size - 1) this.printAllowed = true;
+
+                let command = parsedCommand.getCommand(i);
+
+                if(command.args[0] === "yes")
+                    printMessage("Il est interdit d'utiliser yes avec pipe. On va donc ignorer yes.");
+                else
+                    output = this._executeCommand(output, command);
+            }
+        }else{
+            this._executeCommand("", parsedCommand);
+        }
+    }
+
+    /**
+     * It parses, analyses and interprets the command given in argument.
+     * It also writes the result to the terminal.
+     * @param {string} input the input of the last command (related to pipe).
+     * @param {Command} parsedCommand a command typed by the user.
+     * @return {string} the output of the command called.
+     */
+    static _executeCommand(input, parsedCommand) {
+
         let commandChecker = new Checker(parsedCommand, this.user, false);
 
         let isValid = commandChecker.isCommandValid();
         let errorMessage = commandChecker.getErrorMessage();
 
+        let output = "";
+
         switch (commandChecker.getCommandType()) {
             case COMMAND_TYPE.UNKNOWN:
-                printMessage(errorMessage);
+                this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.EXIT:
-                if (isValid) Main.exit();
-                else printMessage(errorMessage);
+                if (isValid) output = Main.exit();
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.HELP:
-                if (isValid) Main.help();
-                else printMessage(errorMessage);
+                if (isValid) output = Main.help();
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.CD:
-                if (isValid) Main.cd(parsedCommand.args);
-                else printMessage(errorMessage);
+                if (isValid) output = Main.cd(parsedCommand.args);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.CAT:
-                if (isValid) Main.cat(parsedCommand.args);
-                else printMessage(errorMessage);
+                if (isValid) output = Main.cat(input, parsedCommand.args);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.LS:
                 if (isValid)
-                    if (parsedCommand.args.length === 1) Main.ls([]);
-                    else Main.ls(Command.formatOptions(parsedCommand.args[1]));
-                else printMessage(errorMessage);
+                    if (parsedCommand.args.length === 1) output = Main.ls([]);
+                    else output = Main.ls(Command.formatOptions(parsedCommand.args[1]));
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.LAUNCH:
-                if (isValid) Main.launch(parsedCommand.args[0].slice(2));
-                else printMessage(errorMessage);
+                if (isValid) output = Main.launch(input, parsedCommand.args[0].slice(2));
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.MV:
-                if (isValid) Main.mv(parsedCommand.args[1], parsedCommand.args[2]);
-                else printMessage(errorMessage);
+                if (isValid) output = Main.mv(parsedCommand.args[1], parsedCommand.args[2]);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.TREE:
-                if (isValid) Main.tree();
-                else printMessage(errorMessage);
+                if (isValid) output = Main.tree();
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.GREP:
-                if (isValid) Main.grep(parsedCommand.args[1], "");
-                else printMessage(errorMessage);
+                if (isValid) output = Main.grep(input, parsedCommand.args[1]);
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.JOBS:
-                if (isValid) Main.jobs();
-                else printMessage(errorMessage);
+                if (isValid) output = Main.jobs();
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.CLEAR:
-                if (isValid) Main.clear();
-                else printMessage(errorMessage);
+                if (isValid) output = Main.clear();
+                else this.print(errorMessage);
                 break;
 
             case COMMAND_TYPE.MAN:
-                if (isValid) Main.man(parsedCommand.args[1]);
-                else printMessage(errorMessage);
+                if (isValid) output = Main.man(parsedCommand.args[1]);
+                else this.print(errorMessage);
                 break;
             case COMMAND_TYPE.YES:
-                if (isValid) Main.yes(parsedCommand.args[1]);
-                else printMessage(errorMessage);
+                if (isValid) output = Main.yes(parsedCommand.args[1], parsedCommand.isPipe);
+                else this.print(errorMessage);
                 break;
             case COMMAND_TYPE.CHMOD:
-                if (isValid) Main.chmod(parsedCommand.args[1], parsedCommand.args[2]);
-                else printMessage(errorMessage);
+                if (isValid) output = output = Main.chmod(parsedCommand.args[1], parsedCommand.args[2]);
+                else this.print(errorMessage);
                 break;
         }
 
-        Main.questAdvancement((new Parser(command)).getParsedCommand().toString());
-        console.log(this.user.getPath());
+        Main.questAdvancement(parsedCommand.toString());
+
+        return output;
     }
 
 
@@ -187,219 +241,293 @@ class Main {
      */
     static exit() {
         if (this.user.currentQuest !== null) {
-            printMessage("Quête " + this.user.currentQuest.name + " stoppée");
+            this.print("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-            // printMessage("Tu es sur que tu souhaites quitter Terminus ? (yes/no)")
+            // this.print("Tu es sur que tu souhaites quitter Terminus ? (yes/no)")
             reload();
         }
+
+        return "";
     }
 
     /**
      * Here goes the code when the user has typed help.
+     * @return {string} the command output.
      */
     static help() {
         let commands = "";
         for (let c of this.user.commandsAuthorized)
             commands += c.toString() + " ";
-        printMessage(commands);
+        this.print(commands);
+
+        return commands;
     }
 
     /**
      * Here goes the code when the user has typed cd.
      * @param {[string]} args the command detail.
+     * @return {string} the command output.
      */
     static cd(args) {
         let status;
+        let message = "";
+
         if ((status = this.user.moveTo(args[1])) === COMMAND_STATUS.INCORRECT) // if move refused
-            printMessage("cd: " + args[1] + " : Aucun lieu de ce type");
+            message = "cd: " + args[1] + " : Aucun lieu de ce type";
         else if (status === COMMAND_STATUS.PERMISSION_ISSUE)
-            printMessage(this.permissionMessage("cd", args[1]));
+            message = this.permissionMessage("cd", args[1]);
         //else : move done
+
+        if(message !== "")
+            this.print(message);
+
+        return message;
     }
 
     /**
      * Here goes the code when the user has typed cat.
+     * @param {String} input last command output (pipe)
      * @param {[string]} args the command detail.
+     * @return {string} the command output.
      */
-    static cat(args) {
+    static cat(input, args) {
         // does not support a path, only place name
         let text;
+        let message = "";
         if ((text = this.user.read(args[1])) === null) // if move refused
-            printMessage("cat: " + args[1] + " : Aucun item ou personnage de ce type");
+            message = "cat: " + args[1] + " : Aucun item ou personnage de ce type";
         else if (text === COMMAND_STATUS.PERMISSION_ISSUE)
-            printMessage(this.permissionMessage("cat", args[1]));
+            message = this.permissionMessage("cat", args[1]);
         else
-            printMessage(text);
+            message = text;
+
+        this.print(message);
+
+        return message;
     }
 
     /**
      * Here goes the code when the user has typed ls.
      * @param {String[]}options (formatted this way : ["option1", "option2])
+     * @return {string} the command output.
      */
     static ls(options) {
         let objects = [];
+        let message = "";
         if (!this.user.currentLocation.readAccess) {
-            printMessage(this.permissionMessage("ls", this.user.currentLocation.name));
-            return 0;
-        }
-        if (this.user.currentLocation !== Place.root)
-            objects.push(["..", COLOR.PLACE]);
-        for (let p of this.user.currentLocation.all) {
-            let tmp = "";
-            if (!p.name.startsWith(".") || options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
-                if (p instanceof Place) {
-                    if (p.containsQuestTodo())
-                        tmp = "!";
-                    objects.push([tmp + p.name, COLOR.PLACE]);
-                } else if (p instanceof Item) {
-                    objects.push([p.name, COLOR.ITEM]);
-                } else if (p instanceof PNJ) {
-                    objects.push([p.name, COLOR.PNJ]);
-                } else if (p instanceof Quest) {
-                    let questAvailable = true;
-                    for (let dependency of p.questsRequired) // to check if the quest is available (all dependencies done)
-                        if (dependency.status !== STATUS.DONE)
-                            questAvailable = false;
-                    if (questAvailable) {
-                        if (p.status === STATUS.TODO)
-                            objects.push([p.name, COLOR.QUEST_TODO]);
-                        if (p.status === STATUS.STARTED)
-                            objects.push([p.name, COLOR.QUEST_IN_PROGRESS]);
-                        if (p.status === STATUS.DONE)
-                            objects.push([p.name, COLOR.QUEST_DONE]);
+            message = this.permissionMessage("ls", this.user.currentLocation.name);
+        } else {
+            if (this.user.currentLocation !== Place.root)
+                objects.push(["..", COLOR.PLACE]);
+            for (let p of this.user.currentLocation.all) {
+                let tmp = "";
+                if (!p.name.startsWith(".") || options.includes("a")) {    // don't show a hidden Entity/Place except when the command includes "all" option (-a).
+                    message += p.name + " ";
+                    if (p instanceof Place) {
+                        if (p.containsQuestTodo())
+                            tmp = "!";
+                        objects.push([tmp + p.name, COLOR.PLACE]);
+                    } else if (p instanceof Item) {
+                        objects.push([p.name, COLOR.ITEM]);
+                    } else if (p instanceof PNJ) {
+                        objects.push([p.name, COLOR.PNJ]);
+                    } else if (p instanceof Quest) {
+                        let questAvailable = true;
+                        for (let dependency of p.questsRequired) // to check if the quest is available (all dependencies done)
+                            if (dependency.status !== STATUS.DONE)
+                                questAvailable = false;
+                        if (questAvailable) {
+                            if (p.status === STATUS.TODO)
+                                objects.push([p.name, COLOR.QUEST_TODO]);
+                            if (p.status === STATUS.STARTED)
+                                objects.push([p.name, COLOR.QUEST_IN_PROGRESS]);
+                            if (p.status === STATUS.DONE)
+                                objects.push([p.name, COLOR.QUEST_DONE]);
+                        }
+                    } else if (p instanceof Script) {
+                        objects.push([p.name, COLOR.SCRIPT])
+                    } else {
+                        objects.push([p.name, COLOR.OTHER])
                     }
-                } else if (p instanceof Script) {
-                    objects.push([p.name, COLOR.SCRIPT])
-                } else {
-                    objects.push([p.name, COLOR.OTHER])
                 }
             }
+            this.colorPrint(objects);
         }
-        colorMessage(objects);
+
+        return message;
     }
 
     /**
      * Here goes the code when the user has launched a quest.
+     * @param {String} input last command output (pipe)
      * @param {String} scriptName The name of the script.
+     * @return {string} the command output.
      */
-    static launch(scriptName) {
+    static launch(input, scriptName) {
+
+        let message = "";
 
         // We try to launch the script
         let scriptLaunched = this.user.launchScript(scriptName);
         if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
-            printMessage(this.permissionMessage("./", scriptName));
+            message = this.permissionMessage("./", scriptName);
         // If it did not launch, we check if it is a quest
         else if (scriptLaunched===COMMAND_STATUS.INCORRECT) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
-                printMessage("lancement de quête : " + scriptName + " : Aucune quête de ce type");
+                message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
             else if (info === COMMAND_STATUS.PERMISSION_ISSUE)
-                printMessage(this.permissionMessage("./", scriptName));
+                message = this.permissionMessage("./", scriptName);
             else if (info === INFO.UNAVAILABLE)
-                printMessage("La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'");
+                message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
             else if (info === INFO.FINISHED)
-                printMessage("La quête " + scriptName + " est déjà terminée");
+                message = "La quête " + scriptName + " est déjà terminée.";
             else// INFO.FOUND
             {
-                printMessage("Quête " + this.user.currentQuest.name + " lancée");
-                printMessage(this.user.currentQuest.initialText);
+                message = "Quête " + this.user.currentQuest.name + " lancée.\n";
+                message += this.user.currentQuest.initialText;
             }
         }
+
+        this.print(message);
+        return message;
     }
 
     /**
      * Here goes the code when the user has typed mv.
      * @param {String} source
      * @param {String} destination
+     * @return {string} the command output.
      */
     static mv(source, destination) {
+        let message = "";
         let status = this.user.moveItem(source, destination);
         if ( status === COMMAND_STATUS.INCORRECT) // if move refused
-            printMessage("mv: impossible d'évaluer '" + source + "' Aucun item ce type");
+            message = "mv: impossible d'évaluer '" + source + "' Aucun item ce type";
         else if (status === COMMAND_STATUS.PERMISSION_ISSUE)
-            printMessage(this.permissionMessage("mv", source));
+            message = this.permissionMessage("mv", source);
         //else : move done
+
+        if(message !== "")
+            this.print(message);
+
+        return message;
     }
 
     /**
      * Here goes the code when the user has typed tree.
+     * @return {string} the command output.
      */
     static tree() {
-        printMessage(this.user.currentLocation.description("|--", NBSPACE + NBSPACE + NBSPACE, 0));
+        let message = this.user.currentLocation.description("|--", NBSPACE + NBSPACE + NBSPACE, 0);
+        this.print(message);
+
+        return message;
     }
 
     /**
      * Here goes the code when the user has typed clear.
+     * @return {string} the command output.
      */
     static clear() {
         clear();
+        return "";
     }
 
     /**
      * Here goes the code when the user has typed grp.
+     * @param {String} input last command output (pipe)
      * @param {String} options
-     * @param {String} previousResult
+     * @return {string} the command output.
      */
-    static grep(options, previousResult) {
-        let result = "";
-        for (let line of previousResult.split("\n")) {
-            if (line.includes(options)) {
-                result += line + "\n";
+    static grep(input, options) {
+        let message = "";
+        if(input !== undefined) {
+            for (let line of input.split("\n")) {
+                for (let word of line.split(" ")) {
+                    if (word.includes(options)) {
+                        message += word + "\n";
+                    }
+                }
             }
         }
-        printMessage(result.slice(0, result.length - 1));
+
+        if(message === "")
+            this.print("Aucune occurence trouvée.");
+        else
+            this.print(message);
+
+        return message;
     }
 
     /**
      * Here goes the code when the user has typed tree.
+     * @return {string} the command output.
      */
     static jobs() {
         let jobList = "";
         for (let q of Place.root.getQuestStarted())
             jobList += q[0].name + " : " + q[1].name + "\n";
 
-        printMessage(jobList.slice(0, jobList.length - 1)); // print and also remove the last '\n'
+        let message = jobList.slice(0, jobList.length - 1); // this.print and also remove the last '\n'
+        this.print(message);
+
+        return message;
     }
 
     /**
      * Manage the quest advancement and display when the user finis a quest.
      * @param {String} command Last command the user entered.
+     * @return {string} the command output.
      */
     static questAdvancement(command) {
+        let message = "";
         if (this.user.currentQuest !== null) { // check the quest advancement.
             let quest;
             if ((quest = this.user.checkQuest(command)) !== null) {
                 console.log("check quets not null");
-                printMessage(quest.endText);
-                printMessage("Quête : " + quest.name + " terminée");
+                message = quest.endText;
+                message += "Quête : " + quest.name + " terminée.";
                 if (quest.commandRewards.length !== 0)
-                    printMessage("Commande(s) : " + quest.commandRewards + " dévérouillée(s)")
+                    message = "Commande(s) : " + quest.commandRewards + " dévérouillée(s).";
             }
         }
+
+        if(message !== "")
+            this.print(message);
+
+        return message;
     }
 
     /**
      * @param command
+     * @return {string} the command output.
      */
     static man(command) {
-        //TODO
+        // TODO
+        return "";
     }
 
     /**
-     *
-     * @param command
+     * @param arg {string} yes argument,
+     * @param isPipe {boolean} true whenever the command is a pipe command,
+     * @return {string} the command output.
      */
-    static yes(command) {
+    static yes(arg, isPipe) {
+        let message = "";
         this.actualProcess = window.setInterval(() => {
-            console.log("print");
-            printMessage(command);
+            console.log("this.print");
+            if(isPipe)
+                message += arg;
+            else
+                this.print(arg);
         }, 100);
     }
 
     /**
      * Stop the process that is running
-     * @returns {boolean} Returns true if a process is stopped
+     * @return {string} the command output.
      */
     static stop() {
         if (this.actualProcess != null) {
@@ -407,30 +535,34 @@ class Main {
             this.actualProcess = null;
             return true;
         }
-
-        return false;
+      
+        return "";
     }
-
 
     /**
      *  Chmod command implementation
      * @param {String} options The rights to apply to the object.
      * @param {String} objectName The target of the command.
+     * @return {string} the command output.
      */
     static chmod(options, objectName) {
+        let message = "";
         let object;
         if ((object = this.user.getAll(objectName)) === null) // found the object
-            printMessage("chmod: impossible d'accéder à '" + objectName + "': Aucun Lieu, Item ou Script de ce type");
+            message = "chmod: impossible d'accéder à '" + objectName + "': Aucun Lieu, Item ou Script de ce type";
         else if (object.setRights(options) === false)    // set the rights
-            printMessage("chmod: mode incorrect : '" + options + "'");
+            message = "chmod: mode incorrect : '" + options + "'";
 
-        console.log(object);
+        if(message !== "")
+            this.print(message);
+
+        return message;
     }
 
     /**
      * @param command The command typed by the user.
      * @param objectName The name of the object concerned.
-     * @returns {String} The message to print.
+     * @returns {String} The message to this.print.
      */
     static permissionMessage(command, objectName) {
         return command + ": " + objectName + ": Permission non accordée";

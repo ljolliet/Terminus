@@ -41,6 +41,7 @@ class Parser {
             // We need to remove the spaces before and after the pipe, otherwise the split
             // takes "" as the main command
             fixedCommand = fixedCommand.replaceAll("| ", "|");
+            fixedCommand = fixedCommand.replaceAll(" |", "|");
 
             // We divide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");
