@@ -12,7 +12,7 @@ class Parser {
      * @param {string} command the command that the user typed.
      * @param {boolean} verbose if true, it writes information about parsing
      */
-    constructor(command, verbose = false) {
+        constructor(command, verbose = false) {
         this._command = command;
         this._verbose = verbose;
         this._commands = [];
@@ -41,6 +41,7 @@ class Parser {
             // We need to remove the spaces before and after the pipe, otherwise the split
             // takes "" as the main command
             fixedCommand = fixedCommand.replaceAll("| ", "|");
+            fixedCommand = fixedCommand.replaceAll(" |", "|");
 
             // We divide the command in multiple commands if there was a pipe
             let cmds = fixedCommand.split("|");

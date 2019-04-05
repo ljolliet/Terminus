@@ -1,3 +1,10 @@
+const COMMAND_STATUS = {
+    CORRECT : 0,
+    INCORRECT : 1,
+    PERMISSION_ISSUE : 2
+};
+
+
 class Command {
 
     /**
@@ -67,6 +74,14 @@ class Command {
     }
 
     /**
+     * It returns the number of commands (useful only if the original command is a pipe command)
+     * @return {number}
+     */
+    get size() {
+        return this._args.length;
+    }
+
+    /**
      * It formats options into an array.
      * Input:  -abc
      * Output: ["a", "b", "c"]
@@ -97,8 +112,13 @@ class Command {
 
         for (let key in COMMAND_TYPE) {
             if (COMMAND_TYPE.hasOwnProperty(key)) {
-                if(COMMAND_TYPE[key].startsWith(prefix))
-                    matches.push(COMMAND_TYPE[key]);
+                // Check if the command starts with the command typed
+                if(COMMAND_TYPE[key].startsWith(prefix)){
+                    // Check if the command is authorized
+                    if(Main.user.commandsAuthorized.indexOf(COMMAND_TYPE[key]) > -1){
+                        matches.push(COMMAND_TYPE[key]);
+                    }
+                }
             }
         }
         return matches;
