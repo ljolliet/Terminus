@@ -2,12 +2,12 @@
   "World": {
     "Places": [
       {
+        "id" : 0,
         "placeName": "Campus",
-        "parent": null,
         "next_Place": [
-          "Arts_et_Metiers",
-          "Bethanie",
-          "Doyen_Brus"
+          17,
+          1,
+          18
         ],
         "quests": [],
         "pnj": [],
@@ -15,13 +15,13 @@
         "script": []
       },
       {
+        "id" : 1,
         "placeName": "Bethanie",
-        "parent": "Campus",
         "next_Place": [
-          "A21",
-          "A22",
-          "CREMI",
-          "pont"
+          10,
+          2,
+          7,
+          9
         ],
         "quests": [
           "la_traversée_eternelle.sh"
@@ -36,12 +36,12 @@
         "script": []
       },
       {
+        "id" : 2,
         "placeName": "A22",
-        "parent": "Bethanie",
         "next_Place": [
-          "Amphi_Henri_Poincaré",
-          "Amphi_Thomas_Edison",
-          "guichet_unique"
+          3,
+          4,
+          5
         ],
         "quests": [
           "le_vaste_monde.sh"
@@ -56,8 +56,8 @@
         "script": []
       },
       {
+        "id" : 3,
         "placeName": "Amphi_Henri_Poincaré",
-        "parent": "A22",
         "next_Place": [],
         "quests": [
           "les_documents_confidentiels.sh"
@@ -72,8 +72,8 @@
         "script": []
       },
       {
+        "id" : 4,
         "placeName": "Amphi_Thomas_Edison",
-        "parent": "A22",
         "next_Place": [],
         "quests": [],
         "pnj": [],
@@ -81,8 +81,8 @@
         "script": []
       },
       {
+        "id" : 5,
         "placeName": "guichet_unique",
-        "parent": "A22",
         "next_Place": [],
         "quests": [
           "le_rangement_IKEA.sh"
@@ -110,8 +110,8 @@
         "script": []
       },
       {
+        "id" : 6,
         "placeName": "Inventaire",
-        "parent": "A22",
         "next_Place": [],
         "quests": [
           "armoire_a_trophées.sh"
@@ -135,12 +135,12 @@
         "script": []
       },
       {
+        "id" : 7,
         "placeName": "CREMI",
-        "parent": "Bethanie",
         "next_Place": [
-          "1er_Etage",
-          "2eme_Etage",
-          "3eme_Etage"
+          14,
+          15,
+          8
         ],
         "quests": [
           "ENT_legendaire.sh"
@@ -160,29 +160,20 @@
         "script": []
       },
       {
+        "id" : 8,
         "placeName": "3eme_Etage",
-        "parent": "CREMI",
         "next_Place": [
-          "passage_interdit"
+          13
         ],
-        "quests": [
-          "power.sh"
-        ],
-        "pnj": [
-          {
-            "name": "Dark_Lord",
-            "text": ""
-          }
-        ],
+        "quests": [],
+        "pnj": [],
         "items": [],
         "script": []
       },
       {
+        "id" : 9,
         "placeName": "pont",
-        "parent": "Bethanie",
-        "next_Place": [
-          "passage_interdit"
-        ],
+        "next_Place": [],
         "quests": [
           "les_constructeurs_de_l'extreme.sh"
         ],
@@ -208,12 +199,11 @@
         ]
       },
       {
+        "id" : 10,
         "placeName": "A21",
-        "parent": "Bethanie",
         "next_Place": [
-          "1er_Etage",
-          "2eme_Etage",
-          "3eme_Etage"
+          11,
+          16
         ],
         "quests": [
           "la_recherche_interminable.sh"
@@ -233,10 +223,10 @@
         "script": []
       },
       {
+        "id" : 11,
         "placeName": "1er_Etage",
-        "parent": "A21",
         "next_Place": [
-          "150"
+          12
         ],
         "quests": [
         ],
@@ -250,11 +240,9 @@
         "script": []
       },
       {
+        "id" : 12,
         "placeName": "150",
-        "parent": "1er_Etage",
-        "next_Place": [
-          "150"
-        ],
+        "next_Place": [  ],
         "quests": [
           "I_love_English.sh"
         ],
@@ -271,25 +259,128 @@
           }
         ],
         "script": []
+      },
+      {
+        "id" : 13,
+        "placeName": "passage_interdit",
+        "next_Place": [
+          12
+        ],
+        "quests": [
+          "power.sh"
+        ],
+        "pnj": [
+          {
+            "name": "Dark_Lord",
+            "text": ""
+          }
+        ],
+        "items": [],
+        "script": []
+      },
+      {
+        "id" : 14,
+        "placeName": "1er_Etage",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      },
+      {
+        "id" : 15,
+        "placeName": "2eme_Etage",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      },
+      {
+        "id" : 16,
+        "placeName": "2eme_Etage",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      },
+      {
+        "id" : 17,
+        "placeName": "Arts_et_Metiers",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      }      ,
+      {
+        "id" : 18,
+        "placeName": "Doyen_Brus",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
       }
+
+
     ],
     "Quests": [
       {
-        "number": 1,
-        "name": "la_traversée_eternelle.sh",
+        "id": 1,
+        "name": "la_traversee_eternelle.sh",
         "requirement": [],
         "commands_Rewards": [],
         "status": "TODO",
-        "text_Start": "Rends-toi à l’Amphithéâtre Henri Poincaré dans le bâtiment A22, tu es en retard jeune dress… *hum hum* élève. Dépêche-toi." ,
+        "text_Start": "Rends-toi à l’Amphithéâtre Henri Poincaré dans le bâtiment A22, tu es en retard jeune dress… *hum hum* élève. Dépêche-toi.",
         "text_End": null,
         "commandRequired": [
           "cd A22",
           "cd Amphi_Henri_Poincaré"
         ]
+      },
+      {
+        "id": 2,
+        "name": "les_documents_confidentiels.sh",
+        "requirement": [1],
+        "commands_Rewards": ["mv"],
+        "status": "TODO",
+        "text_Start": "Pour valider cette quête, tu dois te rendre au guichet unique en A22 et trouver ce qui t’appartient, une autre quête t’y attendra…",
+        "text_End": null,
+        "commandRequired": [
+          "cd ..",
+          "cd guichet_unique"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "le_rangement_IKEA.sh",
+        "requirement": [2],
+        "commands_Rewards": [">", ">>", "yes"],
+        "status": "TODO",
+        "text_Start": "Déplace ces deux objets dans ton inventaire ! Puis va vérifier dans ton inventaire si tu as bien effectué le déplacement.",
+        "text_End": null,
+        "commandRequired": [
+          "mv carte_étudiante $INVENTAIRE",
+          "mv certificat_de_scolarité $INVENTAIRE"
+        ]
+      },
+      {
+        "id": 4,
+        "name": "armoire_des_trophees.sh",
+        "requirement": [3],
+        "commands_Rewards": ["tree", "grep"],
+        "status": "TODO",
+        "text_Start": "Observe les quêtes que tu as terminées et le temps que tu as mis pour les résoudre dans l’armoire des trophées.",
+        "text_End": null,
+        "commandRequired": [
+          "cat armoire_des_trophees"
+        ]
       }
     ],
     "User": {
-      "pseudo": null,
+      "login": null,
       "inventory": [],
       "commands": [
         "ls",

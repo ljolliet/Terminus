@@ -120,10 +120,10 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(quest.status, STATUS.TODO, "Quest status initialized, to start");
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.launchQuest("else"), INFO.UNKNOWN, "Wrong quest name, quest not launched");
-    assert.equal(user.launchQuest("quest.sh"), INFO.FOUND, "Quest launched"); // add .sh to the name
+    assert.equal(user.launchQuest("quest"), INFO.FOUND, "Quest launched");
     assert.equal(quest.status, STATUS.STARTED, "Status updated");
     assert.equal(user.currentQuest, quest, "Quest is running");
-    assert.equal(user.launchQuest("quest2.sh"), INFO.UNAVAILABLE, "Can't launch a second quest at the same time");
+    assert.equal(user.launchQuest("quest2"), INFO.UNAVAILABLE, "Can't launch a second quest at the same time");
     assert.equal(user.currentQuest.commandRequired.length, 2, "Two command required");
     assert.equal(user.currentQuest.commandRequired[0], "ls", "Right command entered");
     assert.equal(user.checkQuest("ls"), null, "Write command entered but one left");
@@ -133,8 +133,8 @@ QUnit.test("Launching and checking quest", function (assert) {
     assert.equal(quest.status, STATUS.DONE, "Quest finished");
     assert.equal(user.currentQuest, null, "No quest running");
     assert.equal(user.commandsAuthorized.includes(COMMAND_TYPE.MV), true, "New command reward");
-    assert.equal(user.launchQuest("quest.sh"), INFO.FINISHED, "Can't do the same quest again");
-    assert.equal(user.launchQuest("quest2.sh"), INFO.FOUND, "Now another quest can be launched");
+    assert.equal(user.launchQuest("quest"), INFO.FINISHED, "Can't do the same quest again");
+    assert.equal(user.launchQuest("quest2"), INFO.FOUND, "Now another quest can be launched");
 });
 
 
@@ -242,14 +242,14 @@ QUnit.test("questDependency", function (assert) {
     place.addQuest(quest);
     place.addQuest(quest2);
     place.addQuest(quest3);
-    assert.equal(user.launchQuest("quest2.sh"), INFO.LOCKED, "Second quest not available");
-    assert.equal(user.launchQuest("quest3.sh"), INFO.LOCKED, "Third quest not available");
-    assert.equal(user.launchQuest("quest.sh"), INFO.FOUND, "First quest available");
+    assert.equal(user.launchQuest("quest2"), INFO.LOCKED, "Second quest not available");
+    assert.equal(user.launchQuest("quest3"), INFO.LOCKED, "Third quest not available");
+    assert.equal(user.launchQuest("quest"), INFO.FOUND, "First quest available");
     assert.equal(user.checkQuest("ls"), quest, "First quest finished");
-    assert.equal(user.launchQuest("quest3.sh"), INFO.LOCKED, "Third quest not available");
-    assert.equal(user.launchQuest("quest2.sh"), INFO.FOUND, "Now the second quest is available");
+    assert.equal(user.launchQuest("quest3"), INFO.LOCKED, "Third quest not available");
+    assert.equal(user.launchQuest("quest2"), INFO.FOUND, "Now the second quest is available");
     assert.equal(user.checkQuest("cat"), quest2, "Second quest finished");
-    assert.equal(user.launchQuest("quest3.sh"), INFO.FOUND, "Now the third quest is available");
+    assert.equal(user.launchQuest("quest3"), INFO.FOUND, "Now the third quest is available");
     assert.equal(user.checkQuest("cd toto"), quest3, "third quest finished");
 
 });
