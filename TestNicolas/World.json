@@ -434,7 +434,7 @@
         "requirement": [3],
         "commands_Rewards": [],
         "status": "TODO",
-        "text_Start": "",
+        "text_Start": "Lance le sort de ton choix.\nPS : le but de cette quête est de piéger le joueur dans un endroit où on lui a dit de ne pas se rendre. La commande yes est une boucle infinie, pour en sortir il faut utiliser CTRL+C.",
         "text_End": null,
         "commandRequired": [
           "yes"
