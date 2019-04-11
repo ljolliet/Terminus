@@ -486,11 +486,12 @@ class Main {
         if (this.user.currentQuest !== null) { // check the quest advancement.
             let quest;
             if ((quest = this.user.checkQuest(command)) !== null) {
-                console.log("check quets not null");
                 message = quest.endText;
-                message += "Quête : " + quest.name + " terminée.";
+                if(message !== "")
+                    message+="\n";
+                message += "Quête : " + quest.name + " terminée.\n";
                 if (quest.commandRewards.length !== 0)
-                    message = "Commande(s) : " + quest.commandRewards + " dévérouillée(s).";
+                    message += "Commande(s) : " + quest.commandRewards + " dévérouillée(s).";
             }
         }
 
