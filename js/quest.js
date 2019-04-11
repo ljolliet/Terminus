@@ -16,7 +16,7 @@ const INFO = {
 class Quest extends UnixObject{
 
     constructor(name) {
-        super(name + ".sh");
+        super(name);
         this._status = STATUS.TODO;
         this._endText = "";
         this._initialText = "";
