@@ -1,6 +1,6 @@
 class Place extends UnixObject {
 
-    constructor(id, name) {
+    constructor(name, id=-1) {
         super(name);
         this._id = id;
         this._places = [];
