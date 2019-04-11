@@ -1,13 +1,28 @@
 class Place extends UnixObject {
 
-    constructor(place){
+    constructor(name, id=-1) {
         super(name);
+        this._id = id;
         this._places = [];
         this._entities = [];
         this._quests = [];
         this._scripts = [];
         this._parent = null;
+
+        //static attributes (see below the class):
+        //Place.root
+        //Place.home
+        // use : let r = new Place("root") ; Place.root = r ;
     }
+
+    /*
+        constructor(place){
+            this._places = place.next_Place;
+            this._entities = place.Entities;
+            this._quests = place.Quests;
+            this._name = place.PlaceName;
+            this._parent = null;
+        }*/
 
     /**
      * @return {UnixObject[]} All the entities, places, quests, ordered alphabetically.
@@ -36,14 +51,13 @@ class Place extends UnixObject {
      */
     description(base, shift, id) {
         let tree = this.name;
-        for (let el of this.all) {
-            tree += "\n";
-            for (let i = 0; i < id; i++) {
-                tree += shift;
+        if (this.readAccess)
+            for (let el of this.all) {
+                tree += "\n";
+                for (let i = 0; i < id; i++)
+                    tree += shift;
+                tree += base + el.description(base, shift, id + 1);
             }
-
-            tree += base + el.description(base, shift, id + 1);
-        }
         return tree;
     }
 
@@ -88,12 +102,11 @@ class Place extends UnixObject {
         return false;
     }
 
-    get name() {
-        return this._name;
-    }
-
-    set name(value) {
-        this._name = value;
+    /**
+     * @return {int} Place's id.
+     */
+    get id() {
+        return this._id;
     }
 
     /**

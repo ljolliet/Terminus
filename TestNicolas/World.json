@@ -24,7 +24,7 @@
           9
         ],
         "quests": [
-          "la_traversée_eternelle.sh"
+          1
         ],
         "pnj": [
           {
@@ -41,10 +41,11 @@
         "next_Place": [
           3,
           4,
-          5
+          5,
+          6
         ],
         "quests": [
-          "le_vaste_monde.sh"
+          5
         ],
         "pnj": [
           {
@@ -60,7 +61,7 @@
         "placeName": "Amphi_Henri_Poincaré",
         "next_Place": [],
         "quests": [
-          "les_documents_confidentiels.sh"
+          2
         ],
         "pnj": [
           {
@@ -85,7 +86,7 @@
         "placeName": "guichet_unique",
         "next_Place": [],
         "quests": [
-          "le_rangement_IKEA.sh"
+          3
         ],
         "pnj": [
           {
@@ -114,7 +115,7 @@
         "placeName": "Inventaire",
         "next_Place": [],
         "quests": [
-          "armoire_a_trophées.sh"
+          4
         ],
         "pnj": [
           {
@@ -143,7 +144,6 @@
           8
         ],
         "quests": [
-          "ENT_legendaire.sh"
         ],
         "pnj": [
           {
@@ -175,7 +175,7 @@
         "placeName": "pont",
         "next_Place": [],
         "quests": [
-          "les_constructeurs_de_l'extreme.sh"
+          8
         ],
         "pnj": [
           {
@@ -206,7 +206,7 @@
           16
         ],
         "quests": [
-          "la_recherche_interminable.sh"
+          6
         ],
         "pnj": [
           {
@@ -244,7 +244,7 @@
         "placeName": "150",
         "next_Place": [  ],
         "quests": [
-          "I_love_English.sh"
+          7
         ],
         "pnj": [
           {
@@ -267,7 +267,7 @@
           12
         ],
         "quests": [
-          "power.sh"
+          9
         ],
         "pnj": [
           {
@@ -376,6 +376,68 @@
         "text_End": null,
         "commandRequired": [
           "cat armoire_des_trophees"
+        ]
+      },
+      {
+        "id": 5,
+        "name": "le_vaste_monde.sh",
+        "requirement": [4],
+        "commands_Rewards": ["chmod"],
+        "status": "TODO",
+        "text_Start": "Réussiras-tu à résoudre l’énigme du Pr.Ofaite et à devenir omniscient ?",
+        "text_End": null,
+        "commandRequired": [
+          "tree"
+        ]
+      },
+      {
+        "id": 6,
+        "name": "la_recherche_interminable.sh",
+        "requirement": [5],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Retrouve ton groupe d’anglais grâce à ton nom.\nPS : le fichier groupes_de_langue contient une centaine de noms avec le groupe correspondant à chaque étudiant.",
+        "text_End": null,
+        "commandRequired": [
+          "cat groupes_de_langue | grep #login"
+        ]
+      },
+      {
+        "id": 7,
+        "name": "I_Love_English.sh",
+        "requirement": [6],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Trouve l’objet caché dans cette salle.",
+        "text_End": "Oui c’est bien celui là ! We did it ! Hourra ! Hidden signifie caché !",
+        "commandRequired": [
+          "ls -a",
+          "cat .chiper"
+        ]
+      },
+      {
+        "id": 8,
+        "name": "les_constructeurs_de_l_extreme.sh",
+        "requirement": [5],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Répare le pont et traverse le à l’aide du mot de passe.",
+        "text_End": null,
+        "commandRequired": [
+          "chmod +x traverser_pont.sh",
+          "./traverser_pont.sh mellon"
+        ]
+      },
+      {
+        "id": 9,
+        "name": "power.sh",
+        "requirement": [3],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Lance le sort de ton choix.\nPS : le but de cette quête est de piéger le joueur dans un endroit où on lui a dit de ne pas se rendre. La commande yes est une boucle infinie, pour en sortir il faut utiliser CTRL+C.",
+        "text_End": null,
+        "commandRequired": [
+          "yes"
         ]
       }
     ],

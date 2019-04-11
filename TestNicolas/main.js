@@ -10,26 +10,42 @@ class Main {
         let ioJson = new IOjson();
 
         //Récuperation de toutes les places (tableau d'objets)
-        let places = ioJson.getAllPlaces();
+        let AllPlaces = ioJson.getAllPlaces();
+        console.log(AllPlaces);
+
+        let AllQuests = ioJson.getAllQuests();
 
         //Création dynamique des Objets Place et push dans un tableau global
-        for (let i = 0; i < places.length; i++) {
-            PlaceTab.push(new Place(places[i].name));
+        for (let i = 0; i < AllPlaces.length; i++) {
+            PlaceTab.push(new Place(AllPlaces[i].placeName, AllPlaces[i].id));
         }
 
+       /* console.log("ioJson test !!");
+        ioJson.test();*/
 
+        PlaceTab.forEach( (place, index) => {
 
+            //console.log(place);
+            let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
 
-        ioJson.test();
+            nextPlaceTab.forEach( (nextPlace) => {
+               let next = this.findPlace(nextPlace);
+
+                place.addPlace(next);
+            });
+
+            console.log("Result de : " + place.name);
+            console.log(place.places);
+        })
 
     }
 
-    static findPlace(name, parent){
+    static findPlace(id){
 
-        let place1 = PlaceTab.find(function (place) {
-            return (place.placeName === name && place.parent === parent);
+        let placeFound = PlaceTab.find(function (place) {
+            return (place.id === id);
         });
-        return place1;
+        return placeFound;
     }
 
     /**
