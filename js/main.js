@@ -542,9 +542,12 @@ class Main {
      * @return {string} the command output.
      */
     static yes(arg, isPipe) {
+        if (typeof arg === "undefined")
+            arg = "y";
+
         let message = "";
         this.actualProcess = window.setInterval(() => {
-            console.log("this.print");
+            console.log(arg);
             if(isPipe)
                 message += arg;
             else
