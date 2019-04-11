@@ -470,6 +470,10 @@ QUnit.test("parser.js (depends on command.js)", function (assert) {
     parser.setCommand("cmd     arg      arg ");
     cmd = parser.getParsedCommand();
     assert.equal(cmd.args.length, 3, "Space should not be taken as an argument");
+
+    parser.setCommand("cmd arg > file");
+    cmd = parser.getParsedCommand();
+    assert.deepEqual(cmd.args,["cmd", "arg", ">", "file"]);
 });
 
 /**
@@ -496,6 +500,8 @@ QUnit.test("checker.js (depends on command.js)", function (assert) {
     user.addCommand(COMMAND_TYPE.CAT);
     user.addCommand(COMMAND_TYPE.GREP);
     user.addCommand(COMMAND_TYPE.MV);
+    user.addCommand(COMMAND_TYPE.WRITE);
+    user.addCommand(COMMAND_TYPE.APPEND);
 
     // Test empty command
     checker = new Checker(new Command([
@@ -661,5 +667,41 @@ QUnit.test("checker.js (depends on command.js)", function (assert) {
     assert.equal(checker.isCommandValid(), false, "The grep command does expect 2 arguments");
     assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of mv is not empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.MV, "The mv type is MV");
+
+    // Test redirection commands
+    checker = new Checker(new Command([
+        ["cmd", "arg", ">", "file"]
+    ]), user);
+    assert.equal(checker.isCommandValid(), true, "Basic redirection command");
+    assert.equal(checker.getErrorMessage(), "", "Basic redirection command");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.WRITE, "Basic redirection command");
+
+    checker = new Checker(new Command([
+        ["cmd", "arg", ">>", "file"]
+    ]), user);
+    assert.equal(checker.isCommandValid(), true, "Basic redirection command");
+    assert.equal(checker.getErrorMessage(), "", "Basic redirection command");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.APPEND, "Basic redirection command");
+
+    checker = new Checker(new Command([
+        ["cmd", ">>", "file"]
+    ]), user);
+    assert.equal(checker.isCommandValid(), true, "Basic redirection command");
+    assert.equal(checker.getErrorMessage(), "", "Basic redirection command");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.APPEND, "Basic redirection command");
+
+    checker = new Checker(new Command([
+        ["cmd", ">>", "file", "file2"]
+    ]), user);
+    assert.equal(checker.isCommandValid(), false, "Basic redirection command");
+    assert.notEqual(checker.getErrorMessage(), "", "Basic redirection command");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.APPEND, "Basic redirection command");
+
+    checker = new Checker(new Command([
+        ["cmd", ">>"]
+    ]), user);
+    assert.equal(checker.isCommandValid(), false, "Basic redirection command");
+    assert.notEqual(checker.getErrorMessage(), "", "Basic redirection command");
+    assert.equal(checker.getCommandType(), COMMAND_TYPE.APPEND, "Basic redirection command");
 
 });

@@ -219,13 +219,36 @@ class Main {
                 if (isValid) output = Main.man(parsedCommand.args[1]);
                 else this.print(errorMessage);
                 break;
+
             case COMMAND_TYPE.YES:
                 if (isValid) output = Main.yes(parsedCommand.args[1], parsedCommand.isPipe);
                 else this.print(errorMessage);
                 break;
+
             case COMMAND_TYPE.CHMOD:
-                if (isValid) output = output = Main.chmod(parsedCommand.args[1], parsedCommand.args[2]);
+                if (isValid) output = Main.chmod(parsedCommand.args[1], parsedCommand.args[2]);
                 else this.print(errorMessage);
+                break;
+
+            case COMMAND_TYPE.WRITE:
+            case COMMAND_TYPE.APPEND:
+                if(isValid) {
+                    // We need to execute the command that is before the redirection token
+                    let beforeCommand = new Command(parsedCommand.args.slice(0, -2));
+                    this.printAllowed = false;
+                    let result = this._executeCommand("", beforeCommand);
+                    this.printAllowed = true;
+
+                    // Now we can write the result in the file
+                    if(commandChecker.getCommandType() === COMMAND_TYPE.WRITE) {
+                        Main.write(result, parsedCommand.args[parsedCommand.args.length - 1]);
+                    } else {
+                        Main.append(result, parsedCommand.args[parsedCommand.args.length - 1]);
+                    }
+
+                } else {
+                    this.print(errorMessage)
+                }
                 break;
         }
 
@@ -558,6 +581,26 @@ class Main {
             this.print(message);
 
         return message;
+    }
+
+    /**
+     * It writes in a file. If it exists, it overrides its content,
+     * otherwise it creates a new file.
+     * @param {string} text content,
+     * @param {string} file filename.
+     */
+    static write(text, file){
+        // TODO
+    }
+
+    /**
+     * It writes in a file. If it exists, it writes at the end of its content,
+     * otherwise it creates a new file.
+     * @param {string} text content,
+     * @param {string} file filename.
+     */
+    static append(text, file){
+        // TODO
     }
 
     /**

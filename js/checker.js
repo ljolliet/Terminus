@@ -14,7 +14,9 @@ const COMMAND_TYPE = {
     CLEAR : "clear",
     MAN : "man",
     YES : "yes",
-    CHMOD : "chmod"
+    CHMOD : "chmod",
+    WRITE: "write",
+    APPEND: "append"
 };
 
 class Checker {
@@ -94,7 +96,7 @@ class Checker {
         for(let i = 0; i < args.length; i ++){
             if(args[i].startsWith("-")){
                 // We need to check if the option is expected
-                if((new Set(expectedOptions)).has(args[i])){
+                if(expectedOptions.includes(args[i])){
                     //if(delCount === 0) options = "-";
                     options += args[i];
                     command.args.splice(i - delCount, 1);
@@ -104,10 +106,10 @@ class Checker {
         }
         if(delCount !== 0) command.args.push(options);
 
-        if (!(new Set(this._user.commandsAuthorized).has(command.args[0]))) {
+        if (!this._user.commandsAuthorized.includes(command.args[0])) {
             this._errorMessage = "Vous n'avez pas accès à cette commande.";
             this._isValid = false;
-        } else if (!(new Set(expectedArgc).has(command.args.length - 1))) {
+        } else if (!expectedArgc.includes(command.args.length - 1)) {
             let defErrorMessage = "Mauvais usage de " + command.args[0] + ". " + expectedArgc[0] + " argument(s) attendu(s).";
             this._errorMessage = (errorMessage === "" ? defErrorMessage : errorMessage);
             this._isValid = false;
@@ -133,13 +135,46 @@ class Checker {
             return;
         }
 
-        // Pipe command
-        if (this._command.isPipe > 1) {
-            if (this._verbose) console.log("The command is a pipe command, and it is not supported yet.");
+        // Redirection commands: WRITE // APPEND
+        if(this._command.args.includes(">") || this._command.args.includes(">>")){
+            this._type = this._command.args.includes(">") ? COMMAND_TYPE.WRITE : COMMAND_TYPE.APPEND;
 
-            this._errorMessage = "L'utilisation de pipe '|' n'est pas supportée.";
-            this._isValid = false;
-            this._type = COMMAND_TYPE.UNKNOWN;
+            // We need to get everything before ">" to build a new command
+            let before = true;
+            let beforeArgs = [];
+            let file = "";
+            let afterCounter = 0;
+            for(let i = 0; i < this._command.args.length; i ++){
+                let arg = this._command.args[i];
+
+                if(arg === (this._command.args.includes(">") ? ">" : ">>")){
+                    before = false;
+                } else if(before) {
+                    beforeArgs.push(arg);
+                } else if(!before && afterCounter == 0){
+                    file = arg;
+                    afterCounter ++;
+                } else if(!before) {
+                    afterCounter ++;
+                }
+            }
+
+            if(file === "") {
+                this._isValid = false;
+                this._errorMessage = "redirection: Mauvais format pour le fichier de destination ('')."
+            } else if(afterCounter !== 1) {
+                this._isValid = false;
+                if(afterCounter < 1) {
+                    this._errorMessage = "redirection: Un fichier attendu, alors qu'aucun n'a été donné.";
+                } else {
+                    this._errorMessage = "redirection: Un fichier attendu, alors que plusieurs ont été donnés.";
+                }
+            } else {
+                this._isValid = true;
+                this._errorMessage = "";
+            }
+
+
             return;
         }
 
