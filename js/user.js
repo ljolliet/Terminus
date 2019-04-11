@@ -94,7 +94,8 @@ class User {
      * @param {COMMAND_TYPE} command To add to user allowed commands.
      */
     addCommand(command) {
-        this.commandsAuthorized.push(command);
+        if (!this.commandsAuthorized.includes(command))
+            this.commandsAuthorized.push(command);
     }
 
     /**
