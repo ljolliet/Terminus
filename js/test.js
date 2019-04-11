@@ -394,6 +394,11 @@ QUnit.test("command.js", function (assert) {
         ["cmd3", "arg1", "arg2"]
     ])).toString(), "cmd1 arg1 | cmd2 | cmd3 arg1 arg2", "test toString with pipe");
 
+    // Test command throw exception if the parameter is not right
+    assert.throws(new Command(["a"]), "Wrong command parameter should throw an exception");
+    assert.throws(new Command("a"), "Wrong command parameter should throw an exception");
+    assert.throws(new Command([[["a"]]]), "Wrong command parameter should throw an exception");
+
     // getClosestCommand tests : it will be broken each time we add commands
     Main.init("someone");
     assert.deepEqual(Command.getClosestCommands("c"), ["cd", "cat"], "test closest commands (random user)");
