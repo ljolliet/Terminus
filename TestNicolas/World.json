@@ -275,16 +275,54 @@
     ],
     "Quests": [
       {
-        "number": 1,
-        "name": "la_traversée_eternelle.sh",
+        "id": 1,
+        "name": "la_traversee_eternelle.sh",
         "requirement": [],
         "commands_Rewards": [],
         "status": "TODO",
-        "text_Start": "Rends-toi à l’Amphithéâtre Henri Poincaré dans le bâtiment A22, tu es en retard jeune dress… *hum hum* élève. Dépêche-toi." ,
+        "text_Start": "Rends-toi à l’Amphithéâtre Henri Poincaré dans le bâtiment A22, tu es en retard jeune dress… *hum hum* élève. Dépêche-toi.",
         "text_End": null,
         "commandRequired": [
           "cd A22",
           "cd Amphi_Henri_Poincaré"
+        ]
+      },
+      {
+        "id": 2,
+        "name": "les_documents_confidentiels.sh",
+        "requirement": [1],
+        "commands_Rewards": ["mv"],
+        "status": "TODO",
+        "text_Start": "Pour valider cette quête, tu dois te rendre au guichet unique en A22 et trouver ce qui t’appartient, une autre quête t’y attendra…",
+        "text_End": null,
+        "commandRequired": [
+          "cd ..",
+          "cd guichet_unique"
+        ]
+      },
+      {
+        "id": 3,
+        "name": "le_rangement_IKEA.sh",
+        "requirement": [2],
+        "commands_Rewards": [">", ">>", "yes"],
+        "status": "TODO",
+        "text_Start": "Déplace ces deux objets dans ton inventaire ! Puis va vérifier dans ton inventaire si tu as bien effectué le déplacement.",
+        "text_End": null,
+        "commandRequired": [
+          "mv carte_étudiante $INVENTAIRE",
+          "mv certificat_de_scolarité $INVENTAIRE"
+        ]
+      },
+      {
+        "id": 4,
+        "name": "armoire_des_trophees.sh",
+        "requirement": [3],
+        "commands_Rewards": ["tree", "grep"],
+        "status": "TODO",
+        "text_Start": "Observe les quêtes que tu as terminées et le temps que tu as mis pour les résoudre dans l’armoire des trophées.",
+        "text_End": null,
+        "commandRequired": [
+          "cat armoire_des_trophees"
         ]
       }
     ],
