@@ -9,10 +9,10 @@
           "Bethanie",
           "Doyen_Brus"
         ],
-        "quests": [],
-        "pnj": [],
-        "items": [],
-        "script": []
+        "quests": ["test", "test2"],
+        "pnj": ["pnj1", "pnj2"],
+        "items": ["item1", "item2"],
+        "script": ["azer", "tyuiop"]
       },
       {
         "placeName": "Bethanie",

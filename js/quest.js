@@ -15,8 +15,9 @@ const INFO = {
 
 class Quest extends UnixObject{
 
-    constructor(name) {
+    constructor(id, name) {
         super(name);
+        this._id = id;
         this._status = STATUS.TODO;
         this._endText = "";
         this._initialText = "";
@@ -24,6 +25,13 @@ class Quest extends UnixObject{
         this._commandRewards = [];
         this._questsRequired = [];
         this.writeAccess = false;
+    }
+
+    /**
+     * @return {int} Quest's id.
+     */
+    get id() {
+        return this._id;
     }
 
     /**

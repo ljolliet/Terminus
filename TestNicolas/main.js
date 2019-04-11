@@ -14,18 +14,20 @@ class Main {
 
         //Création dynamique des Objets Place et push dans un tableau global
         for (let i = 0; i < places.length; i++) {
-            PlaceTab.push(new Place(places[i]));
+            PlaceTab.push(new Place(places[i].name));
         }
 
 
-        ioJson.getAccessiblePlace("Campus");
+
+
+        ioJson.test();
 
     }
 
-    static findPlace(name){
+    static findPlace(name, parent){
 
         let place1 = PlaceTab.find(function (place) {
-            return place.name === name;
+            return (place.placeName === name && place.parent === parent);
         });
         return place1;
     }
