@@ -8,14 +8,22 @@ const COMMAND_STATUS = {
 class Command {
 
     /**
-     * @param args [[string]] all the arguments (it is a list because we need to separate the pipe commands) **can't be null**
+     * @param {[[string]]} args all the arguments (it is a list because we need to separate the pipe commands) **can't be null**
      */
     constructor(args) {
-        if (args === null) this._args = [
-            [""]
-        ];
-        else 
+        if (args === null) {
+            this._args = [[""]];
+        } else {
             this._args = args;
+        }
+
+        try{
+            // test if args is an array of array
+            let v = this._args[0];
+        }catch(ignored){
+            throw ignored;
+            //throw "Illegal argument: Command constructor needs [ [ string ] ] parameter.";
+        }
 
         this._isPipe = this._args.length > 1;
     }
