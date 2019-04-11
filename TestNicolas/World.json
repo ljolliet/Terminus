@@ -5,9 +5,9 @@
         "id" : 0,
         "placeName": "Campus",
         "next_Place": [
-          "Arts_et_Metiers",
+          17,
           1,
-          "Doyen_Brus"
+          18
         ],
         "quests": [],
         "pnj": [],
@@ -138,8 +138,8 @@
         "id" : 7,
         "placeName": "CREMI",
         "next_Place": [
-          "1er_Etage",
-          "2eme_Etage",
+          14,
+          15,
           8
         ],
         "quests": [
@@ -203,8 +203,7 @@
         "placeName": "A21",
         "next_Place": [
           11,
-          "2eme_Etage",
-          "3eme_Etage"
+          16
         ],
         "quests": [
           "la_recherche_interminable.sh"
@@ -243,9 +242,7 @@
       {
         "id" : 12,
         "placeName": "150",
-        "next_Place": [
-          "150"
-        ],
+        "next_Place": [  ],
         "quests": [
           "I_love_English.sh"
         ],
@@ -280,7 +277,54 @@
         ],
         "items": [],
         "script": []
+      },
+      {
+        "id" : 14,
+        "placeName": "1er_Etage",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      },
+      {
+        "id" : 15,
+        "placeName": "2eme_Etage",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      },
+      {
+        "id" : 16,
+        "placeName": "2eme_Etage",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      },
+      {
+        "id" : 17,
+        "placeName": "Arts_et_Metiers",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
+      }      ,
+      {
+        "id" : 18,
+        "placeName": "Doyen_Brus",
+        "next_Place": [],
+        "quests": [],
+        "pnj": [],
+        "items": [],
+        "script": []
       }
+
+
     ],
     "Quests": [
       {
@@ -336,7 +380,7 @@
       }
     ],
     "User": {
-      "pseudo": null,
+      "login": null,
       "inventory": [],
       "commands": [
         "ls",
