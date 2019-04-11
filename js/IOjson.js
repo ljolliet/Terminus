@@ -24,7 +24,7 @@ const json = '{\n' +
     '          9\n' +
     '        ],\n' +
     '        "quests": [\n' +
-    '          "la_traversée_eternelle.sh"\n' +
+    '          1\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -41,10 +41,11 @@ const json = '{\n' +
     '        "next_Place": [\n' +
     '          3,\n' +
     '          4,\n' +
-    '          5\n' +
+    '          5,\n' +
+    '          6\n' +
     '        ],\n' +
     '        "quests": [\n' +
-    '          "le_vaste_monde.sh"\n' +
+    '          5\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -60,7 +61,7 @@ const json = '{\n' +
     '        "placeName": "Amphi_Henri_Poincaré",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
-    '          "les_documents_confidentiels.sh"\n' +
+    '          2\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -85,7 +86,7 @@ const json = '{\n' +
     '        "placeName": "guichet_unique",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
-    '          "le_rangement_IKEA.sh"\n' +
+    '          3\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -114,7 +115,7 @@ const json = '{\n' +
     '        "placeName": "Inventaire",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
-    '          "armoire_a_trophées.sh"\n' +
+    '          4\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -143,7 +144,6 @@ const json = '{\n' +
     '          8\n' +
     '        ],\n' +
     '        "quests": [\n' +
-    '          "ENT_legendaire.sh"\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -175,7 +175,7 @@ const json = '{\n' +
     '        "placeName": "pont",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
-    '          "les_constructeurs_de_l\'extreme.sh"\n' +
+    '          8\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -206,7 +206,7 @@ const json = '{\n' +
     '          16\n' +
     '        ],\n' +
     '        "quests": [\n' +
-    '          "la_recherche_interminable.sh"\n' +
+    '          6\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -244,7 +244,7 @@ const json = '{\n' +
     '        "placeName": "150",\n' +
     '        "next_Place": [  ],\n' +
     '        "quests": [\n' +
-    '          "I_love_English.sh"\n' +
+    '          7\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -267,7 +267,7 @@ const json = '{\n' +
     '          12\n' +
     '        ],\n' +
     '        "quests": [\n' +
-    '          "power.sh"\n' +
+    '          9\n' +
     '        ],\n' +
     '        "pnj": [\n' +
     '          {\n' +
@@ -377,6 +377,68 @@ const json = '{\n' +
     '        "commandRequired": [\n' +
     '          "cat armoire_des_trophees"\n' +
     '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "id": 5,\n' +
+    '        "name": "le_vaste_monde.sh",\n' +
+    '        "requirement": [4],\n' +
+    '        "commands_Rewards": ["chmod"],\n' +
+    '        "status": "TODO",\n' +
+    '        "text_Start": "Réussiras-tu à résoudre l’énigme du Pr.Ofaite et à devenir omniscient ?",\n' +
+    '        "text_End": null,\n' +
+    '        "commandRequired": [\n' +
+    '          "tree"\n' +
+    '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "id": 6,\n' +
+    '        "name": "la_recherche_interminable.sh",\n' +
+    '        "requirement": [5],\n' +
+    '        "commands_Rewards": [],\n' +
+    '        "status": "TODO",\n' +
+    '        "text_Start": "Retrouve ton groupe d’anglais grâce à ton nom.\\nPS : le fichier groupes_de_langue contient une centaine de noms avec le groupe correspondant à chaque étudiant.",\n' +
+    '        "text_End": null,\n' +
+    '        "commandRequired": [\n' +
+    '          "cat groupes_de_langue | grep #login"\n' +
+    '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "id": 7,\n' +
+    '        "name": "I_Love_English.sh",\n' +
+    '        "requirement": [6],\n' +
+    '        "commands_Rewards": [],\n' +
+    '        "status": "TODO",\n' +
+    '        "text_Start": "Trouve l’objet caché dans cette salle.",\n' +
+    '        "text_End": "Oui c’est bien celui là ! We did it ! Hourra ! Hidden signifie caché !",\n' +
+    '        "commandRequired": [\n' +
+    '          "ls -a",\n' +
+    '          "cat .chiper"\n' +
+    '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "id": 8,\n' +
+    '        "name": "les_constructeurs_de_l_extreme.sh",\n' +
+    '        "requirement": [5],\n' +
+    '        "commands_Rewards": [],\n' +
+    '        "status": "TODO",\n' +
+    '        "text_Start": "Répare le pont et traverse le à l’aide du mot de passe.",\n' +
+    '        "text_End": null,\n' +
+    '        "commandRequired": [\n' +
+    '          "chmod +x traverser_pont.sh",\n' +
+    '          "./traverser_pont.sh mellon"\n' +
+    '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "id": 9,\n' +
+    '        "name": "power.sh",\n' +
+    '        "requirement": [3],\n' +
+    '        "commands_Rewards": [],\n' +
+    '        "status": "TODO",\n' +
+    '        "text_Start": "Lance le sort de ton choix.\\nPS : le but de cette quête est de piéger le joueur dans un endroit où on lui a dit de ne pas se rendre. La commande yes est une boucle infinie, pour en sortir il faut utiliser CTRL+C.",\n' +
+    '        "text_End": null,\n' +
+    '        "commandRequired": [\n' +
+    '          "yes"\n' +
+    '        ]\n' +
     '      }\n' +
     '    ],\n' +
     '    "User": {\n' +
@@ -426,6 +488,10 @@ class IOjson{
             return (place.id === id);
         });
         return place;
+    }
+
+    getPlaceQuests(id){
+        return this.getPlace(id).quests;
     }
 
     getAccessiblePlace(id){

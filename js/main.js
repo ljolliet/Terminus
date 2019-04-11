@@ -91,8 +91,19 @@ class Main {
                 quest.addQuestsRequired(q);
             });
 
-            console.log("Result de : " + quest.name);
-            console.log(quest.questsRequired);
+            quest.initialText = ioJson.getQuestTextStart(quest.id);
+            quest.endText = ioJson.getQuestTextEnd(quest.id);
+
+            ioJson.getQuestCommandRequired(quest.id).forEach( (command) => {
+               quest.addCommandRequired(command);
+            });
+
+           /* ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
+               quest.addCommandRewards(command);
+            });*/
+
+            /*console.log("Result de : " + quest.name);
+            console.log(quest);*/
         });
 
 
@@ -112,8 +123,15 @@ class Main {
                 place.addPlace(next);
             });
 
-            /*console.log("Result de : " + place.name);
-            console.log(place.places);*/
+            console.log( ioJson.getPlaceQuests(place.id));
+
+            ioJson.getPlaceQuests(place.id).forEach( (quest) => {
+
+                place.addQuest(this.findQuest(quest));
+            });
+
+            console.log("Result de : " + place.name);
+            console.log(place);
         });
 
         Place.root = this.findPlace(0);
