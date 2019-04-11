@@ -24,7 +24,7 @@
           9
         ],
         "quests": [
-          "la_traversée_eternelle.sh"
+          1
         ],
         "pnj": [
           {
@@ -41,10 +41,11 @@
         "next_Place": [
           3,
           4,
-          5
+          5,
+          6
         ],
         "quests": [
-          "le_vaste_monde.sh"
+          5
         ],
         "pnj": [
           {
@@ -60,7 +61,7 @@
         "placeName": "Amphi_Henri_Poincaré",
         "next_Place": [],
         "quests": [
-          "les_documents_confidentiels.sh"
+          2
         ],
         "pnj": [
           {
@@ -85,7 +86,7 @@
         "placeName": "guichet_unique",
         "next_Place": [],
         "quests": [
-          "le_rangement_IKEA.sh"
+          3
         ],
         "pnj": [
           {
@@ -114,7 +115,7 @@
         "placeName": "Inventaire",
         "next_Place": [],
         "quests": [
-          "armoire_a_trophées.sh"
+          4
         ],
         "pnj": [
           {
@@ -143,7 +144,6 @@
           8
         ],
         "quests": [
-          "ENT_legendaire.sh"
         ],
         "pnj": [
           {
@@ -175,7 +175,7 @@
         "placeName": "pont",
         "next_Place": [],
         "quests": [
-          "les_constructeurs_de_l'extreme.sh"
+          8
         ],
         "pnj": [
           {
@@ -206,7 +206,7 @@
           16
         ],
         "quests": [
-          "la_recherche_interminable.sh"
+          6
         ],
         "pnj": [
           {
@@ -244,7 +244,7 @@
         "placeName": "150",
         "next_Place": [  ],
         "quests": [
-          "I_love_English.sh"
+          7
         ],
         "pnj": [
           {
@@ -267,7 +267,7 @@
           12
         ],
         "quests": [
-          "power.sh"
+          9
         ],
         "pnj": [
           {
