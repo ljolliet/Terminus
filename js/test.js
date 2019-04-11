@@ -462,6 +462,14 @@ QUnit.test("parser.js (depends on command.js)", function (assert) {
     assert.equal(cmd.args[2], "arg2", "The 2nd arg should be 'arg2', and we use the 132 space (&nbsp;)");
     assert.equal(cmd.args[3], "arg3", "The 3rd arg should be 'arg3', and we use the 132 space (&nbsp;)");
 
+    // Command with space argument
+    parser.setCommand("cmd ");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.args.length, 1, "Space should not be taken as an argument");
+
+    parser.setCommand("cmd     arg      arg ");
+    cmd = parser.getParsedCommand();
+    assert.equal(cmd.args.length, 3, "Space should not be taken as an argument");
 });
 
 /**

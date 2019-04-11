@@ -49,7 +49,15 @@ class Parser {
             // For each commands between the pipe, we will add its details to the array
             for (let i = 0; i < cmds.length; i++) {
                 let args = cmds[i].split(" ");
-                this._commands.push(args);
+
+                let fixedArgs = [];
+                for(let j = 0; j < args.length; j++){
+                    if(args[j] !== ""){
+                        fixedArgs.push(args[j]);
+                    }
+                }
+
+                this._commands.push(fixedArgs);
             }
 
             if (this._verbose) {
