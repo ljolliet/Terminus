@@ -1,15 +1,12 @@
-class Place {
+class Place extends UnixObject {
 
     constructor(place){
+        super(name);
         this._places = [];
-        this._entities = place.entities;
-        this._quests = place.quests;
-        this._name = place.placeName;
-
-        if (place.parent != null)
-            this._parent = place.parent;
-        else
-            this._parent = null;
+        this._entities = [];
+        this._quests = [];
+        this._scripts = [];
+        this._parent = null;
     }
 
     /**

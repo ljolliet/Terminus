@@ -1,12 +1,14 @@
 class Place extends UnixObject {
 
-    constructor(name) {
+    constructor(id, name) {
         super(name);
+        this._id = id;
         this._places = [];
         this._entities = [];
         this._quests = [];
         this._scripts = [];
         this._parent = null;
+
         //static attributes (see below the class):
         //Place.root
         //Place.home
@@ -98,6 +100,13 @@ class Place extends UnixObject {
                 return true;
             }
         return false;
+    }
+
+    /**
+     * @return {int} Place's id.
+     */
+    get id() {
+        return this._id;
     }
 
     /**

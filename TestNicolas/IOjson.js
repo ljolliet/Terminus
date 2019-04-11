@@ -3,18 +3,20 @@ const json = '{\n' +
     '    "Places": [\n' +
     '      {\n' +
     '        "placeName": "Campus",\n' +
+    '        "parent": null,\n' +
     '        "next_Place": [\n' +
     '          "Arts_et_Metiers",\n' +
     '          "Bethanie",\n' +
     '          "Doyen_Brus"\n' +
     '        ],\n' +
-    '        "quests": [],\n' +
-    '        "pnj": [],\n' +
-    '        "items": [],\n' +
-    '        "script": []\n' +
+    '        "quests": ["test", "test2"],\n' +
+    '        "pnj": ["pnj1", "pnj2"],\n' +
+    '        "items": ["item1", "item2"],\n' +
+    '        "script": ["azer", "tyuiop"]\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "Bethanie",\n' +
+    '        "parent": "Campus",\n' +
     '        "next_Place": [\n' +
     '          "A21",\n' +
     '          "A22",\n' +
@@ -27,7 +29,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "Pr.Chen",\n' +
-    '            "text": ""\n' +
+    '            "text": "Bonjour le nouveau, comment ça va ? Alors, il est pas génial le début de ce jeu ? Prêt pour une aventure de folie ? Très bien, je ne peux pas entendre ta réponse mais je suis sûr que tu t’éclates déjà. Pour commencer ce voyage palpitant, choisis ton premier poke… Ah mince, je me suis trompé de jeu. J’ai régressé dans le métier de PNJ pour arriver dans un jeu pareil après mon précédent job… Reprenons. \\nUtilise la commande help pour voir toutes les commandes à ta disposition.\\nUtilise la commande cd pour te déplacer aux lieux alentours (de couleur bleue lorsque tu fais ls). Surtout, n’oublie pas de lancer la quête (de couleur rouge lorsque tu fais ls) en faisant ./la_traversée_éternelle.sh."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [],\n' +
@@ -35,6 +37,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "A22",\n' +
+    '        "parent": "Bethanie",\n' +
     '        "next_Place": [\n' +
     '          "Amphi_Henri_Poincaré",\n' +
     '          "Amphi_Thomas_Edison",\n' +
@@ -54,6 +57,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "Amphi_Henri_Poincaré",\n' +
+    '        "parent": "A22",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
     '          "les_documents_confidentiels.sh"\n' +
@@ -69,6 +73,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "Amphi_Thomas_Edison",\n' +
+    '        "parent": "A22",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [],\n' +
     '        "pnj": [],\n' +
@@ -77,6 +82,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "guichet_unique",\n' +
+    '        "parent": "A22",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
     '          "le_rangement_IKEA.sh"\n' +
@@ -105,6 +111,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "Inventaire",\n' +
+    '        "parent": "A22",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
     '          "armoire_a_trophées.sh"\n' +
@@ -129,6 +136,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "CREMI",\n' +
+    '        "parent": "Bethanie",\n' +
     '        "next_Place": [\n' +
     '          "1er_Etage",\n' +
     '          "2eme_Etage",\n' +
@@ -153,6 +161,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "3eme_Etage",\n' +
+    '        "parent": "CREMI",\n' +
     '        "next_Place": [\n' +
     '          "passage_interdit"\n' +
     '        ],\n' +
@@ -170,6 +179,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "placeName": "pont",\n' +
+    '        "parent": "Bethanie",\n' +
     '        "next_Place": [\n' +
     '          "passage_interdit"\n' +
     '        ],\n' +
@@ -196,52 +206,103 @@ const json = '{\n' +
     '            ]\n' +
     '          }\n' +
     '        ]\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "placeName": "A21",\n' +
+    '        "parent": "Bethanie",\n' +
+    '        "next_Place": [\n' +
+    '          "1er_Etage",\n' +
+    '          "2eme_Etage",\n' +
+    '          "3eme_Etage"\n' +
+    '        ],\n' +
+    '        "quests": [\n' +
+    '          "la_recherche_interminable.sh"\n' +
+    '        ],\n' +
+    '        "pnj": [\n' +
+    '          {\n' +
+    '            "name": "S.Holmes",\n' +
+    '            "text": ""\n' +
+    '          }\n' +
+    '        ],\n' +
+    '        "items": [\n' +
+    '          {\n' +
+    '            "name": "groupes_de_langue",\n' +
+    '            "text": ""\n' +
+    '          }\n' +
+    '        ],\n' +
+    '        "script": []\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "placeName": "1er_Etage",\n' +
+    '        "parent": "A21",\n' +
+    '        "next_Place": [\n' +
+    '          "150"\n' +
+    '        ],\n' +
+    '        "quests": [\n' +
+    '        ],\n' +
+    '        "pnj": [\n' +
+    '          {\n' +
+    '            "name": "Mr.Bean",\n' +
+    '            "text": "..."\n' +
+    '          }\n' +
+    '        ],\n' +
+    '        "items": [],\n' +
+    '        "script": []\n' +
+    '      },\n' +
+    '      {\n' +
+    '        "placeName": "150",\n' +
+    '        "parent": "1er_Etage",\n' +
+    '        "next_Place": [\n' +
+    '          "150"\n' +
+    '        ],\n' +
+    '        "quests": [\n' +
+    '          "I_love_English.sh"\n' +
+    '        ],\n' +
+    '        "pnj": [\n' +
+    '          {\n' +
+    '            "name": "Dora",\n' +
+    '            "text": ""\n' +
+    '          }\n' +
+    '        ],\n' +
+    '        "items": [\n' +
+    '          {\n' +
+    '            "name": ".hidden",\n' +
+    '            "text": ""\n' +
+    '          }\n' +
+    '        ],\n' +
+    '        "script": []\n' +
     '      }\n' +
     '    ],\n' +
     '    "Quests": [\n' +
     '      {\n' +
     '        "number": 1,\n' +
-    '        "name": "Super Nom de Quête",\n' +
-    '        "requirement": [\n' +
-    '          "Quest_X"\n' +
-    '        ],\n' +
-    '        "commands_Rewards": [\n' +
-    '          "Command_1",\n' +
-    '          "Command_2"\n' +
-    '        ],\n' +
-    '        "pnj": [\n' +
-    '          "Dumbledor",\n' +
-    '          "PNJ 2"\n' +
-    '        ],\n' +
-    '        "status": "Bloquée",\n' +
-    '        "text_Start": "azertyuiopqsdfghjklmwxcvbn",\n' +
-    '        "text_End": "azertyuiopqsdfghjklmwxcvbn",\n' +
+    '        "name": "la_traversée_eternelle.sh",\n' +
+    '        "requirement": [],\n' +
+    '        "commands_Rewards": [],\n' +
+    '        "status": "TODO",\n' +
+    '        "text_Start": "Rends-toi à l’Amphithéâtre Henri Poincaré dans le bâtiment A22, tu es en retard jeune dress… *hum hum* élève. Dépêche-toi." ,\n' +
+    '        "text_End": null,\n' +
     '        "commandRequired": [\n' +
-    '          "ls -a",\n' +
-    '          "cat myFile.txt"\n' +
+    '          "cd A22",\n' +
+    '          "cd Amphi_Henri_Poincaré"\n' +
     '        ]\n' +
     '      }\n' +
     '    ],\n' +
     '    "User": {\n' +
-    '      "pseudo": "XxSuperEtudiantTrôFort33xX",\n' +
-    '      "inventaire": [\n' +
-    '        {\n' +
-    '          "name": "Lampe",\n' +
-    '          "text": "Utilise blablabla"\n' +
-    '        }\n' +
-    '      ],\n' +
+    '      "pseudo": null,\n' +
+    '      "inventory": [],\n' +
     '      "commands": [\n' +
     '        "ls",\n' +
     '        "cat",\n' +
-    '        "cd"\n' +
+    '        "cd",\n' +
+    '        "help",\n' +
+    '        "exit",\n' +
+    '        "man"\n' +
     '      ],\n' +
-    '      "questsEnded": [\n' +
-    '        "Quest_1"\n' +
-    '      ]\n' +
+    '      "questsEnded": []\n' +
     '    }\n' +
     '  }\n' +
-    '}\n' +
-    '\n';
+    '}';
 
 class IOjson{
 
@@ -257,21 +318,6 @@ class IOjson{
         this._json = JSON.parse(json);
     }
 
-    /*loadJSON(callback) {
-
-       var xobj = new XMLHttpRequest();
-       xobj.overrideMimeType("application/json");
-       xobj.open('GET', this._file, true); // Replace 'my_data' with the path to your file
-       xobj.onreadystatechange = function () {
-           if (xobj.readyState == 4 && xobj.status == "200") {
-               // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-               callback(xobj.responseText);
-           }
-       };
-       xobj.send(null);
-   }
-*/
-
     // ---------------------------------------- Récupération des différents éléments de Place ---------------------- //
     /**
      * return all places of the _file.json
@@ -282,30 +328,28 @@ class IOjson{
 
 
     // Rentrer parent en plus pour vérifier que le parent de la place soit le même que celui
-    getPlace(name, parent){
+    getPlace(id){
         let places = this.getAllPlaces();
-        console.log(places);
         let place = places.find( (place) => {
-            return (place.placeName === name && place.parent === parent);
+            return (place.id === id);
         });
-        console.log(place);
         return place;
     }
 
-    getAccessiblePlace(name){
-        return this.getPlace(name).next_Place;
+    getAccessiblePlace(name, parent){
+        return this.getPlace(name, parent).next_Place;
     }
 
-    getPlacePNJ(placeName){
-        return this.getPlace(placeName).pnj;
+    getPlacePNJ(placeName, parent){
+        return this.getPlace(placeName, parent).pnj;
     }
 
-    getPlaceItems(placeName){
-        return this.getPlace(placeName).items;
+    getPlaceItems(placeName, parent){
+        return this.getPlace(placeName, parent).items;
     }
 
-    getPlaceScript(placeName){
-        return this.getPlace(placeName).script;
+    getPlaceScript(placeName, parent){
+        return this.getPlace(placeName, parent).script;
     }
 
     // ---------------------------------------- Récupération des différents éléments de Quest ---------------------- //
@@ -319,11 +363,9 @@ class IOjson{
 
     getQuest(questName){
         let quests = this.getAllQuests();
-        console.log(quests);
         let quest = quests.find( (quest) => {
-            return quests.name === questName;
+            return quest.name === questName;
         });
-        console.log(quest);
         return quest;
     }
 
@@ -335,9 +377,9 @@ class IOjson{
         return this.getQuest(questName).commands_Rewards;
     }
 
-    getQuestPNJ(questName){
+    /*getQuestPNJ(questName){
         return this.getQuest(questName).pnj;
-    }
+    }*/
 
     getQuestStatus(questName){
         return this.getQuest(questName).status;
@@ -364,6 +406,27 @@ class IOjson{
 
     setFile(file){
         this._file = file;
+    }
+
+    test(){
+        console.log("Test methodes pour Places : ");
+        console.log(this.getAllPlaces());
+        console.log(this.getAccessiblePlace("Campus", null));
+        console.log(this.getPlacePNJ("Campus", null));
+        console.log(this.getPlaceItems("Campus", null));
+        console.log(this.getPlaceScript("Campus", null));
+
+        console.log("Test methodes pour Quests : ");
+        console.log(this.getAllQuests());
+        console.log(this.getQuest("la_traversée_eternelle.sh"));
+        console.log(this.getQuestRequirements("la_traversée_eternelle.sh"));
+        console.log(this.getQuestCommandsRewards("la_traversée_eternelle.sh"));
+        //console.log(this.getQuestPNJ("la_traversée_eternelle.sh"));
+        console.log(this.getQuestStatus("la_traversée_eternelle.sh"));
+        console.log(this.getQuestTextStart("la_traversée_eternelle.sh"));
+        console.log(this.getQuestTextEnd("la_traversée_eternelle.sh"));
+        console.log(this.getQuestCommandRequired("la_traversée_eternelle.sh"));
+
     }
 }
 
