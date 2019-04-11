@@ -9,6 +9,9 @@ const COLOR = {
     OTHER: "#444444"
 };
 
+const PlaceTab = [];
+const QuestTab = [];
+
 class Main {
 
     static init(login) {
@@ -40,12 +43,7 @@ class Main {
             "ls"
         ];
 
-        /*let ioJson =  new IOjson("World.json");
-
-        let Place_1 = ioJson.getPlace("Place_1");
-        console.log(Place_1.getAll());*/
-
-        let campus = new Place("campus");
+        /*let campus = new Place("campus");
         Place.root = campus;
         let bethanie = new Place("bethanie");
         Place.home = bethanie; // will be set has user's current location.
@@ -67,11 +65,64 @@ class Main {
         p.addPlace(p2);
         bethanie.addEntity(pnj);
         bethanie.addEntity(item);
-        console.log(bethanie);
+        console.log(bethanie);*/
 
-        let inventory = new Place("inventaire");
-        bethanie.addPlace(inventory); // usually inventory is in home Place
+        let ioJson = new IOjson();
+
+        //Récuperation de toutes les places (tableau d'objets)
+        let AllPlaces = ioJson.getAllPlaces();
+
+        let AllQuests = ioJson.getAllQuests();
+
+        //Création dynamique des Objets Quest et push dans un tableau global
+        for (let i = 0; i < AllQuests.length; i++) {
+            QuestTab.push(new Quest(AllQuests[i].name, AllQuests[i].id));
+        }
+
+        //console.log(QuestTab);
+
+        QuestTab.forEach( (quest, index) => {
+
+            let questRequirementTab = ioJson.getQuestRequirements(quest.id);
+
+            questRequirementTab.forEach( (questRequired) => {
+                let q = this.findQuest(questRequired);
+
+                quest.addQuestsRequired(q);
+            });
+
+            console.log("Result de : " + quest.name);
+            console.log(quest.questsRequired);
+        });
+
+
+        //Création dynamique des Objets Place et push dans un tableau global
+        for (let i = 0; i < AllPlaces.length; i++) {
+            PlaceTab.push(new Place(AllPlaces[i].placeName, AllPlaces[i].id));
+        }
+
+        PlaceTab.forEach( (place, index) => {
+
+            //console.log(place);
+            let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
+
+            nextPlaceTab.forEach( (nextPlace) => {
+                let next = this.findPlace(nextPlace);
+
+                place.addPlace(next);
+            });
+
+            /*console.log("Result de : " + place.name);
+            console.log(place.places);*/
+        });
+
+        Place.root = this.findPlace(0);
+        Place.home = this.findPlace(1);
+        let inventory = this.findPlace(6);
+        /*bethanie.addPlace(inventory); // usually inventory is in home Place
+        this.user = new User(login, [new Item("carte", "donnees")], inventory, []);*/
         this.user = new User(login, [new Item("carte", "donnees")], inventory, []);
+        this.user.currentLocation = this.findPlace(1);
         if (login === "admin") {
             this.user.addCommand(COMMAND_TYPE.MV);
             this.user.addCommand(COMMAND_TYPE.TREE);
@@ -82,6 +133,30 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.CHMOD);
         }
         console.log(this.user); //here current location is bethanie (home)
+    }
+
+    /**
+     * Search in PlaceTab and return a place
+     * @param id
+     * @returns {*}
+     */
+    static findPlace(id){
+
+        return PlaceTab.find(function (place) {
+            return (place.id === id);
+        });
+    }
+
+    /**
+     * Search in PlaceTab and return a place
+     * @param id
+     * @returns {*}
+     */
+    static findQuest(id){
+
+        return QuestTab.find(function (quest) {
+            return (quest.id === id);
+        });
     }
 
     /**
