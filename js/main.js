@@ -234,7 +234,8 @@ class Main {
             case COMMAND_TYPE.APPEND:
                 if(isValid) {
                     // We need to execute the command that is before the redirection token
-                    let beforeCommand = new Command(parsedCommand.args.slice(0, -2));
+                    let beforeCommand = new Command([parsedCommand.args.slice(0, -2)]);
+
                     this.printAllowed = false;
                     let result = this._executeCommand("", beforeCommand);
                     this.printAllowed = true;
@@ -376,6 +377,8 @@ class Main {
             }
             this.colorPrint(objects);
         }
+
+        console.log(message);
 
         return message;
     }
@@ -590,7 +593,7 @@ class Main {
      * @param {string} file filename.
      */
     static write(text, file){
-        // TODO
+        this._edit(text, file, false);
     }
 
     /**
@@ -600,7 +603,45 @@ class Main {
      * @param {string} file filename.
      */
     static append(text, file){
-        // TODO
+        this._edit(text, file, true);
+    }
+
+    /**
+     * It writes in a file, and create it if it does not exist.
+     * @param {string} text content,
+     * @param {string} file file,
+     * @param {boolean} append true means that it won't override the content.
+     */
+    static _edit(text, file, append=false){
+        let entities = this.user.currentLocation.entities;
+
+        let found = 0;
+        let index = 0;
+        while(!found && index < entities.length) {
+            let entity = entities[index];
+            if(entity.name === file) {
+                found = true;
+            } else {
+                index ++;
+            }
+        }
+
+        if(found) {
+            let file = entities[index];
+            if(file.writeAccess) {
+                if(append)
+                    file.text += text;
+                else
+                    file.text = text;
+
+                this.print("Succès.");
+            } else {
+                this.print("Vous n'avez pas les droits de modification sur le fichier " + file + ".");
+            }
+        } else {
+            this.user.currentLocation.addEntity(new Item(file, text));
+            this.print("Fichier " + file + " inconnu, il a donc été créé.");
+        }
     }
 
     /**

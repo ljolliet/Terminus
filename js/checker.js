@@ -174,10 +174,9 @@ class Checker {
                 this._errorMessage = "";
             }
 
-
             return;
         }
-
+        
         // Other commands
         switch (this._command.args[0]) {
             case "exit":

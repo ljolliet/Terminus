@@ -14,7 +14,8 @@ class Command {
         if (args === null) this._args = [
             [""]
         ];
-        else this._args = args;
+        else 
+            this._args = args;
 
         this._isPipe = this._args.length > 1;
     }
