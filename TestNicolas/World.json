@@ -377,6 +377,68 @@
         "commandRequired": [
           "cat armoire_des_trophees"
         ]
+      },
+      {
+        "id": 5,
+        "name": "le_vaste_monde.sh",
+        "requirement": [4],
+        "commands_Rewards": ["chmod"],
+        "status": "TODO",
+        "text_Start": "Réussiras-tu à résoudre l’énigme du Pr.Ofaite et à devenir omniscient ?",
+        "text_End": null,
+        "commandRequired": [
+          "tree"
+        ]
+      },
+      {
+        "id": 6,
+        "name": "la_recherche_interminable.sh",
+        "requirement": [5],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Retrouve ton groupe d’anglais grâce à ton nom.\nPS : le fichier groupes_de_langue contient une centaine de noms avec le groupe correspondant à chaque étudiant.",
+        "text_End": null,
+        "commandRequired": [
+          "cat groupes_de_langue | grep #login"
+        ]
+      },
+      {
+        "id": 7,
+        "name": "I_Love_English.sh",
+        "requirement": [6],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Trouve l’objet caché dans cette salle.",
+        "text_End": "Oui c’est bien celui là ! We did it ! Hourra ! Hidden signifie caché !",
+        "commandRequired": [
+          "ls -a",
+          "cat .chiper"
+        ]
+      },
+      {
+        "id": 8,
+        "name": "les_constructeurs_de_l_extreme.sh",
+        "requirement": [5],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "Répare le pont et traverse le à l’aide du mot de passe.",
+        "text_End": null,
+        "commandRequired": [
+          "chmod +x traverser_pont.sh",
+          "./traverser_pont.sh mellon"
+        ]
+      },
+      {
+        "id": 9,
+        "name": "power.sh",
+        "requirement": [3],
+        "commands_Rewards": [],
+        "status": "TODO",
+        "text_Start": "",
+        "text_End": null,
+        "commandRequired": [
+          "yes"
+        ]
       }
     ],
     "User": {
