@@ -15,8 +15,10 @@ const QuestTab = [];
 class Main {
 
     static init(login) {
+
+
         //creating small world
-        let quest = new Quest("quete");
+       /* let quest = new Quest("quete");
 
         quest.initialText = "tente help puis essaie de regarder autour de toi ...";
         quest.endText = "Bien joué !";
@@ -43,7 +45,7 @@ class Main {
             "ls"
         ];
 
-        /*let campus = new Place("campus");
+        let campus = new Place("campus");
         Place.root = campus;
         let bethanie = new Place("bethanie");
         Place.home = bethanie; // will be set has user's current location.
@@ -65,23 +67,19 @@ class Main {
         p.addPlace(p2);
         bethanie.addEntity(pnj);
         bethanie.addEntity(item);
-        console.log(bethanie);*/
+        console.log(bethanie);
+        bethanie.addPlace(inventory); // usually inventory is in home Place
+        this.user = new User(login, [new Item("carte", "donnees")], inventory, []);*/
+
 
         let ioJson = new IOjson();
 
-        //Récuperation de toutes les places (tableau d'objets)
-        let AllPlaces = ioJson.getAllPlaces();
-
-        let AllQuests = ioJson.getAllQuests();
-
-        //Création dynamique des Objets Quest et push dans un tableau global
-        for (let i = 0; i < AllQuests.length; i++) {
-            QuestTab.push(new Quest(AllQuests[i].name, AllQuests[i].id));
+        // translate quests from json
+        for (let q of ioJson.getAllQuests()) {
+            QuestTab.push(new Quest(q.name, q.id));
         }
 
-        //console.log(QuestTab);
-
-        QuestTab.forEach( (quest, index) => {
+        QuestTab.forEach( (quest) => {
 
             let questRequirementTab = ioJson.getQuestRequirements(quest.id);
 
@@ -107,12 +105,12 @@ class Main {
         });
 
 
-        //Création dynamique des Objets Place et push dans un tableau global
-        for (let i = 0; i < AllPlaces.length; i++) {
-            PlaceTab.push(new Place(AllPlaces[i].placeName, AllPlaces[i].id));
+        // translate places from json
+        for (let p of ioJson.getAllPlaces()) {
+            PlaceTab.push(new Place(p.placeName, p.id));
         }
 
-        PlaceTab.forEach( (place, index) => {
+        PlaceTab.forEach( (place) => {
 
             //console.log(place);
             let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
@@ -134,13 +132,13 @@ class Main {
             console.log(place);
         });
 
+
         Place.root = this.findPlace(0);
         Place.home = this.findPlace(1);
         let inventory = this.findPlace(6);
-        /*bethanie.addPlace(inventory); // usually inventory is in home Place
-        this.user = new User(login, [new Item("carte", "donnees")], inventory, []);*/
-        this.user = new User(login, [new Item("carte", "donnees")], inventory, []);
-        this.user.currentLocation = this.findPlace(1);
+        this.user = new User(login, [], inventory, []);
+        this.user.currentLocation = Place.home;
+
         if (login === "admin") {
             this.user.addCommand(COMMAND_TYPE.MV);
             this.user.addCommand(COMMAND_TYPE.TREE);
@@ -150,7 +148,6 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.YES);
             this.user.addCommand(COMMAND_TYPE.CHMOD);
         }
-        console.log(this.user); //here current location is bethanie (home)
     }
 
     /**

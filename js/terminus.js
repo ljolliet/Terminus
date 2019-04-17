@@ -24,10 +24,18 @@ document.addEventListener("click", function () {
     focusConsole();
 });
 
+//to read JSON (to test)
+// $.getJSON( "json/World.json", function( data ) {
+//     console.log(data);
+// });
+
 /**
  * Blink method for the cursor
  */
 function focusConsole() {
+
+
+
     clearInterval(blinkingCursor);
     let cursor = document.getElementById('cursor');
     blinkingCursor = window.setInterval(function () {
