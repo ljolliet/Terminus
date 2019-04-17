@@ -72,65 +72,7 @@ class Main {
         this.user = new User(login, [new Item("carte", "donnees")], inventory, []);*/
 
 
-        let ioJson = new IOjson();
-
-        // translate quests from json
-        for (let q of ioJson.getAllQuests()) {
-            QuestTab.push(new Quest(q.name, q.id));
-        }
-
-        QuestTab.forEach( (quest) => {
-
-            let questRequirementTab = ioJson.getQuestRequirements(quest.id);
-
-            questRequirementTab.forEach( (questRequired) => {
-                let q = this.findQuest(questRequired);
-
-                quest.addQuestsRequired(q);
-            });
-
-            quest.initialText = ioJson.getQuestTextStart(quest.id);
-            quest.endText = ioJson.getQuestTextEnd(quest.id);
-
-            ioJson.getQuestCommandRequired(quest.id).forEach( (command) => {
-               quest.addCommandRequired(command);
-            });
-
-           /* ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
-               quest.addCommandRewards(command);
-            });*/
-
-            /*console.log("Result de : " + quest.name);
-            console.log(quest);*/
-        });
-
-
-        // translate places from json
-        for (let p of ioJson.getAllPlaces()) {
-            PlaceTab.push(new Place(p.placeName, p.id));
-        }
-
-        PlaceTab.forEach( (place) => {
-
-            //console.log(place);
-            let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
-
-            nextPlaceTab.forEach( (nextPlace) => {
-                let next = this.findPlace(nextPlace);
-
-                place.addPlace(next);
-            });
-
-            console.log( ioJson.getPlaceQuests(place.id));
-
-            ioJson.getPlaceQuests(place.id).forEach( (quest) => {
-
-                place.addQuest(this.findQuest(quest));
-            });
-
-            console.log("Result de : " + place.name);
-            console.log(place);
-        });
+        IOjson.init(PlaceTab, QuestTab);
 
 
         Place.root = this.findPlace(0);

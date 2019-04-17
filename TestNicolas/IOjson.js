@@ -406,7 +406,7 @@ class IOjson{
     /**
      * @param {string} file the file to read or write.
      */
-    constructor(file) {
+    constructor(/*file*/) {
         this._json = JSON.parse(json);
     }
 
