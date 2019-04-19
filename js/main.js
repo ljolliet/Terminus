@@ -118,8 +118,8 @@ class Main {
             });
 
             ioJson.getPlacePNJ(place.id).forEach( (pnj) => {
-                let PNJ = new PNJ(pnj.name, pnj.text);
-                console.log(PNJ);
+                let pnj1 = new PNJ(pnj.name, pnj.text);
+                console.log(pnj1);
             })
         });
 
@@ -592,9 +592,8 @@ class Main {
         if (this.user.currentQuest !== null) { // check the quest advancement.
             let quest;
             if ((quest = this.user.checkQuest(command)) !== null) {
-                message = quest.endText;
-                if(message !== "")
-                    message+="\n";
+                if( quest.endText !== null)
+                    message+=quest.endText+"\n";
                 message += "Quête : " + quest.name + " terminée.\n";
                 if (quest.commandRewards.length !== 0)
                     message += "Commande(s) : " + quest.commandRewards + " dévérouillée(s).";
