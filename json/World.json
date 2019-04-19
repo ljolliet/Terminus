@@ -263,9 +263,7 @@
       {
         "id" : 13,
         "placeName": "passage_interdit",
-        "next_Place": [
-          12
-        ],
+        "next_Place": [],
         "quests": [
           9
         ],
