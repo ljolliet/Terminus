@@ -263,9 +263,7 @@ const json = '{\n' +
     '      {\n' +
     '        "id" : 13,\n' +
     '        "placeName": "passage_interdit",\n' +
-    '        "next_Place": [\n' +
-    '          12\n' +
-    '        ],\n' +
+    '        "next_Place": [],\n' +
     '        "quests": [\n' +
     '          9\n' +
     '        ],\n' +

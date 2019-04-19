@@ -95,13 +95,6 @@ class Main {
             ioJson.getQuestCommandRequired(quest.id).forEach( (command) => {
                quest.addCommandRequired(command);
             });
-
-           /* ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
-               quest.addCommandRewards(command);
-            });*/
-
-            /*console.log("Result de : " + quest.name);
-            console.log(quest);*/
         });
 
 
@@ -112,7 +105,6 @@ class Main {
 
         PlaceTab.forEach( (place) => {
 
-            //console.log(place);
             let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
 
             nextPlaceTab.forEach( (nextPlace) => {
@@ -121,15 +113,14 @@ class Main {
                 place.addPlace(next);
             });
 
-            console.log( ioJson.getPlaceQuests(place.id));
-
             ioJson.getPlaceQuests(place.id).forEach( (quest) => {
-
                 place.addQuest(this.findQuest(quest));
             });
 
-            console.log("Result de : " + place.name);
-            console.log(place);
+            ioJson.getPlacePNJ(place.id).forEach( (pnj) => {
+                let PNJ = new PNJ(pnj.name, pnj.text);
+                console.log(PNJ);
+            })
         });
 
         Place.root = this.findPlace(0);
