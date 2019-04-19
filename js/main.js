@@ -95,6 +95,71 @@ class Main {
             ioJson.getQuestCommandRequired(quest.id).forEach( (command) => {
                quest.addCommandRequired(command);
             });
+
+            ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
+                switch (command) {
+                    case "exit":
+                        quest.addCommandRewards(COMMAND_TYPE.EXIT);
+                        break;
+
+                    case "help":
+                        quest.addCommandRewards(COMMAND_TYPE.HELP);
+                        break;
+
+                    case "cd" :
+                        quest.addCommandRewards(COMMAND_TYPE.CD);
+                        break;
+
+                    case "cat" :
+                        quest.addCommandRewards(COMMAND_TYPE.CAT);
+                        break;
+
+                    case "ls" :
+                        quest.addCommandRewards(COMMAND_TYPE.LS);
+                        break;
+
+                    case "mv" :
+                        quest.addCommandRewards(COMMAND_TYPE.MV);
+                        break;
+
+                    case "tree" :
+                        quest.addCommandRewards(COMMAND_TYPE.TREE);
+                        break;
+
+                    case "grep" :
+                        quest.addCommandRewards(COMMAND_TYPE.GREP);
+                        break;
+
+                    case "jobs" :
+                        quest.addCommandRewards(COMMAND_TYPE.JOBS);
+                        break;
+
+                    case "clear" :
+                        quest.addCommandRewards(COMMAND_TYPE.CLEAR);
+                        break;
+
+                    case "man" :
+                        quest.addCommandRewards(COMMAND_TYPE.MAN);
+                        break;
+
+                    case "yes" :
+                        quest.addCommandRewards(COMMAND_TYPE.YES);
+                        break;
+
+                    case "chmod" :
+                        quest.addCommandRewards(COMMAND_TYPE.CHMOD);
+                        break;
+
+                    case "write" :
+                        quest.addCommandRewards(COMMAND_TYPE.WRITE);
+                        break;
+
+                    default :
+                        quest.addCommandRewards(COMMAND_TYPE.UNKNOWN);
+                        break;
+
+                }
+            })
         });
 
 
@@ -119,8 +184,13 @@ class Main {
 
             ioJson.getPlacePNJ(place.id).forEach( (pnj) => {
                 let pnj1 = new PNJ(pnj.name, pnj.text);
-                console.log(pnj1);
-            })
+                place.addEntity(pnj1);
+            });
+
+            ioJson.getPlaceItems(place.id).forEach( (item) => {
+                let i = new Item(item.name, item.text);
+                place.addEntity(i);
+            });
         });
 
         Place.root = this.findPlace(0);
