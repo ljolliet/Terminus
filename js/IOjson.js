@@ -50,7 +50,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "Pr.Ofaite",\n' +
-    '            "text": ""\n' +
+    '            "text": "Les gens capables de tirer profit de l’arbre gagneront le pouvoir de voir le monde dans son ensemble."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [],\n' +
@@ -66,7 +66,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "A.Dumbledore",\n' +
-    '            "text": ""\n' +
+    '            "text": "Bienvenue. Bienvenue à tous pour cette nouvelle année à la faculté informatique de Bordeaux. Au cours de cette année, vous devrez résoudre un maximum de Quêtes. Vous pouvez naviguer dans toute l’Université grâce à la commande cd. Le répertoire parent est accessible par \\"..\\". Utilisez la pour revenir en A22 par exemple ! Par contre ne va jamais au 3ème étage du CREMI, c’est formellement interdit, tu pourrais mourir dans d’atroces souffrances !  Si une quête est trop dure, vous pouvez la laisser de côté en la quittant grâce à la commande exit. Vous pourrez la reprendre plus tard."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [],\n' +
@@ -91,7 +91,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "A.Dibou",\n' +
-    '            "text": ""\n' +
+    '            "text": "Bonjoooooouur. Bienvenue dans le monde merveilleux d’A. Dibou, plus communément appelé “Guichet unique”. Je vais t’apprendre à utiliser ton inventaire pour que tu aies facilement accès aux objets que tu souhaites conserver. Ton inventaire se situe dans le Batiment A22, pour te simplifier la tâche tu peux y accéder en utilisant \\\\$INVENTAIRE. On appelle cela une variable d’environnement, elle te permettra d’accéder à ton inventaire où que tu sois. Pour déplacer un objet dans ton inventaire, il te suffit d’utiliser la commande mv <objet>  $INVENTAIRE pour déplacer l’objet dans ton inventaire. Souviens toi, les objets sont représentés par la couleur blanche."\n' +
     '          },\n' +
     '          {\n' +
     '            "name": "Deadpool",\n' +
@@ -120,7 +120,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "A.Dibou",\n' +
-    '            "text": ""\n' +
+    '            "text": "Maintenant que tu sais utiliser ton inventaire, je te conseille d’aller voir ton armoire des trophées. Tu pourras y trouver tous les trophées que tu gagneras au fil de ton année universitaire ! Pour voir les quêtes en cours tu peux utiliser la commande jobs."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [\n' +
@@ -211,7 +211,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "S.Holmes",\n' +
-    '            "text": ""\n' +
+    '            "text": "Hello, welcome to the Centre des Langues, let’s resolve a little colundrum. Look at the paper behind me. There are tons of names but only one corresponds to yours. Try to find it using the grep command. You can use it this way : cat name_list | grep <pattern> . With that pipe ( | ), grep is using the result of the command before the pipe. You can use the manual of grep to get more information (man grep)."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [\n' +
@@ -249,7 +249,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "Dora",\n' +
-    '            "text": ""\n' +
+    '            "text": " Tu viens explorer avec moi ?! Apprenons l’anglais tout en s’amusant !\\nIl y a un objet caché dans cette salle, mais je n’arrive pas à le trouver. Peux-tu lui faire dire ce qu\'il cache ? Utilise le manuel de la commande ls pour t’aider !"\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [\n' +
@@ -368,7 +368,7 @@ const json = '{\n' +
     '        "id": 4,\n' +
     '        "name": "armoire_des_trophees.sh",\n' +
     '        "requirement": [3],\n' +
-    '        "commands_Rewards": ["tree", "grep"],\n' +
+    '        "commands_Rewards": ["tree", "grep", "jobs"],\n' +
     '        "status": "TODO",\n' +
     '        "text_Start": "Observe les quêtes que tu as terminées et le temps que tu as mis pour les résoudre dans l’armoire des trophées.",\n' +
     '        "text_End": null,\n' +
@@ -394,7 +394,7 @@ const json = '{\n' +
     '        "requirement": [5],\n' +
     '        "commands_Rewards": [],\n' +
     '        "status": "TODO",\n' +
-    '        "text_Start": "Retrouve ton groupe d’anglais grâce à ton nom.\\nPS : le fichier groupes_de_langue contient une centaine de noms avec le groupe correspondant à chaque étudiant.",\n' +
+    '        "text_Start": "Retrouve ton groupe d’anglais grâce à ton nom.",\n' +
     '        "text_End": null,\n' +
     '        "commandRequired": [\n' +
     '          "cat groupes_de_langue | grep #login"\n' +
@@ -440,7 +440,7 @@ const json = '{\n' +
     '      }\n' +
     '    ],\n' +
     '    "User": {\n' +
-    '      "login": null,\n' +
+    '      "login": "test",\n' +
     '      "inventory": [],\n' +
     '      "commands": [\n' +
     '        "ls",\n' +
@@ -552,10 +552,13 @@ class IOjson{
     // ---------------------------------------- Récupération des différents éléments de User ---------------------- //
 
     getUser(){
+        //console.log(this._json.World.User.login);
         return this._json.World.User;
     }
 
     getUserLogin(){
+       /* console.log("LOGIN : ");
+        console.log(this.getUser().login);*/
         return this.getUser().login;
     }
 
