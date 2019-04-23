@@ -100,8 +100,12 @@ class Main {
                         quest.addCommandRewards(COMMAND_TYPE.CHMOD);
                         break;
 
-                    case "write" :
+                    case ">" :
                         quest.addCommandRewards(COMMAND_TYPE.WRITE);
+                        break;
+
+                    case ">>" :
+                        quest.addCommandRewards(COMMAND_TYPE.APPEND);
                         break;
 
                     default :

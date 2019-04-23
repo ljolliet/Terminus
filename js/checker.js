@@ -15,8 +15,8 @@ const COMMAND_TYPE = {
     MAN : "man",
     YES : "yes",
     CHMOD : "chmod",
-    WRITE: "write",
-    APPEND: "append"
+    WRITE: ">",
+    APPEND: ">>"
 };
 
 class Checker {

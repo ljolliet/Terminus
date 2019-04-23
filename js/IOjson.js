@@ -331,7 +331,7 @@ const json = '{\n' +
     '        "text_End": null,\n' +
     '        "commandRequired": [\n' +
     '          "cd A22",\n' +
-    '          "cd Amphi_Henri_Poincaré"\n' +
+    '          "cd Amphi_Henri_Poincare"\n' +
     '        ]\n' +
     '      },\n' +
     '      {\n' +
