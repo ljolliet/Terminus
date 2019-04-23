@@ -17,61 +17,6 @@ class Main {
     static init(login) {
 
 
-        //creating small world
-        /* let quest = new Quest("quete");
-
-         quest.initialText = "tente help puis essaie de regarder autour de toi ...";
-         quest.endText = "Bien joué !";
-         quest.addCommandRequired("help");
-         quest.addCommandRequired("ls");
-         quest.addCommandRewards(COMMAND_TYPE.MV);
-
-
-         let quest2 = new Quest("quete2");
-
-         quest2.initialText = "regarder autour de toi ...";
-         quest2.endText = "Bien joué !";
-         quest2.addCommandRequired("ls");
-         quest2.addCommandRewards(COMMAND_TYPE.TREE);
-         quest2.addQuestsRequired(quest);
-
-         let script1 = new Script("hack-quetes.sh", "");
-         script1.content = [
-             "./quete.sh",
-             "help",
-             "ls",
-             "cd A21",
-             "./quete2.sh",
-             "ls"
-         ];
-
-         let campus = new Place("campus");
-         Place.root = campus;
-         let bethanie = new Place("bethanie");
-         Place.home = bethanie; // will be set has user's current location.
-         let A22 = new Place("A22");
-         let A21 = new Place("A21");
-
-         let pnj = new PNJ("tata", "bonjour");
-         let item = new Item("item", "superbe item");
-         campus.addPlace(bethanie);
-         bethanie.addQuest(quest);
-         A21.addQuest(quest2);
-         bethanie.addScript(script1);
-         bethanie.addPlace(A22);
-         bethanie.addPlace(A21);
-         bethanie.addEntity(new Item(".caché", "contenue caché"));
-         let p = new Place("Etage_1");
-         let p2 = new Place("201");
-         A21.addPlace(p);
-         p.addPlace(p2);
-         bethanie.addEntity(pnj);
-         bethanie.addEntity(item);
-         console.log(bethanie);
-         bethanie.addPlace(inventory); // usually inventory is in home Place
-         this.user = new User(login, [new Item("carte", "donnees")], inventory, []);*/
-
-
         let ioJson = new IOjson();
 
         // translate quests from json
@@ -207,7 +152,7 @@ class Main {
         Place.home = this.findPlace(1);
         let inventory = this.findPlace(6);
 
-        this.user = new User(login, [new Item("carte", "donnees")], inventory, []);
+        this.user = new User(login, [], inventory, []);
         this.user.currentLocation = this.findPlace(1);
         if (login === "admin") {
             this.user.addCommand(COMMAND_TYPE.MV);

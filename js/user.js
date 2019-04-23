@@ -1,4 +1,4 @@
-const trophiesName = "armoire_a_trophee";
+const trophiesName = "armoire_a_trophees";
 const inventory = "inventaire";
 const parentConst = "..";
 const placeConst = ".";

@@ -120,14 +120,10 @@
         "pnj": [
           {
             "name": "A.Dibou",
-            "text": "Maintenant que tu sais utiliser ton inventaire, je te conseille d’aller voir ton armoire des trophées. Tu pourras y trouver tous les trophées que tu gagneras au fil de ton année universitaire ! Pour voir les quêtes en cours tu peux utiliser la commande jobs."
+            "text": "Maintenant que tu sais utiliser ton inventaire, je te conseille d’aller voir ton armoire à trophée. Tu pourras y trouver tous les trophées que tu gagneras au fil de ton année universitaire ! Pour voir les quêtes en cours tu peux utiliser la commande jobs."
           }
         ],
         "items": [
-          {
-            "name": "armoire_a_trophées",
-            "text": ""
-          },
           {
             "name": "liens_utiles",
             "text": ""
@@ -366,14 +362,14 @@
       },
       {
         "id": 4,
-        "name": "armoire_des_trophees.sh",
+        "name": "armoire_a_trophees.sh",
         "requirement": [3],
         "commands_Rewards": ["tree", "grep", "jobs"],
         "status": "TODO",
         "text_Start": "Observe les quêtes que tu as terminées et le temps que tu as mis pour les résoudre dans l’armoire des trophées.",
         "text_End": null,
         "commandRequired": [
-          "cat armoire_des_trophees"
+          "cat armoire_a_trophees"
         ]
       },
       {

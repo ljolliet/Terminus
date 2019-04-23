@@ -120,14 +120,10 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "A.Dibou",\n' +
-    '            "text": "Maintenant que tu sais utiliser ton inventaire, je te conseille d’aller voir ton armoire des trophées. Tu pourras y trouver tous les trophées que tu gagneras au fil de ton année universitaire ! Pour voir les quêtes en cours tu peux utiliser la commande jobs."\n' +
+    '            "text": "Maintenant que tu sais utiliser ton inventaire, je te conseille d’aller voir ton armoire à trophée. Tu pourras y trouver tous les trophées que tu gagneras au fil de ton année universitaire ! Pour voir les quêtes en cours tu peux utiliser la commande jobs."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [\n' +
-    '          {\n' +
-    '            "name": "armoire_a_trophées",\n' +
-    '            "text": ""\n' +
-    '          },\n' +
     '          {\n' +
     '            "name": "liens_utiles",\n' +
     '            "text": ""\n' +
@@ -366,14 +362,14 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "id": 4,\n' +
-    '        "name": "armoire_des_trophees.sh",\n' +
+    '        "name": "armoire_a_trophees.sh",\n' +
     '        "requirement": [3],\n' +
     '        "commands_Rewards": ["tree", "grep", "jobs"],\n' +
     '        "status": "TODO",\n' +
     '        "text_Start": "Observe les quêtes que tu as terminées et le temps que tu as mis pour les résoudre dans l’armoire des trophées.",\n' +
     '        "text_End": null,\n' +
     '        "commandRequired": [\n' +
-    '          "cat armoire_des_trophees"\n' +
+    '          "cat armoire_a_trophees"\n' +
     '        ]\n' +
     '      },\n' +
     '      {\n' +
