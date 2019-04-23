@@ -58,7 +58,7 @@
       },
       {
         "id" : 3,
-        "placeName": "Amphi_Henri_Poincaré",
+        "placeName": "Amphi_Henri_Poincare",
         "next_Place": [],
         "quests": [
           2
@@ -104,7 +104,7 @@
             "text": ""
           },
           {
-            "name": "certificat_de_scolarité",
+            "name": "certificat_de_scolarite",
             "text": ""
           }
         ],
@@ -190,7 +190,7 @@
         "items": [],
         "script": [
           {
-            "name": "traversée_pont.sh",
+            "name": "traversee_pont.sh",
             "content": [
             ],
             "args": [
@@ -360,8 +360,8 @@
         "text_Start": "Déplace ces deux objets dans ton inventaire ! Puis va vérifier dans ton inventaire si tu as bien effectué le déplacement.",
         "text_End": null,
         "commandRequired": [
-          "mv carte_étudiante $INVENTAIRE",
-          "mv certificat_de_scolarité $INVENTAIRE"
+          "mv carte_etudiante $INVENTAIRE",
+          "mv certificat_de_scolarite $INVENTAIRE"
         ]
       },
       {

@@ -101,8 +101,6 @@ class Main {
                     quest.addCommandRequired(command);
             });
 
-            console.log(quest._commandRequired);
-
             ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
                 switch (command) {
                     case "exit":
@@ -539,8 +537,6 @@ class Main {
             }
             this.colorPrint(objects);
         }
-
-        console.log(message);
 
         return message;
     }

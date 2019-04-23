@@ -272,10 +272,12 @@ class User {
      * @return {Quest} The quest if finished, null otherwise.
      */
     checkQuest(command) {
+        console.log(this.currentQuest.commandRequired);
         if (this.currentQuest.commandRequired[0] === command) {
             this.currentQuest.commandRequired.shift(); // remove first element
             console.log("Quest command recognise");
         }
+        console.log(this.currentQuest.commandRequired);
         if (this.currentQuest.commandRequired.length === 0) {   // end quest
             let d = new Date();
             this.currentQuest.status = STATUS.DONE;

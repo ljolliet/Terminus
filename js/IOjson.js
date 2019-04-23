@@ -58,7 +58,7 @@ const json = '{\n' +
     '      },\n' +
     '      {\n' +
     '        "id" : 3,\n' +
-    '        "placeName": "Amphi_Henri_Poincaré",\n' +
+    '        "placeName": "Amphi_Henri_Poincare",\n' +
     '        "next_Place": [],\n' +
     '        "quests": [\n' +
     '          2\n' +
@@ -104,7 +104,7 @@ const json = '{\n' +
     '            "text": ""\n' +
     '          },\n' +
     '          {\n' +
-    '            "name": "certificat_de_scolarité",\n' +
+    '            "name": "certificat_de_scolarite",\n' +
     '            "text": ""\n' +
     '          }\n' +
     '        ],\n' +
@@ -190,7 +190,7 @@ const json = '{\n' +
     '        "items": [],\n' +
     '        "script": [\n' +
     '          {\n' +
-    '            "name": "traversée_pont.sh",\n' +
+    '            "name": "traversee_pont.sh",\n' +
     '            "content": [\n' +
     '            ],\n' +
     '            "args": [\n' +
@@ -360,8 +360,8 @@ const json = '{\n' +
     '        "text_Start": "Déplace ces deux objets dans ton inventaire ! Puis va vérifier dans ton inventaire si tu as bien effectué le déplacement.",\n' +
     '        "text_End": null,\n' +
     '        "commandRequired": [\n' +
-    '          "mv carte_étudiante $INVENTAIRE",\n' +
-    '          "mv certificat_de_scolarité $INVENTAIRE"\n' +
+    '          "mv carte_etudiante $INVENTAIRE",\n' +
+    '          "mv certificat_de_scolarite $INVENTAIRE"\n' +
     '        ]\n' +
     '      },\n' +
     '      {\n' +
@@ -470,7 +470,7 @@ class IOjson{
         this._json = JSON.parse(json);
     }
 
-    // ---------------------------------------- Récupération des différents éléments de Place ---------------------- //
+    // ---------------------------------------- Get all place elements ------------------------------- //
     /**
      * return all places of the _file.json
      */
@@ -508,7 +508,7 @@ class IOjson{
         return this.getPlace(id).script;
     }
 
-    // ---------------------------------------- Récupération des différents éléments de Quest ---------------------- //
+    // ---------------------------------------- Get all quests elements ------------------------------- //
 
     /**
      * return all quests of the _file.json
@@ -519,10 +519,9 @@ class IOjson{
 
     getQuest(id){
         let quests = this.getAllQuests();
-        let quest = quests.find( (quest) => {
+        return quests.find((quest) => {
             return quest.id === id;
         });
-        return quest;
     }
 
     getQuestRequirements(id){
@@ -549,7 +548,7 @@ class IOjson{
         return this.getQuest(id).commandRequired;
     }
 
-    // ---------------------------------------- Récupération des différents éléments de User ---------------------- //
+    // ---------------------------------------- Get all user elements ------------------------------- //
 
     getUser(){
         //console.log(this._json.World.User.login);
