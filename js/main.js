@@ -186,7 +186,12 @@ class Main {
             });
 
             ioJson.getPlaceQuests(place.id).forEach( (quest) => {
-                place.addQuest(this.findQuest(quest));
+                let q = this.findQuest(quest);
+                if (login === "admin") {
+                    q.questsRequired = [];
+                }
+                place.addQuest(q);
+
             });
 
             ioJson.getPlacePNJ(place.id).forEach( (pnj) => {
@@ -219,8 +224,8 @@ class Main {
 
     /**
      * Search in PlaceTab and return a place
-     * @param id
-     * @returns {*}
+     * @param {int} id The id of the place
+     * @returns {Place}
      */
     static findPlace(id){
 
@@ -231,8 +236,8 @@ class Main {
 
     /**
      * Search in PlaceTab and return a place
-     * @param id
-     * @returns {*}
+     * @param {int} id The id of the Quest
+     * @returns {Quest}
      */
     static findQuest(id){
 

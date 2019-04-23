@@ -77,6 +77,13 @@ class Quest extends UnixObject{
     }
 
     /**
+     * @param {Quest[]} value To update QuestRequired.
+     */
+    set questsRequired(value) {
+        return this._questsRequired = value;
+    }
+
+    /**
      * @param {Quest} quest Add to the quests required.
      */
     addQuestsRequired(quest) {
