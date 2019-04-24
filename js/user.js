@@ -157,7 +157,7 @@ class User {
                 return COMMAND_STATUS.CORRECT;
             case parentConst:   // parent
                 if (this.currentLocation.parent === null)
-                    return COMMAND_STATUS.INCORRECT;
+                    return COMMAND_STATUS.INCORRECT_1;
                 this.currentLocation = this.currentLocation.parent;
                 return COMMAND_STATUS.CORRECT;
             case homeConst :  // home
@@ -188,7 +188,7 @@ class User {
                     }
                 break;
         }
-        return COMMAND_STATUS.INCORRECT;
+        return COMMAND_STATUS.INCORRECT_1;
     }
 
     /**
@@ -264,7 +264,7 @@ class User {
                 return COMMAND_STATUS.CORRECT;
             }
         }
-        return COMMAND_STATUS.INCORRECT;
+        return COMMAND_STATUS.INCORRECT_1;
     }
 
     /**
@@ -336,7 +336,7 @@ class User {
                         return COMMAND_STATUS.CORRECT;
                     }
                     break;
-                case inventoryConst:
+                case inventoryConst:    //inventory
                     if (this.inventory !== null) {
                         this.currentLocation.entities.splice(index, 1);
                         this.inventory.addEntity(item);
@@ -345,6 +345,8 @@ class User {
                     break;
                 default : // son
                     let place;
+                    if(destination.startsWith('$'))
+                        return COMMAND_STATUS.INCORRECT_2;
                     if ((place = this.currentLocation.getPlace(destination)) === null)
                         item.name = destination;
                     else {
@@ -355,7 +357,7 @@ class User {
             }
         }
         //else
-        return COMMAND_STATUS.INCORRECT;
+        return COMMAND_STATUS.INCORRECT_1;
     }
 
 }

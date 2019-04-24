@@ -405,7 +405,7 @@ class Main {
         let status;
         let message = "";
 
-        if ((status = this.user.moveTo(args[1])) === COMMAND_STATUS.INCORRECT) // if move refused
+        if ((status = this.user.moveTo(args[1])) === COMMAND_STATUS.INCORRECT_1) // if move refused
             message = "cd: " + args[1] + " : Aucun lieu de ce type";
         else if (status === COMMAND_STATUS.PERMISSION_ISSUE)
             message = this.permissionMessage("cd", args[1]);
@@ -505,7 +505,7 @@ class Main {
         if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
             message = this.permissionMessage("./", scriptName);
         // If it did not launch, we check if it is a quest
-        else if (scriptLaunched===COMMAND_STATUS.INCORRECT) {
+        else if (scriptLaunched===COMMAND_STATUS.INCORRECT_1) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
                 message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
@@ -535,8 +535,10 @@ class Main {
     static mv(source, destination) {
         let message = "";
         let status = this.user.moveItem(source, destination);
-        if ( status === COMMAND_STATUS.INCORRECT) // if move refused
+        if ( status === COMMAND_STATUS.INCORRECT_1) // if move refused
             message = "mv: impossible d'évaluer '" + source + "' Aucun item ce type";
+        else if ( status === COMMAND_STATUS.INCORRECT_2) // if move refused
+            message = "mv: destination impossible '" + destination + "'. Impossible créer un item commençant par '$'";
         else if (status === COMMAND_STATUS.PERMISSION_ISSUE)
             message = this.permissionMessage("mv", source);
         //else : move done

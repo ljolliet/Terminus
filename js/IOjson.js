@@ -92,10 +92,6 @@ const json = '{\n' +
     '          {\n' +
     '            "name": "A.Dibou",\n' +
     '            "text": "Bonjoooooouur. Bienvenue dans le monde merveilleux d’A. Dibou, plus communément appelé “Guichet unique”. Je vais t’apprendre à utiliser ton inventaire pour que tu aies facilement accès aux objets que tu souhaites conserver. Ton inventaire se situe dans le Batiment A22, pour te simplifier la tâche tu peux y accéder en utilisant \\\\$INVENTAIRE. On appelle cela une variable d’environnement, elle te permettra d’accéder à ton inventaire où que tu sois. Pour déplacer un objet dans ton inventaire, il te suffit d’utiliser la commande mv <objet>  $INVENTAIRE pour déplacer l’objet dans ton inventaire. Souviens toi, les objets sont représentés par la couleur blanche."\n' +
-    '          },\n' +
-    '          {\n' +
-    '            "name": "Deadpool",\n' +
-    '            "text": ""\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [\n' +
@@ -176,11 +172,11 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "Frodon",\n' +
-    '            "text": ""\n' +
+    '            "text": "C\'est une énigme. \\"Parlez ami et entrez\\". Quel est le mot elfique pour ami ?"\n' +
     '          },\n' +
     '          {\n' +
     '            "name": "Gandalf",\n' +
-    '            "text": ""\n' +
+    '            "text": "VOUS NE PASSEREZ PAAAAAAAAAAAAAAAAAAAS … enfin tant que ce pont ne sera pas réparé. Je me demande bien si une certaine personne ici présente ne serait pas assez intelligente et rusée pour trouver comment faire *clin d’oeil* *clin d’oeil* … J’ai créé un script pour passer le pont (à ne pas confondre avec les quêtes) mais je n’ai pas les droit pour l\'exécuter. J’ai appris l’existence d’une commande capable de modifier les droits d’accès dans un vieux grimoire de magie noire… Il s’agit de la commande chmod, ajoute les droits en exécution pour mon script puis tu pourras traverser le pont à l’aide d’un mot de passe."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [],\n' +
@@ -266,7 +262,7 @@ const json = '{\n' +
     '        "pnj": [\n' +
     '          {\n' +
     '            "name": "Dark_Lord",\n' +
-    '            "text": ""\n' +
+    '            "text": "Il n’y a pas de bien ni de mal, il n’y a que le pouvoir, et ceux qui sont trop faibles pour le rechercher… Si tu veux gagner du pouvoir, essaie la commande yes."\n' +
     '          }\n' +
     '        ],\n' +
     '        "items": [],\n' +
@@ -317,8 +313,6 @@ const json = '{\n' +
     '        "items": [],\n' +
     '        "script": []\n' +
     '      }\n' +
-    '\n' +
-    '\n' +
     '    ],\n' +
     '    "Quests": [\n' +
     '      {\n' +
@@ -428,7 +422,7 @@ const json = '{\n' +
     '        "requirement": [3],\n' +
     '        "commands_Rewards": [],\n' +
     '        "status": "TODO",\n' +
-    '        "text_Start": "Lance le sort de ton choix.\\nPS : le but de cette quête est de piéger le joueur dans un endroit où on lui a dit de ne pas se rendre. La commande yes est une boucle infinie, pour en sortir il faut utiliser CTRL+C.",\n' +
+    '        "text_Start": "Gagne du pouvoir !",\n' +
     '        "text_End": null,\n' +
     '        "commandRequired": [\n' +
     '          "yes"\n' +

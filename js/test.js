@@ -68,13 +68,13 @@ QUnit.test("User place change", function (assert) {
     assert.equal(user.currentLocation, parent, "Current location is set");
     assert.equal(user.moveTo("son"), COMMAND_STATUS.CORRECT, "Going to a sub-place that exists is accepted");
     assert.equal(user.currentLocation, son, "Current location is updated as sub-place");
-    assert.equal(user.moveTo("else"), COMMAND_STATUS.INCORRECT, "Going to a sub-place that doesn't exist is refused");
+    assert.equal(user.moveTo("else"), COMMAND_STATUS.INCORRECT_1, "Going to a sub-place that doesn't exist is refused");
     assert.equal(user.currentLocation, son, "Current location stay the same");
     assert.equal(user.moveTo("."), COMMAND_STATUS.CORRECT, "Going to the current location ('.') is accepted");
     assert.equal(user.currentLocation, son, "Current location stay the same");
     assert.equal(user.moveTo(".."), COMMAND_STATUS.CORRECT, "Going to parent ('..') is accepted");
     assert.equal(user.currentLocation, parent, "Current location is updated as parent");
-    assert.equal(user.moveTo(".."), COMMAND_STATUS.INCORRECT, "Going to parent ('..') is refused if the current is root (no parent)");
+    assert.equal(user.moveTo(".."), COMMAND_STATUS.INCORRECT_1, "Going to parent ('..') is refused if the current is root (no parent)");
     assert.equal(user.currentLocation, parent, "Current location stay the same");
 
 
@@ -205,7 +205,7 @@ QUnit.test("Move an item", function (assert) {
     assert.equal(user.moveItem("item", "subplace"), COMMAND_STATUS.CORRECT, "Move an item is authorized");
     assert.equal(subplace.entities.includes(item), true, "Move has been done");
     assert.equal(place.entities.includes(item), false, "Item no longer in the origin place");
-    assert.equal(user.moveItem("pnj", "subplace"), COMMAND_STATUS.INCORRECT, "Move a pnj is not authorized");
+    assert.equal(user.moveItem("pnj", "subplace"), COMMAND_STATUS.INCORRECT_1, "Move a pnj is not authorized");
     assert.equal(subplace.entities.includes(pnj), false, "Move has not been done");
     assert.equal(place.entities.includes(pnj), true, "PNJ stayed in the origin place");
     assert.equal(user.moveItem("item2", "something"), COMMAND_STATUS.CORRECT, "Move an item to something that does not exist works");
@@ -220,7 +220,7 @@ QUnit.test("Move an item", function (assert) {
     assert.equal(user.moveItem("item4", "/"), COMMAND_STATUS.CORRECT, "Move an item to root works");
     assert.equal(parent.entities.includes(item4), true, "Move has been done");
     assert.equal(subplace.entities.includes(pnj), false, "Move has not been done");
-    assert.equal(user.moveItem("pnj", "something"), COMMAND_STATUS.INCORRECT, "Move a pnj to something that does not exist does not works");
+    assert.equal(user.moveItem("pnj", "something"), COMMAND_STATUS.INCORRECT_1, "Move a pnj to something that does not exist does not works");
     assert.equal(pnj.name, "pnj", "Move not done, name unchanged");
 });
 

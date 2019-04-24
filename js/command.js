@@ -1,7 +1,8 @@
 const COMMAND_STATUS = {
     CORRECT : 0,
-    INCORRECT : 1,
-    PERMISSION_ISSUE : 2
+    INCORRECT_1 : 1,
+    INCORRECT_2 : 2,    // used when the second argument is the issue
+    PERMISSION_ISSUE : 3
 };
 
 
