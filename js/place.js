@@ -69,9 +69,11 @@ class Place extends UnixObject {
         let list = [];
         if("$INVENTAIRE".startsWith(pattern))
             list.push(new Place("$INVENTAIRE"));
-        for (let o of this.all)
-            if (o.name.startsWith(pattern.toLowerCase()) || o.name.startsWith(pattern.toUpperCase()))
+        for (let o of this.all){
+            if (o.name.toLowerCase().startsWith(pattern.toLowerCase())){
                 list.push(o);
+            }
+        }
         return list;
     }
 
