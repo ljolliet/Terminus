@@ -17,18 +17,24 @@ class Script extends UnixObject {
 
     /**
      * Script launching
+     * @param {String[]}args The args of the script.
+     * @return {COMMAND_STATUS} The status of the script's launching.
      */
-    run() {
-        let index = 0;
-        let that = this;
-        let runner = setInterval(function(){
-            if(index === that.content.length){
-                clearInterval(runner)
-            }else{
-                Main.executeCommand(that.content[index]);
-                index ++;
-            }
-        },50);
+    run(args) {
+        if(this.args === args) {
+            let index = 0;
+            let that = this;
+            let runner = setInterval(function () {
+                if (index === that.content.length) {
+                    clearInterval(runner)
+                } else {
+                    Main.executeCommand(that.content[index]);
+                    index++;
+                }
+            }, 50);
+            return COMMAND_STATUS.CORRECT;
+        }
+        return COMMAND_STATUS.INCORRECT_1;
     }
     description(base, shift = "", id = 0) {
         return "./" + this.name;
