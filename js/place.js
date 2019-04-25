@@ -66,7 +66,7 @@ class Place extends UnixObject {
      * @return {Object[]} every Object that starts with the pattern, it ignores case.
      */
     getStartWith(pattern) {
-        let list = [];
+        let list = [new Place("$INVENTAIRE")];
         for (let o of this.all)
             if (o.name.startsWith(pattern.toLowerCase()) || o.name.startsWith(pattern.toUpperCase()))
                 list.push(o);
