@@ -112,7 +112,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     }
                 }
             // There is no extra argument
-            } else if (parsedCommand.args.length === 1) {
+            } else if (parsedCommand.args.length === 1 && !tabCommandSaved.endsWith(" ")) {
 
                 // The user has typed TAB, we need to retrieve the closest command, then we override the current input
                 let closestCommands = Command.getClosestCommands(tabCommandSaved);
@@ -121,7 +121,9 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 if (closestCommands.length > 0) inputTextFirst.innerText = closestCommands[tabIndex % closestCommands.length];
             } else { // there are extra arguments
                 // We get the last argument
-                let lastArgument = parsedCommand.args[parsedCommand.args.length - 1];
+                let lastArgument = "";
+                if(!tabCommandSaved.endsWith(" "))
+                    lastArgument = parsedCommand.args[parsedCommand.args.length - 1];
 
                 // We get the objects that are the closest to the last argument
                 let objects = Main.user.currentLocation.getStartWith(lastArgument);
@@ -143,7 +145,10 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     colorMessage(objectNames);
                 } else if (objects.length === 1) {
                     // We need to remove what the user has written with the write object name
-                    inputTextFirst.innerText = inputTextFirst.innerText.substring(0, inputTextFirst.innerText.length - lastArgument.length) + objects[0].name;
+                    if(!tabCommandSaved.endsWith(" "))
+                        inputTextFirst.innerText = inputTextFirst.innerText.substring(0, inputTextFirst.innerText.length - lastArgument.length) + objects[0].name;
+                    else
+                        inputTextFirst.innerText += objects[0].name;
                     tabCommandSaved = inputTextFirst.innerText;
                 }
             }
