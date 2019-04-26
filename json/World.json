@@ -184,8 +184,10 @@
           {
             "name": "traversee_pont.sh",
             "content": [
+              "cd /","cd Arts_et_Metiers"
             ],
             "args": [
+              "mellon"
             ]
           }
         ]

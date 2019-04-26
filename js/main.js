@@ -494,18 +494,21 @@ class Main {
      * Here goes the code when the user has launched a quest.
      * @param {String} input last command output (pipe)
      * @param {String} scriptName The name of the script.
+     * @param {String[]} args The args of the script.
      * @return {string} the command output.
      */
-    static launch(input, scriptName) {
+    static launch(input, scriptName, args) {
 
         let message = "";
 
         // We try to launch the script
-        let scriptLaunched = this.user.launchScript(scriptName);
+        let scriptLaunched = this.user.launchScript(scriptName, args);
         if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
             message = this.permissionMessage("./", scriptName);
+        else if (scriptLaunched === COMMAND_STATUS.INCORRECT_1)
+            message = "script: Argument innatendu";
         // If it did not launch, we check if it is a quest
-        else if (scriptLaunched===COMMAND_STATUS.INCORRECT_1) {
+        else if (scriptLaunched===COMMAND_STATUS.INCORRECT_2) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
                 message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";

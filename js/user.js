@@ -253,18 +253,18 @@ class User {
 
     /**
      * @param {String} scriptName Name of the script to launch.
-     * @return {boolean} True if the script was found and launched, false otherwise.
+     * @param {String[]} args The args of the script.
+     * @return {COMMAND_STATUS} Information about the command result.
      */
-    launchScript(scriptName) {
+    launchScript(scriptName, args) {
         for (let script of this.currentLocation.scripts) {
             if (script.name === scriptName) {
                 if(!script.execAccess)
                     return COMMAND_STATUS.PERMISSION_ISSUE;
-                script.run();
-                return COMMAND_STATUS.CORRECT;
+                return script.run(args); // will return INCORRECT_1 or CORRECT
             }
         }
-        return COMMAND_STATUS.INCORRECT_1;
+        return COMMAND_STATUS.INCORRECT_2;
     }
 
     /**
