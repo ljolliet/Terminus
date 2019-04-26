@@ -232,11 +232,12 @@ class Checker {
 
             default:
                 if (this._command.args[0].startsWith("./")) {
-                    if (this._command.args.length !== 1) {
-                        this._errorMessage = "./ n'attend aucun argument.";
-                        this._isValid = false;
-                    } else if (this._command.args[0].length === 2) {
-                        this._errorMessage = "./ a besoin d'un nom de script à executer (exemple: ./script.sh).";
+                    // if (this._command.args.length !== 1) {
+                    //     this._errorMessage = "./ n'attend aucun argument.";
+                    //     this._isValid = false;
+                    // } else
+                    if (this._command.args[0].length === 2) {
+                        this._errorMessage = "./ a besoin d'un nom de script/quête à executer (exemple: ./script.sh).";
                         this._isValid = false;
                     } else {
                         this._errorMessage = "";

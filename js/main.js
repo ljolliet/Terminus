@@ -296,7 +296,7 @@ class Main {
                 break;
 
             case COMMAND_TYPE.LAUNCH:
-                if (isValid) output = Main.launch(input, parsedCommand.args[0].slice(2));
+                if (isValid) output = Main.launch(input, parsedCommand.args[0].slice(2), parsedCommand.args.slice(1));
                 else this.print(errorMessage);
                 break;
 
@@ -499,6 +499,8 @@ class Main {
      * @return {string} the command output.
      */
     static launch(input, scriptName, args) {
+        console.log("launch");
+        console.log(args);
 
         let message = "";
 
