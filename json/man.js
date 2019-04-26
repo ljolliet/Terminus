@@ -1,5 +1,5 @@
 {
-  "commands": [
+  manJson=[
     {
       "name": "exit",
       "manual": "General Commands Manual\nNAME\nclear - clear the terminal screen.\n\nSYNOPSIS\nclear"
@@ -44,5 +44,5 @@
       "name": "man",
       "manual": "NAME\nman - an interface to the on-line reference manuals\n\nSYNOPSIS\nman COMMAND"
     }
-  ]
+  ];
 }

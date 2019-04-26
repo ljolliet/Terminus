@@ -166,6 +166,7 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.CLEAR);
             this.user.addCommand(COMMAND_TYPE.YES);
             this.user.addCommand(COMMAND_TYPE.CHMOD);
+            this.user.addCommand(COMMAND_TYPE.MAN);
         }
     }
 
@@ -643,8 +644,22 @@ class Main {
      * @return {string} the command output.
      */
     static man(command) {
-        // TODO
-        return "";
+        // Read JSON
+        let strManJson = JSON.stringify(manJson);
+        let parser = JSON.parse(strManJson);
+
+        // Find content in JSON
+        let content = parser.find(cmd => cmd.name === command);
+
+        let message;
+        if(content === undefined){
+            message = "Impossible de trouver le manuel correspondant à la commande " + command + ".";
+        }else{
+            message = content["manual"];
+        }
+
+        this.print(message);
+        return message;
     }
 
     /**
