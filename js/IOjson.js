@@ -182,10 +182,12 @@ const json = '{\n' +
     '        "items": [],\n' +
     '        "script": [\n' +
     '          {\n' +
-    '            "name": "traversee_pont.sh",\n' +
+    '            "name": "traverser_pont.sh",\n' +
     '            "content": [\n' +
+    '              "cd /","cd Arts_et_Metiers"\n' +
     '            ],\n' +
     '            "args": [\n' +
+    '              "mellon"\n' +
     '            ]\n' +
     '          }\n' +
     '        ]\n' +

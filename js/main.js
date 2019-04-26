@@ -150,6 +150,20 @@ class Main {
                 let i = new Item(item.name, item.text);
                 place.addEntity(i);
             });
+
+            if (ioJson.getPlaceScript(place.id)[0] !== undefined){
+
+                let obj = ioJson.getPlaceScript(place.id)[0];
+                let script = new Script(obj.name, obj.args);
+                script.content = obj.content;
+                console.log(script);
+
+                place.addScript(script);
+                /*console.log(ioJson.getPlaceScript(place.id)[0].name);
+                console.log(ioJson.getPlaceScript(place.id)[0].args);
+                console.log(ioJson.getPlaceScript(place.id)[0].content);*/
+            }
+
         });
 
         Place.root = this.findPlace(0);
