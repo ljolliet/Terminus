@@ -234,7 +234,7 @@ class Checker {
             default:
                 if (this._command.args[0].startsWith("./")) {
                     if (this._command.args[0].length === 2) {
-                        this._errorMessage = "./ a besoin d'un nom de script à executer (exemple: ./script.sh).";
+                        this._errorMessage = "./ a besoin d'un nom de script/quête à executer (exemple: ./script.sh).";
                         this._isValid = false;
                     } else {
                         this._errorMessage = "";

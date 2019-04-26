@@ -499,6 +499,8 @@ class Main {
      * @return {string} the command output.
      */
     static launch(input, scriptName, args) {
+        console.log("launch");
+        console.log(args);
 
         let message = "";
 

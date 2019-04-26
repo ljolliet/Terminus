@@ -2,19 +2,19 @@
   manJson=[
     {
       "name": "exit",
-      "manual": "General Commands Manual\nNAME\nclear - clear the terminal screen.\n\nSYNOPSIS\nclear"
+      "manual": "NAME\nexit - cause normal process termination\n\nSYNOPSIS\nexit"
     },
     {
       "name": "cat",
-      "manual": "NAME\ncat - concatenate files and print on the standard output.\n\nSYNOPSIS\ncat [FILE]"
+      "manual": "NAME\ncat - concatenate items/pnj and print on the standard output.\n\nSYNOPSIS\ncat [FILE]"
     },
     {
       "name": "cd",
-      "manual": "NAME\ncd - change the working directory.\n\nSYNOPSIS\ncd [DIRECTORY]"
+      "manual": "NAME\ncd - change the working place.\n\nSYNOPSIS\ncd [DIRECTORY]"
     },
     {
       "name": "ls",
-      "manual": "NAME\nls - list directory contents.\n\nSYNOPSIS\nls [OPTION]...\n\nOPTIONS\n-a              do not ignore entries starting with .\n-l              use a long listing format"
+      "manual": "NAME\nls - list place contents.\n\nSYNOPSIS\nls [OPTION]...\n\nOPTIONS\n-a              do not ignore entries starting with .\n"
     },
     {
       "name": "help",
@@ -22,7 +22,7 @@
     },
     {
       "name": "tree",
-      "manual": "NOM\ntree - list contents of directories in a tree-like format.\n\nSYNOPSIS\ntree"
+      "manual": "NOM\ntree - list contents of places in a tree-like format.\n\nSYNOPSIS\ntree"
     },
     {
       "name": "grep",
@@ -30,15 +30,15 @@
     },
     {
       "name": "clear",
-      "manual": "NAME\nclear - clear the terminal screen.\n\nSYNOPSIS\nclear"
+      "manual": "NAME\nclear - clear the terminus screen.\n\nSYNOPSIS\nclear"
     },
     {
       "name": "jobs",
-      "manual": "NAME\njobs - display status of jobs in the current session.\n\nSYNOPSIS\njobs"
+      "manual": "NAME\njobs - display status of quests in the current session.\n\nSYNOPSIS\njobs"
     },
     {
       "name": "mv",
-      "manual": "NAME\nmv - move (rename) files\n\nSYNOPSIS\nmv SOURCE DESTINATION"
+      "manual": "NAME\nmv - move (rename) items\n\nSYNOPSIS\nmv SOURCE DESTINATION"
     },
     {
       "name": "man",
