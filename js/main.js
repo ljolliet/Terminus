@@ -16,8 +16,7 @@ class Main {
 
     static init(login) {
 
-
-        let ioJson = new IOjson();
+        let ioJson = new IOjson(worldJson);
 
         // translate quests from json
         for (let q of ioJson.getAllQuests()) {
@@ -649,6 +648,7 @@ class Main {
         // Read JSON
         let strManJson = JSON.stringify(manJson);
         let parser = JSON.parse(strManJson);
+        console.log(parser);
 
         // Find content in JSON
         let content = parser.find(cmd => cmd.name === command);
