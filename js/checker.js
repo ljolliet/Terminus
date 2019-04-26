@@ -226,16 +226,14 @@ class Checker {
             case "yes":
                 this._checkCommand(this._command, COMMAND_TYPE.YES, [0,1]);
                 break;
+
             case "chmod":
                 this._checkCommand(this._command, COMMAND_TYPE.CHMOD, [2]);
                 break;
 
             default:
                 if (this._command.args[0].startsWith("./")) {
-                    if (this._command.args.length !== 1) {
-                        this._errorMessage = "./ n'attend aucun argument.";
-                        this._isValid = false;
-                    } else if (this._command.args[0].length === 2) {
+                    if (this._command.args[0].length === 2) {
                         this._errorMessage = "./ a besoin d'un nom de script à executer (exemple: ./script.sh).";
                         this._isValid = false;
                     } else {

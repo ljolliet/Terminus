@@ -296,7 +296,7 @@ class Main {
                 break;
 
             case COMMAND_TYPE.LAUNCH:
-                if (isValid) output = Main.launch(input, parsedCommand.args[0].slice(2));
+                if (isValid) output = Main.launch(input, parsedCommand.args[0].slice(2), parsedCommand.args.slice(1));
                 else this.print(errorMessage);
                 break;
 
