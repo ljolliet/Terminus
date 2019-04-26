@@ -19,6 +19,21 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 
 ## Features
 
+### V1.2
+
+* script management (!= quests)
+* commands yes, chmod, grep, man
+* pipe management (|) so each command now return a string 
+* write and append management (\>\> and \>) 
+* rights/permission management (rwx)
+* json reading
+* json template finished
+* hand json writing
+* using #_ tokens in json to add particular word (like login)
+* CTRL-C 
+* fixing a few bugs about completion and mv command
+
+
 ### V1.1
 
 * commands mv, tree, jobs, clear
