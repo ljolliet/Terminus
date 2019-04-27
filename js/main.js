@@ -257,6 +257,8 @@ class Main {
         }else{
             this._executeCommand("", parsedCommand);
         }
+        // Change the path that is print before the command input
+        printConsolePath();
     }
 
     /**

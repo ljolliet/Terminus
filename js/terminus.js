@@ -174,7 +174,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     // Say hello to the user
                     printMessage("Bienvenue " + pseudo + " !");
 
-                    document.getElementById("chevron").innerHTML = getConsolePath();
+                    printConsolePath();
                     firstConnection = false;
                 }
 
@@ -203,8 +203,6 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
 
                 Main.executeCommand(msg);
 
-                // Change the path that is print before the command input
-                document.getElementById("chevron").innerHTML = getConsolePath();
             }
         } else if (code === 37) { // ARROW LEFT
             if (size1 > 0) {
@@ -295,8 +293,8 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
  * Return the path message (with style) to print to the console.
  * @returns {string} Path string.
  */
-function getConsolePath() {
-    return '<span style="color: #79e234;">' + Main.user.login + '@terminus:</span>' +
+function printConsolePath() {
+    document.getElementById("chevron").innerHTML = '<span style="color: #79e234;">' + Main.user.login + '@terminus:</span>' +
         '<span style="color: #709ede;">' + Main.user.getPath() + '</span>' + NBSPACE + '$' + NBSPACE;
 }
 
