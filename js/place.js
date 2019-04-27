@@ -88,7 +88,6 @@ class Place extends UnixObject {
         for (let p of this.places)
             for (let pq of p.getQuestStarted())
                 quests.push(pq);
-        console.log(quests);
         return quests;
     }
 

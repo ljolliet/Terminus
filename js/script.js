@@ -21,7 +21,6 @@ class Script extends UnixObject {
      * @return {COMMAND_STATUS} The status of the script's launching.
      */
     run(args) {
-        console.log(this);
         let correctArgs = true;
         for (let i = 0; i < this.args.length; i++)
             if (this.args[i] !== args[i])
@@ -33,7 +32,6 @@ class Script extends UnixObject {
                 if (index === that.content.length) {
                     clearInterval(runner)
                 } else {
-                    console.log(that.content[index]);
                     Main.executeCommand(that.content[index]);
                     index++;
                 }

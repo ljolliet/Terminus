@@ -182,7 +182,7 @@
                         "items": [],
                         "script": [
                             {
-                                "name": "traversee_pont.sh",
+                                "name": "traverser_pont.sh",
                                 "content": [
                                     "cd /", "cd Arts_et_Metiers"
                                 ],

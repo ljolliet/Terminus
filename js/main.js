@@ -268,6 +268,7 @@ class Main {
      */
     static _executeCommand(input, parsedCommand) {
 
+        console.log("execute");
         let commandChecker = new Checker(parsedCommand, this.user, false);
 
         let isValid = commandChecker.isCommandValid();
@@ -291,6 +292,7 @@ class Main {
                 break;
 
             case COMMAND_TYPE.CD:
+                console.log("cd");
                 if (isValid) output = Main.cd(parsedCommand.args);
                 else this.print(errorMessage);
                 break;
