@@ -26,12 +26,13 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 * pipe management (|) so each command now return a string 
 * write and append management (\>\> and \>) 
 * rights/permission management (rwx)
-* json reading
+* json file reading
 * json template finished
-* hand json writing
+* hand json writing of the world
+* hand json writing of the man
 * using #_ tokens in json to add particular word (like login)
 * CTRL-C 
-* fixing a few bugs about completion and mv command
+* fixing a few bugs about completion, mv command, script arguments
 
 
 ### V1.1
