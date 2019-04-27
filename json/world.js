@@ -92,7 +92,7 @@
                         "pnj": [
                             {
                                 "name": "A.Dibou",
-                                "text": "Bonjoooooouur. Bienvenue dans le monde merveilleux d’A. Dibou, plus communément appelé “Guichet unique”. Je vais t’apprendre à utiliser ton inventaire pour que tu aies facilement accès aux objets que tu souhaites conserver. Ton inventaire se situe dans le Batiment A22, pour te simplifier la tâche tu peux y accéder en utilisant \\$INVENTAIRE. On appelle cela une variable d’environnement, elle te permettra d’accéder à ton inventaire où que tu sois. Pour déplacer un objet dans ton inventaire, il te suffit d’utiliser la commande mv <objet>  $INVENTAIRE pour déplacer l’objet dans ton inventaire. Souviens toi, les objets sont représentés par la couleur blanche."
+                                "text": "Bonjoooooouur. Bienvenue dans le monde merveilleux d’A. Dibou, plus communément appelé 'Guichet unique'. Je vais t’apprendre à utiliser ton inventaire pour que tu aies facilement accès aux objets que tu souhaites conserver. Ton inventaire se situe dans le Batiment A22, pour te simplifier la tâche tu peux y accéder en utilisant \\$INVENTAIRE. On appelle cela une variable d’environnement, elle te permettra d’accéder à ton inventaire où que tu sois. Pour déplacer un objet dans ton inventaire, il te suffit d’utiliser la commande mv objet  $INVENTAIRE pour déplacer l’objet dans ton inventaire. Souviens toi, les objets sont représentés par la couleur blanche."
                             }
                         ],
                         "items": [
@@ -205,7 +205,7 @@
                         "pnj": [
                             {
                                 "name": "S.Holmes",
-                                "text": "Hello, welcome to the Centre des Langues, let’s resolve a little colundrum. Look at the paper behind me. There are tons of names but only one corresponds to yours. Try to find it using the grep command. You can use it this way : cat name_list | grep <pattern> . With that pipe ( | ), grep is using the result of the command before the pipe. You can use the manual of grep to get more information (man grep)."
+                                "text": "Hello, welcome to the Centre des Langues, let’s resolve a little colundrum. Look at the paper behind me. There are tons of names but only one corresponds to yours. Try to find it using the grep command. You can use it this way : cat name_list | grep pattern . With that pipe ( | ), grep is using the result of the command before the pipe. You can use the manual of grep to get more information (man grep)."
                             }
                         ],
                         "items": [

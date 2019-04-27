@@ -155,7 +155,6 @@ class Main {
                 let obj = ioJson.getPlaceScript(place.id)[0];
                 let script = new Script(obj.name, obj.args);
                 script.content = obj.content;
-                console.log(script);
 
                 place.addScript(script);
                 /*console.log(ioJson.getPlaceScript(place.id)[0].name);
@@ -251,7 +250,7 @@ class Main {
                 let command = parsedCommand.getCommand(i);
 
                 if(command.args[0] === "yes")
-                    printMessage("Il est interdit d'utiliser yes avec pipe. On va donc ignorer yes.");
+                    printMessage("Il est interdit d'utiliser yes avec pipe.");
                 else
                     output = this._executeCommand(output, command);
             }
@@ -512,8 +511,6 @@ class Main {
      * @return {string} the command output.
      */
     static launch(input, scriptName, args) {
-        console.log("launch");
-        console.log(args);
 
         let message = "";
 
@@ -522,7 +519,7 @@ class Main {
         if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
             message = this.permissionMessage("./", scriptName);
         else if (scriptLaunched === COMMAND_STATUS.INCORRECT_1)
-            message = "script: Argument innatendu";
+            message = "script: Argument innatendu ou incorrect";
         // If it did not launch, we check if it is a quest
         else if (scriptLaunched===COMMAND_STATUS.INCORRECT_2) {
             let info;

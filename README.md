@@ -56,7 +56,7 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 * '!' before the name of the 
 * Trophies management
 * Inventory of the user
-* Root directory/place --> '/' and home --> '~'
+* Root directory/place --\> '/' and home --\> '~'
 * Alphabetic order when the user list (ls) the content of a Place
 
 ## Known issues
