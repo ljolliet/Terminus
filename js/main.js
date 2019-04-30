@@ -16,6 +16,8 @@ class Main {
 
     static init(login) {
 
+        this.printUserPath = true;
+
         // Yes/no handling
         this.yesnoAnswer = -1;
         this.isYesno = false;
@@ -352,8 +354,6 @@ class Main {
         }else{
             this._executeCommand("", parsedCommand);
         }
-        // Change the path that is print before the command input
-        printConsolePath();
     }
 
     /**
@@ -365,7 +365,6 @@ class Main {
      */
     static _executeCommand(input, parsedCommand) {
 
-        console.log("execute");
         let commandChecker = new Checker(parsedCommand, this.user, false);
 
         let isValid = commandChecker.isCommandValid();
@@ -472,6 +471,11 @@ class Main {
                     this.print(errorMessage)
                 }
                 break;
+        }
+
+        // Change the path that is print before the command input
+        if(this.printUserPath){
+            printConsolePath();
         }
 
         Main.questAdvancement(parsedCommand.toString());
@@ -625,20 +629,20 @@ class Main {
         // We try to launch the script
         let scriptLaunched = this.user.launchScript(scriptName, args);
         if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
-            message = this.permissionMessage("./", scriptName);
+        message = this.permissionMessage("./", scriptName);
         else if (scriptLaunched === COMMAND_STATUS.INCORRECT_1)
-            message = "script: Argument innatendu ou incorrect";
+        message = "script: Argument innatendu ou incorrect";
         // If it did not launch, we check if it is a quest
         else if (scriptLaunched===COMMAND_STATUS.INCORRECT_2) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
-                message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
+            message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
             else if (info === COMMAND_STATUS.PERMISSION_ISSUE)
-                message = this.permissionMessage("./", scriptName);
+            message = this.permissionMessage("./", scriptName);
             else if (info === INFO.UNAVAILABLE)
-                message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
+            message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
             else if (info === INFO.FINISHED)
-                message = "La quête " + scriptName + " est déjà terminée.";
+            message = "La quête " + scriptName + " est déjà terminée.";
             else// INFO.FOUND
             {
                 message = "Quête " + this.user.currentQuest.name + " lancée.\n";
@@ -649,7 +653,6 @@ class Main {
         this.print(message);
         return message;
     }
-
     /**
      * Here goes the code when the user has typed mv.
      * @param {String} source
