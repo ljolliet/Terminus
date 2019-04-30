@@ -23,7 +23,7 @@ class Script extends UnixObject {
     run(args) {
         let correctArgs = true;
         for (let i = 0; i < this.args.length; i++)
-            if (this.args[i] !== args[i])
+            if (this.args[i].toLowerCase() !== args[i].toLowerCase())
                 correctArgs = false;
                 if (correctArgs && this.args.length === args.length) {
                     let index = 0;
