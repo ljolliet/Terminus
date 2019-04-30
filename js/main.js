@@ -25,33 +25,43 @@ class Main {
 
         let ioJson = new IOjson(worldJson);
 
-        // translate quests from json
+        ioJson.init(login, PlaceTab, QuestTab)
+
+        /* // translate quests from json
         for (let q of ioJson.getAllQuests()) {
             QuestTab.push(new Quest(q.name, q.id));
         }
 
+        // Create Quests
         QuestTab.forEach( (quest) => {
 
             let questRequirementTab = ioJson.getQuestRequirements(quest.id);
 
+            //add quest's quest required
             questRequirementTab.forEach( (questRequired) => {
                 let q = this.findQuest(questRequired);
 
                 quest.addQuestsRequired(q);
             });
 
+            // set quest's initial text
             quest.initialText = ioJson.getQuestTextStart(quest.id);
+
+            // set quest's end text
             quest.endText = ioJson.getQuestTextEnd(quest.id);
 
+            //add quest's commands required
             ioJson.getQuestCommandRequired(quest.id).forEach( (command) => {
 
                 if (command.includes('#login')){
-                    quest.addCommandRequired(command.replace('#login', ioJson.getUserLogin()));
+                    quest.addCommandRequired(command.replace('#login', login));
                 }
                 else
                     quest.addCommandRequired(command);
+                console.log(quest.commandRequired);
             });
 
+            //add quest's commands rewards
             ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
                 switch (command) {
                     case "exit":
@@ -128,16 +138,19 @@ class Main {
             PlaceTab.push(new Place(p.placeName, p.id));
         }
 
+        // create Places
         PlaceTab.forEach( (place) => {
 
             let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
 
+            //add accessible places from place
             nextPlaceTab.forEach( (nextPlace) => {
                 let next = this.findPlace(nextPlace);
 
                 place.addPlace(next);
             });
 
+            // add place's quests
             ioJson.getPlaceQuests(place.id).forEach( (quest) => {
                 let q = this.findQuest(quest);
                 if (login === "admin") {
@@ -147,16 +160,19 @@ class Main {
 
             });
 
+            // add place's PNJ
             ioJson.getPlacePNJ(place.id).forEach( (pnj) => {
                 let pnj1 = new PNJ(pnj.name, pnj.text);
                 place.addEntity(pnj1);
             });
 
+            // add place's Items
             ioJson.getPlaceItems(place.id).forEach( (item) => {
                 let i = new Item(item.name, item.text);
                 place.addEntity(i);
             });
 
+            // add place's scripts
             if (ioJson.getPlaceScript(place.id)[0] !== undefined){
 
                 let obj = ioJson.getPlaceScript(place.id)[0];
@@ -164,12 +180,12 @@ class Main {
                 script.content = obj.content;
 
                 place.addScript(script);
-                /*console.log(ioJson.getPlaceScript(place.id)[0].name);
+                console.log(ioJson.getPlaceScript(place.id)[0].name);
                 console.log(ioJson.getPlaceScript(place.id)[0].args);
-                console.log(ioJson.getPlaceScript(place.id)[0].content);*/
+                console.log(ioJson.getPlaceScript(place.id)[0].content);
             }
 
-        });
+        }); */
 
         Place.root = this.findPlace(0);
         Place.home = this.findPlace(1);
@@ -257,7 +273,6 @@ class Main {
                 }
             })
         }
-        console.log(this.user);
     }
 
     /**
