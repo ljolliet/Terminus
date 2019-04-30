@@ -92,8 +92,12 @@
                         "pnj": [
                             {
                                 "name": "A.Dibou",
-                                "text": "Bonjoooooouur. Bienvenue dans le monde merveilleux d’A. Dibou, plus communément appelé 'Guichet unique'. Je vais t’apprendre à utiliser ton inventaire pour que tu aies facilement accès aux objets que tu souhaites conserver. Ton inventaire se situe dans le Batiment A22, pour te simplifier la tâche tu peux y accéder en utilisant \\$INVENTAIRE. On appelle cela une variable d’environnement, elle te permettra d’accéder à ton inventaire où que tu sois. Pour déplacer un objet dans ton inventaire, il te suffit d’utiliser la commande mv objet  $INVENTAIRE pour déplacer l’objet dans ton inventaire. Souviens toi, les objets sont représentés par la couleur blanche."
-                            }
+                                "text": "Bonjoooooouur. Bienvenue dans le monde merveilleux d’A. Dibou, plus communément appelé 'Guichet unique'. Je vais t’apprendre à utiliser ton inventaire pour que tu aies facilement accès aux objets que tu souhaites conserver. Ton inventaire se situe dans le Batiment A22, pour te simplifier la tâche tu peux y accéder en utilisant \$INVENTAIRE. On appelle cela une variable d’environnement, elle te permettra d’accéder à ton inventaire où que tu sois. Pour déplacer un objet dans ton inventaire, il te suffit d’utiliser la commande mv. Souviens toi, les objets sont représentés par la couleur blanche."
+                            },
+                            {
+                                "name": "Pr.Rogue",
+                                "text": "J'ai répertorié dans un grimoire l'ensemble des sorts que je connais. Si tu souhaites le consulter, utilise man suivi du sort dont tu souhaites connaitre le fonctionnement. Je te donne également quelques potions de souvenir. Si tu souhaites utiliser un sort identique ou presque à un sort précédent, utilise la flèche du haut ou du bas pour naviguer dans tes souvenirs et éviter d'avoir à le répéter en entier. Retiens bien ces sorts, ils pourront t'être utiles tout au long de ton périple."
+                            }     
                         ],
                         "items": [
                             {
@@ -176,7 +180,7 @@
                             },
                             {
                                 "name": "Gandalf",
-                                "text": "VOUS NE PASSEREZ PAAAAAAAAAAAAAAAAAAAS … enfin tant que ce pont ne sera pas réparé. Je me demande bien si une certaine personne ici présente ne serait pas assez intelligente et rusée pour trouver comment faire *clin d’oeil* *clin d’oeil* … J’ai créé un script pour passer le pont (à ne pas confondre avec les quêtes) mais je n’ai pas les droit pour l'exécuter. J’ai appris l’existence d’une commande capable de modifier les droits d’accès dans un vieux grimoire de magie noire… Il s’agit de la commande chmod, ajoute les droits en exécution pour mon script puis tu pourras traverser le pont à l’aide d’un mot de passe."
+                                "text": "VOUS NE PASSEREZ PAAAAAAAAAAAAAAAAAAAS… enfin tant que ce pont ne sera pas réparé. Je me demande bien si une certaine personne ici présente ne serait pas assez intelligente et rusée pour trouver comment faire *clin d’oeil* *clin d’oeil*… J’ai créé un script pour passer le pont (à ne pas confondre avec les quêtes) mais je n’ai pas les droits pour l'exécuter. J’ai appris l’existence d’une commande capable de modifier les droits d’accès dans un vieux grimoire de magie noire… Il s’agit de la commande chmod, ajoute les droits en exécution pour mon script puis tu pourras traverser le pont à l’aide d’un mot de passe."
                             }
                         ],
                         "items": [],
@@ -323,7 +327,7 @@
                         "commands_Rewards": [],
                         "status": "TODO",
                         "text_Start": "Rends-toi à l’Amphithéâtre Henri Poincaré dans le bâtiment A22, tu es en retard jeune dress… *hum hum* élève. Dépêche-toi.",
-                        "text_End": null,
+                        "text_End": "Sache-le, les quêtes en cours sont affichées en orange et les quêtes terminées sont affichées en vert.",
                         "commandRequired": [
                             "cd A22",
                             "cd Amphi_Henri_Poincare"
