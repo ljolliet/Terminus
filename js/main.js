@@ -275,7 +275,6 @@ class Main {
                 break;
 
             case COMMAND_TYPE.CD:
-                console.log("cd");
                 if (isValid) output = Main.cd(parsedCommand.args);
                 else this.print(errorMessage);
                 break;
@@ -656,7 +655,6 @@ class Main {
         // Read JSON
         let strManJson = JSON.stringify(manJson);
         let parser = JSON.parse(strManJson);
-        console.log(parser);
 
         // Find content in JSON
         let content = parser.find(cmd => cmd.name === command);
@@ -683,7 +681,6 @@ class Main {
 
         let message = "";
         this.actualProcess = window.setInterval(() => {
-            console.log(arg);
             if(isPipe)
                 message += arg;
             else

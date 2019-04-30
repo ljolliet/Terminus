@@ -11,9 +11,6 @@ class IOjson{
     constructor(json) {
         let strWorldJson = JSON.stringify(json);
         this._json = JSON.parse(strWorldJson);
-        console.log(this._json);
-
-        //this._json = JSON.parse(json);
     }
 
     // ---------------------------------------- Get all place elements ------------------------------- //
@@ -97,62 +94,12 @@ class IOjson{
     // ---------------------------------------- Get all user elements ------------------------------- //
 
     getUser(){
-        //console.log(this._json.World.User.login);
         return this._json.World.User;
-    }
-
-    getUserLogin(){
-       /* console.log("LOGIN : ");
-        console.log(this.getUser().login);*/
-        return this.getUser().login;
-    }
-
-    getUserInventory(){
-        return this.getUser().inventory;
     }
 
     getUserCommands(){
         return this.getUser().commands;
     }
-
-    getUserQuestsEnded(){
-        return this.getUser().questsEnded;
-    }
-
-
-
-    /*  Getters and Setters   */
-
-    getFile(){
-        return this._file;
-    }
-
-    setFile(file){
-        this._file = file;
-    }
-
-    test(){
-
-        console.log("Test methodes pour Places : ");
-        console.log(this.getAllPlaces());
-        console.log(this.getAccessiblePlace(0));
-        console.log(this.getPlacePNJ(0));
-        console.log(this.getPlaceItems(0));
-        console.log(this.getPlaceScript(0));
-
-        console.log("Test methodes pour Quests : ");
-        console.log(this.getAllQuests());
-        console.log(this.getQuest(1));
-        console.log(this.getQuestRequirements(1));
-        console.log(this.getQuestCommandsRewards(1));
-        //console.log(this.getQuestPNJ("la_traversée_eternelle.sh"));
-        console.log(this.getQuestStatus(1));
-        console.log(this.getQuestTextStart(1));
-        console.log(this.getQuestTextEnd(1));
-        console.log(this.getQuestCommandRequired(1));
-
-    }
-
 
     init(login, PlaceTab, QuestTab){
         // translate quests from json
@@ -186,7 +133,6 @@ class IOjson{
                 }
                 else
                     quest.addCommandRequired(command);
-                console.log(quest.commandRequired);
             });
 
             //add quest's commands rewards
@@ -308,9 +254,6 @@ class IOjson{
                 script.content = obj.content;
 
                 place.addScript(script);
-                console.log(this.getPlaceScript(place.id)[0].name);
-                console.log(this.getPlaceScript(place.id)[0].args);
-                console.log(this.getPlaceScript(place.id)[0].content);
             }
 
         });
