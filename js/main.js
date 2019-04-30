@@ -16,6 +16,11 @@ class Main {
 
     static init(login) {
 
+        // Yes/no handling
+        this.yesnoAnswer = -1;
+        this.isYesno = false;
+        this.yesnoCommand = null;
+
         let ioJson = new IOjson(worldJson);
 
         // translate quests from json
@@ -309,6 +314,25 @@ class Main {
      * @param {string} command a command typed by the user.
      */
     static executeCommand(command){
+        if(this.isYesno){
+            if(command === "y" || command === "yes"){
+                this.yesnoAnswer = 1;
+                command = this.yesnoCommand;
+                this.isYesno = false;
+                this.yesnoCommand = null;
+            }else if(command === "n" || command === "no"){
+                this.yesnoAnswer = 0;
+                command = this.yesnoCommand;
+                this.isYesno = false;
+                this.yesnoCommand = null;
+            }else{
+                this.yesnoAnswer = -1;
+                this.isYesno = true;
+                this.print("Mauvais argument. Yes or no (y or n)?");
+                return;
+            }
+        }
+
         let parser = new Parser(command, false);
         let parsedCommand = parser.getParsedCommand();
 
@@ -460,12 +484,21 @@ class Main {
      * Here goes the code when the user has typed exit.
      */
     static exit() {
+
         if (this.user.currentQuest !== null) {
             this.print("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-            // this.print("Tu es sur que tu souhaites quitter Terminus ? (yes/no)")
-            reload();
+            this.print("Es-tu sur de quitter Terminus ? (yes/no)");
+            if(this.yesnoAnswer === -1){
+                this.yesnoCommand = "exit";
+                this.isYesno = true;
+            }else if(this.yesnoAnswer === 0){
+                this.print("Annulation.");
+                this.yesnoAnswer = -1;
+            }else{
+                reload();
+            }
         }
 
         return "";
