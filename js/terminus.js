@@ -177,16 +177,16 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 } else {
                     let correctPassword = true;
 
-                    if(pseudo in signedUsers){
+                    if (pseudo in signedUsers){
                         askingForPassword = true;
                         userAskingForPassword = pseudo;
                         correctPassword = false;
                         printMessage("Veuillez entrer votre mot de passe :");
-                    }else if(askingForPassword){
+                    } else if (askingForPassword){
                         if(signedUsers[userAskingForPassword] !== hashCode(pseudo)){
                             printMessage("Mauvais mot de passe, veuillez réessayer :");
                             correctPassword = false;
-                        }else{
+                        } else {
                             askingForPassword = false;
                             pseudo = userAskingForPassword;
                         }
@@ -371,7 +371,6 @@ function reload() {
  * @param path Optional. If true, the function will print the path before the message.
  */
 function printMessage(message, path = false) {
-    //message = message.replace('&nbsp;', ' ');
     let msgTab = message.split(/\n/gm);
 
     let childDiv = document.createElement("div");
@@ -477,4 +476,4 @@ function hashCode(str, seed = 0) {
     h1 = Math.imul(h1 ^ h1>>>16, 2246822507) ^ Math.imul(h2 ^ h2>>>13, 3266489909);
     h2 = Math.imul(h2 ^ h2>>>16, 2246822507) ^ Math.imul(h1 ^ h1>>>13, 3266489909);
     return 4294967296 * (2097151 & h2) + (h1>>>0);
-};
+}
