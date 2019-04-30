@@ -180,6 +180,77 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.CHMOD);
             this.user.addCommand(COMMAND_TYPE.MAN);
         }
+        else{
+            ioJson.getUserCommands().forEach( (command) => {
+                switch (command) {
+                    case "exit":
+                        this.user.addCommand(COMMAND_TYPE.EXIT);
+                        break;
+
+                    case "help":
+                        this.user.addCommand(COMMAND_TYPE.HELP);
+                        break;
+
+                    case "cd" :
+                        this.user.addCommand(COMMAND_TYPE.CD);
+                        break;
+
+                    case "cat" :
+                        this.user.addCommand(COMMAND_TYPE.CAT);
+                        break;
+
+                    case "ls" :
+                        this.user.addCommand(COMMAND_TYPE.LS);
+                        break;
+
+                    case "mv" :
+                        this.user.addCommand(COMMAND_TYPE.MV);
+                        break;
+
+                    case "tree" :
+                        this.user.addCommand(COMMAND_TYPE.TREE);
+                        break;
+
+                    case "grep" :
+                        this.user.addCommand(COMMAND_TYPE.GREP);
+                        break;
+
+                    case "jobs" :
+                        this.user.addCommand(COMMAND_TYPE.JOBS);
+                        break;
+
+                    case "clear" :
+                        this.user.addCommand(COMMAND_TYPE.CLEAR);
+                        break;
+
+                    case "man" :
+                        this.user.addCommand(COMMAND_TYPE.MAN);
+                        break;
+
+                    case "yes" :
+                        this.user.addCommand(COMMAND_TYPE.YES);
+                        break;
+
+                    case "chmod" :
+                        this.user.addCommand(COMMAND_TYPE.CHMOD);
+                        break;
+
+                    case ">" :
+                        this.user.addCommand(COMMAND_TYPE.WRITE);
+                        break;
+
+                    case ">>" :
+                        this.user.addCommand(COMMAND_TYPE.APPEND);
+                        break;
+
+                    default :
+                        this.user.addCommand(COMMAND_TYPE.UNKNOWN);
+                        break;
+
+                }
+            })
+        }
+        console.log(this.user);
     }
 
     /**
