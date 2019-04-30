@@ -13,6 +13,13 @@ let saveIndex = -1;
 let tabIndex = -1;
 let tabCommandSaved = "";
 
+// logging
+let askingForPassword = false;
+let userAskingForPassword = "";
+let signedUsers = {
+    admin: 4197918964798120
+};
+
 focusConsole();
 
 /**
@@ -165,17 +172,36 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 pseudo = pseudo.substring(0, pseudo.length - 1); // Remove the last char (&nbsp;)
 
                 // If the pseudo is empty or contains space(s), ask for it again
-                if (pseudo.length === 0 || pseudo.indexOf(String.fromCharCode(160)) !== -1) {
+                if ((pseudo.length === 0 || pseudo.indexOf(String.fromCharCode(160)) !== -1) && !askingForPassword) {
                     printMessage("Veuillez entrer un pseudo valide (sans espace) :");
                 } else {
-                    // Init the engine with the user pseudo
-                    Main.init(pseudo);
+                    let correctPassword = true;
 
-                    // Say hello to the user
-                    printMessage("Bienvenue " + pseudo + " !");
+                    if(pseudo in signedUsers){
+                        askingForPassword = true;
+                        userAskingForPassword = pseudo;
+                        correctPassword = false;
+                        printMessage("Veuillez entrer votre mot de passe :");
+                    }else if(askingForPassword){
+                        if(signedUsers[userAskingForPassword] !== hashCode(pseudo)){
+                            printMessage("Mauvais mot de passe, veuillez réessayer :");
+                            correctPassword = false;
+                        }else{
+                            askingForPassword = false;
+                            pseudo = userAskingForPassword;
+                        }
+                    }
 
-                    printConsolePath();
-                    firstConnection = false;
+                    if(correctPassword){
+                        // Init the engine with the user pseudo
+                        Main.init(pseudo);
+
+                        // Say hello to the user
+                        printMessage("Bienvenue " + pseudo + " !");
+
+                        printConsolePath();
+                        firstConnection = false;
+                    }
                 }
 
                 // Clear the console input
@@ -429,6 +455,7 @@ function colorize(object) {
     }
     return null;
 }
+
 function sleep(milliseconds) {
     let start = new Date().getTime();
     for (let i = 0; i < 1e7; i++) {
@@ -437,3 +464,17 @@ function sleep(milliseconds) {
         }
     }
 }
+
+// 53-bit hash
+// credits goes to bryc from https://stackoverflow.com/a/52171480/8811838
+function hashCode(str, seed = 0) {
+    let h1 = 0xdeadbeef ^ seed, h2 = 0x41c6ce57 ^ seed;
+    for (let i = 0, ch; i < str.length; i++) {
+        ch = str.charCodeAt(i);
+        h1 = Math.imul(h1 ^ ch, 2654435761);
+        h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ h1>>>16, 2246822507) ^ Math.imul(h2 ^ h2>>>13, 3266489909);
+    h2 = Math.imul(h2 ^ h2>>>16, 2246822507) ^ Math.imul(h1 ^ h1>>>13, 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1>>>0);
+};

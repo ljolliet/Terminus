@@ -16,35 +16,52 @@ class Main {
 
     static init(login) {
 
+        this.printUserPath = true;
+
+        // Yes/no handling
+        this.yesnoAnswer = -1;
+        this.isYesno = false;
+        this.yesnoCommand = null;
+
         let ioJson = new IOjson(worldJson);
 
-        // translate quests from json
+        ioJson.init(login, PlaceTab, QuestTab)
+
+        /* // translate quests from json
         for (let q of ioJson.getAllQuests()) {
             QuestTab.push(new Quest(q.name, q.id));
         }
 
+        // Create Quests
         QuestTab.forEach( (quest) => {
 
             let questRequirementTab = ioJson.getQuestRequirements(quest.id);
 
+            //add quest's quest required
             questRequirementTab.forEach( (questRequired) => {
                 let q = this.findQuest(questRequired);
 
                 quest.addQuestsRequired(q);
             });
 
+            // set quest's initial text
             quest.initialText = ioJson.getQuestTextStart(quest.id);
+
+            // set quest's end text
             quest.endText = ioJson.getQuestTextEnd(quest.id);
 
+            //add quest's commands required
             ioJson.getQuestCommandRequired(quest.id).forEach( (command) => {
 
                 if (command.includes('#login')){
-                    quest.addCommandRequired(command.replace('#login', ioJson.getUserLogin()));
+                    quest.addCommandRequired(command.replace('#login', login));
                 }
                 else
                     quest.addCommandRequired(command);
+                console.log(quest.commandRequired);
             });
 
+            //add quest's commands rewards
             ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
                 switch (command) {
                     case "exit":
@@ -121,16 +138,19 @@ class Main {
             PlaceTab.push(new Place(p.placeName, p.id));
         }
 
+        // create Places
         PlaceTab.forEach( (place) => {
 
             let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
 
+            //add accessible places from place
             nextPlaceTab.forEach( (nextPlace) => {
                 let next = this.findPlace(nextPlace);
 
                 place.addPlace(next);
             });
 
+            // add place's quests
             ioJson.getPlaceQuests(place.id).forEach( (quest) => {
                 let q = this.findQuest(quest);
                 if (login === "admin") {
@@ -140,16 +160,19 @@ class Main {
 
             });
 
+            // add place's PNJ
             ioJson.getPlacePNJ(place.id).forEach( (pnj) => {
                 let pnj1 = new PNJ(pnj.name, pnj.text);
                 place.addEntity(pnj1);
             });
 
+            // add place's Items
             ioJson.getPlaceItems(place.id).forEach( (item) => {
                 let i = new Item(item.name, item.text);
                 place.addEntity(i);
             });
 
+            // add place's scripts
             if (ioJson.getPlaceScript(place.id)[0] !== undefined){
 
                 let obj = ioJson.getPlaceScript(place.id)[0];
@@ -157,12 +180,12 @@ class Main {
                 script.content = obj.content;
 
                 place.addScript(script);
-                /*console.log(ioJson.getPlaceScript(place.id)[0].name);
+                console.log(ioJson.getPlaceScript(place.id)[0].name);
                 console.log(ioJson.getPlaceScript(place.id)[0].args);
-                console.log(ioJson.getPlaceScript(place.id)[0].content);*/
+                console.log(ioJson.getPlaceScript(place.id)[0].content);
             }
 
-        });
+        }); */
 
         Place.root = this.findPlace(0);
         Place.home = this.findPlace(1);
@@ -179,6 +202,76 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.YES);
             this.user.addCommand(COMMAND_TYPE.CHMOD);
             this.user.addCommand(COMMAND_TYPE.MAN);
+        }
+        else{
+            ioJson.getUserCommands().forEach( (command) => {
+                switch (command) {
+                    case "exit":
+                        this.user.addCommand(COMMAND_TYPE.EXIT);
+                        break;
+
+                    case "help":
+                        this.user.addCommand(COMMAND_TYPE.HELP);
+                        break;
+
+                    case "cd" :
+                        this.user.addCommand(COMMAND_TYPE.CD);
+                        break;
+
+                    case "cat" :
+                        this.user.addCommand(COMMAND_TYPE.CAT);
+                        break;
+
+                    case "ls" :
+                        this.user.addCommand(COMMAND_TYPE.LS);
+                        break;
+
+                    case "mv" :
+                        this.user.addCommand(COMMAND_TYPE.MV);
+                        break;
+
+                    case "tree" :
+                        this.user.addCommand(COMMAND_TYPE.TREE);
+                        break;
+
+                    case "grep" :
+                        this.user.addCommand(COMMAND_TYPE.GREP);
+                        break;
+
+                    case "jobs" :
+                        this.user.addCommand(COMMAND_TYPE.JOBS);
+                        break;
+
+                    case "clear" :
+                        this.user.addCommand(COMMAND_TYPE.CLEAR);
+                        break;
+
+                    case "man" :
+                        this.user.addCommand(COMMAND_TYPE.MAN);
+                        break;
+
+                    case "yes" :
+                        this.user.addCommand(COMMAND_TYPE.YES);
+                        break;
+
+                    case "chmod" :
+                        this.user.addCommand(COMMAND_TYPE.CHMOD);
+                        break;
+
+                    case ">" :
+                        this.user.addCommand(COMMAND_TYPE.WRITE);
+                        break;
+
+                    case ">>" :
+                        this.user.addCommand(COMMAND_TYPE.APPEND);
+                        break;
+
+                    default :
+                        this.user.addCommand(COMMAND_TYPE.UNKNOWN);
+                        break;
+
+                }
+            })
         }
     }
 
@@ -238,6 +331,25 @@ class Main {
      * @param {string} command a command typed by the user.
      */
     static executeCommand(command){
+        if(this.isYesno){
+            if(command === "y" || command === "yes"){
+                this.yesnoAnswer = 1;
+                command = this.yesnoCommand;
+                this.isYesno = false;
+                this.yesnoCommand = null;
+            }else if(command === "n" || command === "no"){
+                this.yesnoAnswer = 0;
+                command = this.yesnoCommand;
+                this.isYesno = false;
+                this.yesnoCommand = null;
+            }else{
+                this.yesnoAnswer = -1;
+                this.isYesno = true;
+                this.print("Mauvais argument. Yes or no (y or n)?");
+                return;
+            }
+        }
+
         let parser = new Parser(command, false);
         let parsedCommand = parser.getParsedCommand();
 
@@ -257,8 +369,6 @@ class Main {
         }else{
             this._executeCommand("", parsedCommand);
         }
-        // Change the path that is print before the command input
-        printConsolePath();
     }
 
     /**
@@ -270,7 +380,6 @@ class Main {
      */
     static _executeCommand(input, parsedCommand) {
 
-        console.log("execute");
         let commandChecker = new Checker(parsedCommand, this.user, false);
 
         let isValid = commandChecker.isCommandValid();
@@ -379,6 +488,11 @@ class Main {
                 break;
         }
 
+        // Change the path that is print before the command input
+        if(this.printUserPath){
+            printConsolePath();
+        }
+
         Main.questAdvancement(parsedCommand.toString());
 
         return output;
@@ -389,12 +503,21 @@ class Main {
      * Here goes the code when the user has typed exit.
      */
     static exit() {
+
         if (this.user.currentQuest !== null) {
             this.print("Quête " + this.user.currentQuest.name + " stoppée");
             this.user.currentQuest = null;
         } else {
-            // this.print("Tu es sur que tu souhaites quitter Terminus ? (yes/no)")
-            reload();
+            this.print("Es-tu sur de quitter Terminus ? (yes/no)");
+            if(this.yesnoAnswer === -1){
+                this.yesnoCommand = "exit";
+                this.isYesno = true;
+            }else if(this.yesnoAnswer === 0){
+                this.print("Annulation.");
+                this.yesnoAnswer = -1;
+            }else{
+                reload();
+            }
         }
 
         return "";
@@ -521,20 +644,20 @@ class Main {
         // We try to launch the script
         let scriptLaunched = this.user.launchScript(scriptName, args);
         if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
-            message = this.permissionMessage("./", scriptName);
+        message = this.permissionMessage("./", scriptName);
         else if (scriptLaunched === COMMAND_STATUS.INCORRECT_1)
-            message = "script: Argument innatendu ou incorrect";
+        message = "script: Argument innatendu ou incorrect";
         // If it did not launch, we check if it is a quest
         else if (scriptLaunched===COMMAND_STATUS.INCORRECT_2) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
-                message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
+            message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
             else if (info === COMMAND_STATUS.PERMISSION_ISSUE)
-                message = this.permissionMessage("./", scriptName);
+            message = this.permissionMessage("./", scriptName);
             else if (info === INFO.UNAVAILABLE)
-                message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
+            message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
             else if (info === INFO.FINISHED)
-                message = "La quête " + scriptName + " est déjà terminée.";
+            message = "La quête " + scriptName + " est déjà terminée.";
             else// INFO.FOUND
             {
                 message = "Quête " + this.user.currentQuest.name + " lancée.\n";
@@ -545,7 +668,6 @@ class Main {
         this.print(message);
         return message;
     }
-
     /**
      * Here goes the code when the user has typed mv.
      * @param {String} source

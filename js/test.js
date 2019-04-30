@@ -3,6 +3,7 @@
  *  When a place is added to another, it parent is updated.
  */
 QUnit.test("Place parent", function (assert) {
+    Place.root = null;
 
     let a = new Place("a");
     let b = new Place("b");
@@ -22,6 +23,7 @@ QUnit.test("Place parent", function (assert) {
  *  Static attribute root change to access to it from any place (like "/" in shell)
  */
 QUnit.test("Place root", function (assert) {
+    Place.root = null;
 
     let a = new Place("a");
     assert.equal(Place.root, null, "Root is null because is not initialized");
@@ -595,14 +597,14 @@ QUnit.test("checker.js (depends on command.js)", function (assert) {
     checker = new Checker(new Command([
         ["./script"]
     ]), user);
-    assert.equal(checker.isCommandValid(), true, "The ./ command does not expect any argument");
+    assert.equal(checker.isCommandValid(), true, "The ./ command handle arguments");
     assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of ./ is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LAUNCH, "The ./ type is LAUNCH");
     checker = new Checker(new Command([
         ["./script", "arg"]
     ]), user);
-    assert.equal(checker.isCommandValid(), false, "The ./ command does not expect any argument");
-    assert.notEqual(checker.getErrorMessage(), "", "The error message of an incorrect use of ./ is not empty");
+    assert.equal(checker.isCommandValid(), true, "The ./ command handle arguments");
+    assert.equal(checker.getErrorMessage(), "", "The error message of a correct use of ./ is empty");
     assert.equal(checker.getCommandType(), COMMAND_TYPE.LAUNCH, "The ./ type is LAUNCH");
 
     // Test cd command
