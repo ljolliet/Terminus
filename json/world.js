@@ -102,7 +102,7 @@
                         "items": [
                             {
                                 "name": "carte_etudiante",
-                                "text": ""
+                                "text": "221451247"
                             },
                             {
                                 "name": "certificat_de_scolarite",
@@ -303,9 +303,18 @@
                     {
                         "id": 17,
                         "placeName": "Arts_et_Metiers",
-                        "next_Place": [],
-                        "quests": [],
-                        "pnj": [],
+                        "next_Place": [
+                            19
+                        ],
+                        "quests": [
+                            10
+                        ],
+                        "pnj": [
+                            {
+                                "name": "Peter_Parker",
+                                "text": "(Se parlant à lui même) Je dois rédiger un article pour le Daily Bugle... Je n'ai pas le temps de sauver les gens et de rédiger des articles ! Jonah Jameson va me tuer... (Peter vous vois) Oh je sens que tu as l'âme d'un hero, pourrais-tu me sauver la vie en écrivant un article pour moi ? Je vois à ton soupir que tu es partant, merci beaucoup ! L'article dois parler du nouveau costume de Spiderman, le titre est 'the_new_spiderman', tu trouveras sûrement l'inspiration à le BU ! Je file sauver Mary Jane !\nN'oublie pas de mettre l'article dans ton inventaire !"
+                            }
+                        ],
                         "items": [],
                         "script": []
                     },
@@ -317,7 +326,36 @@
                         "pnj": [],
                         "items": [],
                         "script": []
-                    }
+                    },
+                    {
+                        "id": 19,
+                        "placeName": "BU",
+                        "next_Place": [],
+                        "quests": [
+                        
+                        ],
+                        "pnj": [
+                            {
+                                "name": "Ducobu",
+                                "text": "Pas besoin d'être bon en cours quand tu es malin ! Comment ? Tu as un article à rediger ?\nMa technique secrète, créer un fichier grâce à la commande touch puis afficher un article et le rediriger vers le fichier que je viens de créer avec >.\nNe me remercie pas, la triche et moi ne faisons qu'un !"
+                            }
+                        ],
+                        "items": [
+                            {
+                                "name": "le_lapin_de_paque_existe_vraiment",
+                                "text": "Le 1er Avril dernier, une petite fille de 8 ans à affirmé avoir vu le lapin de pâque !\n Alors qu'elle ramassait tranquillement les chocolats de son jardin, elle aurait selon elle apperçu un énorme lapin portant de nombreux œufs dans ses bras ! Après une enquete approfondie, un costume de lapin à été retrouvé dans le coffre de la voiture des parents. Quelle tristesse pour cette jeune fille..."
+                            },
+                            {
+                                "name": "le_costume_de_spiderman",
+                                "text": "Spiderman à été apperçu avec un tout nouveau costume, celui ci serait désormais capable de placer nur des courtes distances, d'utiliser des drones miniatures pour identifier sa cible en toute sûreté ! Il possède également différents types de toiles plus adaptées aux différentes situations. "
+                            },
+                            {
+                                "name": "le_vrai_salaire_des_youtubers",
+                                "text": "Le célèbre youtubeur Squeezie nous parle de son salaire : 'L\'argent que je touche grâce aux OP sert principalement à financer les vidéos, les monteurs, les différents projets, le salaire d'un youtubeur dépend de son nombre de vues, du nombre d'OP qu'il fait etc... Il faut aussi penser qu'il y a des charges qui ne sont pas négligeables !'\nVoici les seuls indications que nous avous eu... Le salaire d'un youtubeur restera un mystère !"
+                            }
+                        ],
+                        "script": []
+                    },
                 ],
                 "Quests": [
                     {
@@ -431,6 +469,21 @@
                         "text_End": null,
                         "commandRequired": [
                             "yes"
+                        ]
+                    },
+                    {
+                        "id": 10,
+                        "name": "la_gazette_du_hero.sh",
+                        "requirement": [8],
+                        "commands_Rewards": [],
+                        "status": "TODO",
+                        "text_Start": "Peter semble avoir besoin d'aide, parle lui pour en savoir plus.",
+                        "text_End": "<Message de Spiderman> Merci de ton aide, tu es mon hero !",
+                        "commandRequired": [
+                            "cd BU",
+                            "touch the_new_spiderman",
+                            "cat le_costume_de_spiderman > the_new_spiderman",
+                            "mv the_new_spiderman $INVENTAIRE"
                         ]
                     }
                 ],
