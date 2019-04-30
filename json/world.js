@@ -176,7 +176,7 @@
                             },
                             {
                                 "name": "Gandalf",
-                                "text": "VOUS NE PASSEREZ PAAAAAAAAAAAAAAAAAAAS … enfin tant que ce pont ne sera pas réparé. Je me demande bien si une certaine personne ici présente ne serait pas assez intelligente et rusée pour trouver comment faire *clin d’oeil* *clin d’oeil* … J’ai créé un script pour passer le pont (à ne pas confondre avec les quêtes) mais je n’ai pas les droit pour l'exécuter. J’ai appris l’existence d’une commande capable de modifier les droits d’accès dans un vieux grimoire de magie noire… Il s’agit de la commande chmod, ajoute les droits en exécution pour mon script puis tu pourras traverser le pont à l’aide d’un mot de passe."
+                                "text": "VOUS NE PASSEREZ PAAAAAAAAAAAAAAAAAAAS… enfin tant que ce pont ne sera pas réparé. Je me demande bien si une certaine personne ici présente ne serait pas assez intelligente et rusée pour trouver comment faire *clin d’oeil* *clin d’oeil*… J’ai créé un script pour passer le pont (à ne pas confondre avec les quêtes) mais je n’ai pas les droits pour l'exécuter. J’ai appris l’existence d’une commande capable de modifier les droits d’accès dans un vieux grimoire de magie noire… Il s’agit de la commande chmod, ajoute les droits en exécution pour mon script puis tu pourras traverser le pont à l’aide d’un mot de passe."
                             }
                         ],
                         "items": [],
