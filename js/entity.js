@@ -1,7 +1,7 @@
 class Entity extends UnixObject {
 
     /**
-     * Do not use simple entity but prefer PNJ and Item directly.
+     * Do not use simple entity but prefer PNJ and Item directly. It corresponds to a file.
      * @param {String} name
      * @param {String} text
      */
@@ -10,10 +10,16 @@ class Entity extends UnixObject {
         this._text = text;
     }
 
+    /**
+     * @return {String} The text corresponding to the entity.
+     */
     get text() {
         return this._text;
     }
 
+    /**
+     * @param text To update the text.
+     */
     set text(text) {
         this._text = text;
     }
@@ -30,6 +36,11 @@ class Entity extends UnixObject {
 }
 
 class PNJ extends Entity {
+    /**
+     * PNJ constructor, a pnj cannot be moved
+     * @param {String} name
+     * @param {String} text
+     */
     constructor(name, text) {
         super(name, text);
         this.writeAccess = false;
@@ -37,6 +48,11 @@ class PNJ extends Entity {
 }
 
 class Item extends Entity {
+    /**
+     * Item constructor, a pnj can be moved
+     * @param {String} name
+     * @param {String} text
+     */
     constructor(name, text) {
         super(name, text);
     }

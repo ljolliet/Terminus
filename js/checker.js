@@ -15,6 +15,7 @@ const COMMAND_TYPE = {
     MAN : "man",
     YES : "yes",
     CHMOD : "chmod",
+    TOUCH : "touch",
     WRITE: ">",
     APPEND: ">>"
 };
@@ -229,6 +230,10 @@ class Checker {
 
             case "chmod":
                 this._checkCommand(this._command, COMMAND_TYPE.CHMOD, [2]);
+                break;
+
+            case "touch":
+                this._checkCommand(this._command, COMMAND_TYPE.TOUCH, [1]);
                 break;
 
             default:

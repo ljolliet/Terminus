@@ -42,6 +42,7 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.YES);
             this.user.addCommand(COMMAND_TYPE.CHMOD);
             this.user.addCommand(COMMAND_TYPE.MAN);
+            this.user.addCommand(COMMAND_TYPE.TOUCH)
         }
         else{
             ioJson.getUserCommands().forEach( (command) => {
@@ -96,6 +97,10 @@ class Main {
 
                     case "chmod" :
                         this.user.addCommand(COMMAND_TYPE.CHMOD);
+                        break;
+
+                    case "touch" :
+                        this.user.addCommand(COMMAND_TYPE.TOUCH);
                         break;
 
                     case ">" :
@@ -333,6 +338,11 @@ class Main {
 
             case COMMAND_TYPE.CHMOD:
                 if (isValid) output = Main.chmod(parsedCommand.args[1], parsedCommand.args[2]);
+                else this.print(errorMessage);
+                break;
+
+            case COMMAND_TYPE.TOUCH:
+                if (isValid) output = Main.touch(parsedCommand.args[1]);
                 else this.print(errorMessage);
                 break;
 
@@ -706,7 +716,7 @@ class Main {
      *  Chmod command implementation
      * @param {String} options The rights to apply to the object.
      * @param {String} objectName The target of the command.
-     * @return {string} the command output.
+     * @return {String} the command output.
      */
     static chmod(options, objectName) {
         let message = "";
@@ -720,6 +730,15 @@ class Main {
             this.print(message);
 
         return message;
+    }
+
+    /**
+     * Touch command implementation
+     * @param itemName The name of the item that need to be created.
+     *  @return {String} the command output.
+     */
+    static touch(itemName) {
+        this.user.currentLocation.addEntity(new Item(itemName, ""));
     }
 
     /**

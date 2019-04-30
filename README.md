@@ -54,7 +54,7 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 * The 5 basic commands : cat, cd, ls, exit help
 * Basic places sample
 * Quest Launching 
-* '!' before the name of the 
+* '!' before the name of the place
 * Trophies management
 * Inventory of the user
 * Root directory/place --\> '/' and home --\> '~'

@@ -2,9 +2,9 @@ class Script extends UnixObject {
 
 
     /**
-     *
-     * @param name The name of the script.
-     * @param args  The args required to launch the script.
+     * Script constructor, corresponding to unix script
+     * @param {String} name The name of the script.
+     * @param {String} args  The args required to launch the script.
      */
     constructor(name, args) {
         super(name);
@@ -48,12 +48,11 @@ class Script extends UnixObject {
         return "./" + this.name;
     }
 
+    /**
+     * @return {String} The args waited by the script.
+     */
     get args() {
         return this._args;
-    }
-
-    set args(value) {
-        this._args = value;
     }
 
     /**
