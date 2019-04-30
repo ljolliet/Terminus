@@ -25,167 +25,7 @@ class Main {
 
         let ioJson = new IOjson(worldJson);
 
-        ioJson.init(login, PlaceTab, QuestTab)
-
-        /* // translate quests from json
-        for (let q of ioJson.getAllQuests()) {
-            QuestTab.push(new Quest(q.name, q.id));
-        }
-
-        // Create Quests
-        QuestTab.forEach( (quest) => {
-
-            let questRequirementTab = ioJson.getQuestRequirements(quest.id);
-
-            //add quest's quest required
-            questRequirementTab.forEach( (questRequired) => {
-                let q = this.findQuest(questRequired);
-
-                quest.addQuestsRequired(q);
-            });
-
-            // set quest's initial text
-            quest.initialText = ioJson.getQuestTextStart(quest.id);
-
-            // set quest's end text
-            quest.endText = ioJson.getQuestTextEnd(quest.id);
-
-            //add quest's commands required
-            ioJson.getQuestCommandRequired(quest.id).forEach( (command) => {
-
-                if (command.includes('#login')){
-                    quest.addCommandRequired(command.replace('#login', login));
-                }
-                else
-                    quest.addCommandRequired(command);
-                console.log(quest.commandRequired);
-            });
-
-            //add quest's commands rewards
-            ioJson.getQuestCommandsRewards(quest.id).forEach( (command) => {
-                switch (command) {
-                    case "exit":
-                        quest.addCommandRewards(COMMAND_TYPE.EXIT);
-                        break;
-
-                    case "help":
-                        quest.addCommandRewards(COMMAND_TYPE.HELP);
-                        break;
-
-                    case "cd" :
-                        quest.addCommandRewards(COMMAND_TYPE.CD);
-                        break;
-
-                    case "cat" :
-                        quest.addCommandRewards(COMMAND_TYPE.CAT);
-                        break;
-
-                    case "ls" :
-                        quest.addCommandRewards(COMMAND_TYPE.LS);
-                        break;
-
-                    case "mv" :
-                        quest.addCommandRewards(COMMAND_TYPE.MV);
-                        break;
-
-                    case "tree" :
-                        quest.addCommandRewards(COMMAND_TYPE.TREE);
-                        break;
-
-                    case "grep" :
-                        quest.addCommandRewards(COMMAND_TYPE.GREP);
-                        break;
-
-                    case "jobs" :
-                        quest.addCommandRewards(COMMAND_TYPE.JOBS);
-                        break;
-
-                    case "clear" :
-                        quest.addCommandRewards(COMMAND_TYPE.CLEAR);
-                        break;
-
-                    case "man" :
-                        quest.addCommandRewards(COMMAND_TYPE.MAN);
-                        break;
-
-                    case "yes" :
-                        quest.addCommandRewards(COMMAND_TYPE.YES);
-                        break;
-
-                    case "chmod" :
-                        quest.addCommandRewards(COMMAND_TYPE.CHMOD);
-                        break;
-
-                    case ">" :
-                        quest.addCommandRewards(COMMAND_TYPE.WRITE);
-                        break;
-
-                    case ">>" :
-                        quest.addCommandRewards(COMMAND_TYPE.APPEND);
-                        break;
-
-                    default :
-                        quest.addCommandRewards(COMMAND_TYPE.UNKNOWN);
-                        break;
-
-                }
-            })
-        });
-
-
-        // translate places from json
-        for (let p of ioJson.getAllPlaces()) {
-            PlaceTab.push(new Place(p.placeName, p.id));
-        }
-
-        // create Places
-        PlaceTab.forEach( (place) => {
-
-            let nextPlaceTab = ioJson.getAccessiblePlace(place.id);
-
-            //add accessible places from place
-            nextPlaceTab.forEach( (nextPlace) => {
-                let next = this.findPlace(nextPlace);
-
-                place.addPlace(next);
-            });
-
-            // add place's quests
-            ioJson.getPlaceQuests(place.id).forEach( (quest) => {
-                let q = this.findQuest(quest);
-                if (login === "admin") {
-                    q.questsRequired = [];
-                }
-                place.addQuest(q);
-
-            });
-
-            // add place's PNJ
-            ioJson.getPlacePNJ(place.id).forEach( (pnj) => {
-                let pnj1 = new PNJ(pnj.name, pnj.text);
-                place.addEntity(pnj1);
-            });
-
-            // add place's Items
-            ioJson.getPlaceItems(place.id).forEach( (item) => {
-                let i = new Item(item.name, item.text);
-                place.addEntity(i);
-            });
-
-            // add place's scripts
-            if (ioJson.getPlaceScript(place.id)[0] !== undefined){
-
-                let obj = ioJson.getPlaceScript(place.id)[0];
-                let script = new Script(obj.name, obj.args);
-                script.content = obj.content;
-
-                place.addScript(script);
-                console.log(ioJson.getPlaceScript(place.id)[0].name);
-                console.log(ioJson.getPlaceScript(place.id)[0].args);
-                console.log(ioJson.getPlaceScript(place.id)[0].content);
-            }
-
-        }); */
+        ioJson.init(login, PlaceTab, QuestTab);
 
         Place.root = this.findPlace(0);
         Place.home = this.findPlace(1);
@@ -273,6 +113,36 @@ class Main {
                 }
             })
         }
+
+        // Create groups of names
+        this.groupsOfNames();
+    }
+
+    /**
+     * Create random groups of names and fill groupe_de_langue
+     */
+    static groupsOfNames() {
+        // Read names JSON
+        let strNamesJson = JSON.stringify(namesJson);
+        let parser = JSON.parse(strNamesJson)[0].names;
+
+        // Add login to the array
+        parser.push(this.user.login);
+
+        // Shuffle the array
+        for (let i = parser.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+            [parser[i], parser[j]] = [parser[j], parser[i]]; // Swap elements
+        }
+
+        // Create string content
+        let str = "";
+        for (let i = 0; i < parser.length; i++) {
+            str += parser[i] + " : groupe " + parseInt(i / 10 + 1) + "\n";
+        }
+
+        // Copy string into groupes_de_langue entity
+        this.findPlace(10).getEntity("groupes_de_langue").text = str;
     }
 
     /**
@@ -352,6 +222,8 @@ class Main {
 
         let parser = new Parser(command, false);
         let parsedCommand = parser.getParsedCommand();
+
+        Main.questAdvancement(parsedCommand.toString());
 
         if(parsedCommand.isPipe){
             this.printAllowed = false;
@@ -492,8 +364,6 @@ class Main {
         if(this.printUserPath){
             printConsolePath();
         }
-
-        Main.questAdvancement(parsedCommand.toString());
 
         return output;
     }
@@ -644,20 +514,20 @@ class Main {
         // We try to launch the script
         let scriptLaunched = this.user.launchScript(scriptName, args);
         if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
-        message = this.permissionMessage("./", scriptName);
+            message = this.permissionMessage("./", scriptName);
         else if (scriptLaunched === COMMAND_STATUS.INCORRECT_1)
-        message = "script: Argument innatendu ou incorrect";
+            message = "script: Argument innatendu ou incorrect";
         // If it did not launch, we check if it is a quest
         else if (scriptLaunched===COMMAND_STATUS.INCORRECT_2) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
-            message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
+                message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
             else if (info === COMMAND_STATUS.PERMISSION_ISSUE)
-            message = this.permissionMessage("./", scriptName);
+                message = this.permissionMessage("./", scriptName);
             else if (info === INFO.UNAVAILABLE)
-            message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
+                message = "La quête " + this.user.currentQuest.name + " est en cours, il est impossible de lancer deux quêtes simultanement.\n Pour stopper la quête en cours, tappe 'exit'.";
             else if (info === INFO.FINISHED)
-            message = "La quête " + scriptName + " est déjà terminée.";
+                message = "La quête " + scriptName + " est déjà terminée.";
             else// INFO.FOUND
             {
                 message = "Quête " + this.user.currentQuest.name + " lancée.\n";
@@ -668,6 +538,7 @@ class Main {
         this.print(message);
         return message;
     }
+
     /**
      * Here goes the code when the user has typed mv.
      * @param {String} source
