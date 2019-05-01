@@ -1,3 +1,7 @@
+/**
+ * Used to return the status of the command to the main, and to print something as a result.
+ * @type {{CORRECT: number, PERMISSION_ISSUE: number, INCORRECT_1: number, INCORRECT_2: number}}
+ */
 const COMMAND_STATUS = {
     CORRECT : 0,
     INCORRECT_1 : 1,

@@ -427,6 +427,11 @@ function colorMessage(colorMsg) {
     document.getElementsByClassName("textInput")[0].scrollIntoView(true);
 }
 
+/**
+ * To colorize adn object, depending of its type.
+ * @param {UnixObject} object The object to colorize.
+ * @return {{String, COLOR} | null}
+ */
 function colorize(object) {
     if (object instanceof Place) {
         return [object.name, COLOR.PLACE];
@@ -455,14 +460,6 @@ function colorize(object) {
     return null;
 }
 
-function sleep(milliseconds) {
-    let start = new Date().getTime();
-    for (let i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > milliseconds){
-            break;
-        }
-    }
-}
 
 // 53-bit hash
 // credits goes to bryc from https://stackoverflow.com/a/52171480/8811838

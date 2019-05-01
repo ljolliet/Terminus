@@ -1,5 +1,10 @@
 class Place extends UnixObject {
 
+    /**
+     * Place constructor, a place is the equivalent of a folder in UNIX
+     * @param {String} name The name of the Place.
+     * @param {int} id The id of it.
+     */
     constructor(name, id=-1) {
         super(name);
         this._id = id;
@@ -14,15 +19,6 @@ class Place extends UnixObject {
         //Place.home
         // use : let r = new Place("root") ; Place.root = r ;
     }
-
-    /*
-        constructor(place){
-            this._places = place.next_Place;
-            this._entities = place.Entities;
-            this._quests = place.Quests;
-            this._name = place.PlaceName;
-            this._parent = null;
-        }*/
 
     /**
      * @return {UnixObject[]} All the entities, places, quests, ordered alphabetically.
@@ -140,13 +136,6 @@ class Place extends UnixObject {
     }
 
     /**
-     * @param {Entity[]} value To update entities array.
-     */
-    set entities(value) {
-        this._entities = value;
-    }
-
-    /**
      * @return {Quest[]} The quests array.
      */
     get quests() {
@@ -166,7 +155,6 @@ class Place extends UnixObject {
     get parent() {
         return this._parent;
     }
-
 
     /**
      * @param {Place} place To update parent place.
@@ -227,7 +215,6 @@ class Place extends UnixObject {
     }
 
 }
-
 //inelegant but that works ..
 Place.home = null;
 Place.root = null;

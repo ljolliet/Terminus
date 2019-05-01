@@ -22,7 +22,6 @@ class IOjson{
     }
 
 
-    // Rentrer parent en plus pour vérifier que le parent de la place soit le même que celui
     getPlace(id){
         let places = this.getAllPlaces();
         let place = places.find( (place) => {
@@ -99,6 +98,81 @@ class IOjson{
 
     getUserCommands(){
         return this.getUser().commands;
+    }
+
+    setUserCommands(user) {
+        this.getUserCommands().forEach((command) => {
+
+        switch (command) {
+            case "exit":
+                user.addCommand(COMMAND_TYPE.EXIT);
+                break;
+
+            case "help":
+                user.addCommand(COMMAND_TYPE.HELP);
+                break;
+
+            case "cd" :
+                user.addCommand(COMMAND_TYPE.CD);
+                break;
+
+            case "cat" :
+                user.addCommand(COMMAND_TYPE.CAT);
+                break;
+
+            case "ls" :
+                user.addCommand(COMMAND_TYPE.LS);
+                break;
+
+            case "mv" :
+                user.addCommand(COMMAND_TYPE.MV);
+                break;
+
+            case "tree" :
+                user.addCommand(COMMAND_TYPE.TREE);
+                break;
+
+            case "grep" :
+                user.addCommand(COMMAND_TYPE.GREP);
+                break;
+
+            case "jobs" :
+                user.addCommand(COMMAND_TYPE.JOBS);
+                break;
+
+            case "clear" :
+                user.addCommand(COMMAND_TYPE.CLEAR);
+                break;
+
+            case "man" :
+                user.addCommand(COMMAND_TYPE.MAN);
+                break;
+
+            case "yes" :
+                user.addCommand(COMMAND_TYPE.YES);
+                break;
+
+            case "chmod" :
+                user.addCommand(COMMAND_TYPE.CHMOD);
+                break;
+
+            case "touch" :
+                user.addCommand(COMMAND_TYPE.TOUCH);
+                break;
+
+            case ">" :
+                user.addCommand(COMMAND_TYPE.WRITE);
+                break;
+
+            case ">>" :
+                user.addCommand(COMMAND_TYPE.APPEND);
+                break;
+
+            default :
+                user.addCommand(COMMAND_TYPE.UNKNOWN);
+                break;
+        }
+        });
     }
 
     init(login, PlaceTab, QuestTab){

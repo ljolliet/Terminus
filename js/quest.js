@@ -1,20 +1,32 @@
-// Status list
+/**
+ * A quest as 3 types, _TODO , Started and Done.
+ * @type {{_TODO: number, DONE: number, STARTED: number}}
+ */
 const STATUS = {
     TODO: 0,
     STARTED: 1,
     DONE: 2
 };
 
+/**
+ * Information about the quest, used in the main to print several things dependaing on the information.
+ * @type {{LOCKED: number, UNAVAILABLE: number, UNKNOWN: number, FINISHED: number, FOUND: number}}
+ */
 const INFO = {
-    UNKNOWN: 0,
-    FOUND: 1,
-    UNAVAILABLE: 2,
-    LOCKED: 3,
-    FINISHED: 4
+    UNKNOWN: 0, //does not exist
+    FOUND: 1,  // found so the user can start it
+    UNAVAILABLE: 2, // unavailable because an other quest is already launched
+    LOCKED: 3,  // the user needs to finish all the quests required
+    FINISHED: 4 // already finished
 };
 
 class Quest extends UnixObject{
 
+    /**
+     * Quest constructor
+     * @param {String} name The name of the quest.
+     * @param {int} id The id of it.
+     */
     constructor(name, id=-1) {
         super(name);
         this._id = id;

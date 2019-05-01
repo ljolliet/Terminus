@@ -151,6 +151,9 @@ QUnit.test("Inventory & trophies", function (assert) {
     assert.equal(inventory.entities.length, 3, "trophy armory is in the items"); // 3 with armoire_a_trophee
 });
 
+/**
+ * To check the function used by the TAB.
+ */
 QUnit.test("Startwith", function (assert) {
     let user = new User("user", [], null, []);
     let parent = new Place("parent");
@@ -256,6 +259,9 @@ QUnit.test("questDependency", function (assert) {
 
 });
 
+/**
+ * Rights management on UnixObjects
+ */
 QUnit.test("Rights on unixObjects", function (assert) {
     let place = new Place("place");
     let item = new Item("item");

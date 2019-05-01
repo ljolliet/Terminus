@@ -1,3 +1,7 @@
+/**
+ * All the colors depending on the item of object and several properties of it.
+ * @type {{OTHER: string, QUEST_IN_PROGRESS: string, ITEM: string, QUEST_DONE: string, SCRIPT: string, QUEST_TODO: string, PLACE: string, PNJ: string}}
+ */
 const COLOR = {
     QUEST_DONE: "#79e234",
     QUEST_IN_PROGRESS: "#ef9029",
@@ -14,6 +18,10 @@ const QuestTab = [];
 
 class Main {
 
+    /**
+     * To init the world of the user, with places, quests, etc ..
+     * @param login The login of the user.
+     */
     static init(login) {
 
         this.printUserPath = true;
@@ -33,6 +41,8 @@ class Main {
 
         this.user = new User(login, [], inventory, []);
         this.user.currentLocation = this.findPlace(1);
+        ioJson.setUserCommands(this.user);
+
         if (login === "admin") {
             this.user.addCommand(COMMAND_TYPE.MV);
             this.user.addCommand(COMMAND_TYPE.TREE);
@@ -44,82 +54,8 @@ class Main {
             this.user.addCommand(COMMAND_TYPE.MAN);
             this.user.addCommand(COMMAND_TYPE.TOUCH)
         }
-        else{
-            ioJson.getUserCommands().forEach( (command) => {
-                switch (command) {
-                    case "exit":
-                        this.user.addCommand(COMMAND_TYPE.EXIT);
-                        break;
 
-                    case "help":
-                        this.user.addCommand(COMMAND_TYPE.HELP);
-                        break;
-
-                    case "cd" :
-                        this.user.addCommand(COMMAND_TYPE.CD);
-                        break;
-
-                    case "cat" :
-                        this.user.addCommand(COMMAND_TYPE.CAT);
-                        break;
-
-                    case "ls" :
-                        this.user.addCommand(COMMAND_TYPE.LS);
-                        break;
-
-                    case "mv" :
-                        this.user.addCommand(COMMAND_TYPE.MV);
-                        break;
-
-                    case "tree" :
-                        this.user.addCommand(COMMAND_TYPE.TREE);
-                        break;
-
-                    case "grep" :
-                        this.user.addCommand(COMMAND_TYPE.GREP);
-                        break;
-
-                    case "jobs" :
-                        this.user.addCommand(COMMAND_TYPE.JOBS);
-                        break;
-
-                    case "clear" :
-                        this.user.addCommand(COMMAND_TYPE.CLEAR);
-                        break;
-
-                    case "man" :
-                        this.user.addCommand(COMMAND_TYPE.MAN);
-                        break;
-
-                    case "yes" :
-                        this.user.addCommand(COMMAND_TYPE.YES);
-                        break;
-
-                    case "chmod" :
-                        this.user.addCommand(COMMAND_TYPE.CHMOD);
-                        break;
-
-                    case "touch" :
-                        this.user.addCommand(COMMAND_TYPE.TOUCH);
-                        break;
-
-                    case ">" :
-                        this.user.addCommand(COMMAND_TYPE.WRITE);
-                        break;
-
-                    case ">>" :
-                        this.user.addCommand(COMMAND_TYPE.APPEND);
-                        break;
-
-                    default :
-                        this.user.addCommand(COMMAND_TYPE.UNKNOWN);
-                        break;
-
-                }
-            })
-        }
-
-        // Create groups of names
+        // Create groups of  for quest in A21
         this.groupsOfNames();
     }
 
