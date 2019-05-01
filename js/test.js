@@ -43,6 +43,8 @@ QUnit.test("Place root", function (assert) {
  *  Static attribute root change to access to it from any place (like "~" in shell)
  */
 QUnit.test("Place home", function (assert) {
+    Place.root = null;
+
     let message = "Correct home";
     let a = new Place("a");
     assert.equal(Place.home, null, "Home is null because is not initialized");
