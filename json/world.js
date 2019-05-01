@@ -141,12 +141,8 @@
                             8
                         ],
                         "quests": [],
-                        "pnj": [
-                            {
-                                "name": "Fred&Jamy",
-                                "text": ""
-                            }
-                        ],
+                        "pnj": []
+                        ,
                         "items": [
                             {
                                 "name": "lien_ent",
@@ -443,14 +439,14 @@
                         "text_End": "Oui c’est bien celui là ! We did it ! Hourra ! Hidden signifie caché !",
                         "commandRequired": [
                             "ls -a",
-                            "cat .chiper"
+                            "cat .hidden"
                         ]
                     },
                     {
                         "id": 8,
                         "name": "les_constructeurs_de_l_extreme.sh",
                         "requirement": [5],
-                        "commands_Rewards": [],
+                        "commands_Rewards": ["touch"],
                         "status": "TODO",
                         "text_Start": "Répare le pont et traverse le à l’aide du mot de passe.",
                         "text_End": null,
