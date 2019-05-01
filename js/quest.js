@@ -1,34 +1,49 @@
-// Status list
+/**
+ * A quest as 3 types, _TODO , Started and Done.
+ * @type {{_TODO: number, DONE: number, STARTED: number}}
+ */
 const STATUS = {
     TODO: 0,
     STARTED: 1,
     DONE: 2
 };
 
+/**
+ * Information about the quest, used in the main to print several things dependaing on the information.
+ * @type {{LOCKED: number, UNAVAILABLE: number, UNKNOWN: number, FINISHED: number, FOUND: number}}
+ */
 const INFO = {
-    UNKNOWN: 0,
-    FOUND: 1,
-    UNAVAILABLE: 2,
-    FINISHED: 3
+    UNKNOWN: 0, //does not exist
+    FOUND: 1,  // found so the user can start it
+    UNAVAILABLE: 2, // unavailable because an other quest is already launched
+    LOCKED: 3,  // the user needs to finish all the quests required
+    FINISHED: 4 // already finished
 };
 
-class Quest {
+class Quest extends UnixObject {
 
-    constructor(name) {
+    /**
+     * Quest constructor
+     * @param {String} name The name of the quest.
+     * @param {int} id The id of it.
+     */
+    constructor(name, id = -1) {
+        super(name);
+        this._id = id;
         this._status = STATUS.TODO;
         this._endText = "";
         this._initialText = "";
         this._commandRequired = [];
         this._commandRewards = [];
-        this._name = name+".sh";
         this._questsRequired = [];
+        this.writeAccess = false;
     }
-    
+
     /**
-     * @return {String} Name
+     * @return {int} Quest's id.
      */
-    get name() {
-        return this._name;
+    get id() {
+        return this._id;
     }
 
     /**
@@ -74,6 +89,13 @@ class Quest {
     }
 
     /**
+     * @param {Quest[]} value To update QuestRequired.
+     */
+    set questsRequired(value) {
+        return this._questsRequired = value;
+    }
+
+    /**
      * @param {Quest} quest Add to the quests required.
      */
     addQuestsRequired(quest) {
@@ -96,7 +118,7 @@ class Quest {
     }
 
     /**
-     * @param {COMMAND_TYPE} value To update quest advancement status.
+     * @param {STATUS} value To update quest advancement status.
      */
     set status(value) {
         this._status = value;
@@ -114,6 +136,17 @@ class Quest {
      */
     set initialText(value) {
         this._initialText = value;
+    }
+
+    /**
+     * @param {String} base The String to put before an element.
+     * @param {String} shift between an element and a sub element, not used here.
+     * @param id  not used here
+     * @return {String} The description of the place as a tree.
+     */
+    description(base, shift = "", id = 0) {
+        return "./" + this.name;
+
     }
 
 }

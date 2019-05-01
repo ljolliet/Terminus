@@ -5,6 +5,8 @@
 
 # added by @ljolliet
 .idea/*
+*.zip
+*.txt
 
 ### Java-Web ###
 ## ignoring target file
@@ -99,5 +101,8 @@ fabric.properties
 
 # Sonarlint plugin
 .idea/sonarlint
+
+# MacOS
+.DS_Store
 
 # End of https://www.gitignore.io/api/webstorm,java-web,visualstudiocode
