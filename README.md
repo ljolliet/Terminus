@@ -21,18 +21,22 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 
 ### V1.2
 
-* script management (!= quests)
-* commands yes, chmod, grep, man
-* pipe management (|) so each command now return a string 
-* write and append management (\>\> and \>) 
-* rights/permission management (rwx)
-* json file reading
-* json template finished
-* hand json writing of the world
-* hand json writing of the man
-* using #_ tokens in json to add particular word (like login)
+* Script management (!= quests)
+* Commands yes, chmod, grep, man, touch
+* Pipe management (|) so each command now return a string 
+* Write and append management (\>\> and \>) 
+* Rights/permission management (rwx)
+* Json file reading
+* Json template finished
+* Hand json writing of the world
+* Hand json writing of the man
+* Using #_ tokens in json to add particular word (like login)
 * CTRL-C 
-* fixing a few bugs about completion, mv command, script arguments
+* Fixing a few bugs about completion, mv command, script arguments
+* Secured admin mode
+* Yes/no when exiting 
+* Adding a new quest
+* Adding several pnj to explain more the functions available.
 
 
 ### V1.1
