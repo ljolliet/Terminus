@@ -66,8 +66,9 @@ This project uses [ECMAScript 6](http://es6-features.org/) and is compatible wit
 
 ## Known issues
 
-*
-*
+* The way the quest is checking that the command is the one expected is not the best a all.
+We managed it the simplest possible way : comparing the String command to the one expected.
+It is the major thing we could improve in the future. 
 
 ## Running the tests
 

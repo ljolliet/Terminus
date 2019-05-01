@@ -38,7 +38,6 @@ document.addEventListener("click", function () {
 function focusConsole() {
 
 
-
     clearInterval(blinkingCursor);
     let cursor = document.getElementById('cursor');
     blinkingCursor = window.setInterval(function () {
@@ -88,22 +87,22 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             tabIndex++;
 
             // If there is no extra arguments, we will check if the command typed starts with ./
-            if(parsedCommand.args[0].startsWith("./")) {
+            if (parsedCommand.args[0].startsWith("./")) {
                 let cmdChecker = new Checker(parsedCommand, Main.user);
                 if (cmdChecker.getCommandType() === COMMAND_TYPE.LAUNCH) {
                     let objects = Main.user.currentLocation.getStartWith(parsedCommand.toString().slice(2));
                     let scripts = [];
-                    for(let object of objects){
-                        if(object instanceof Quest || object instanceof Script){
+                    for (let object of objects) {
+                        if (object instanceof Quest || object instanceof Script) {
                             scripts.push(colorize(object));
                         }
                     }
 
-                    if(scripts.length === 1) {
+                    if (scripts.length === 1) {
                         // We need to remove what the user has written with the write object name
                         inputTextFirst.innerText = "./" + scripts[0][0];
                         tabCommandSaved = inputTextFirst.innerText;
-                    } else if(scripts.length > 1) {
+                    } else if (scripts.length > 1) {
                         // Get console input
                         let msg = getConsoleInputContent();
                         msg = msg.substring(0, msg.length - 1); // Remove the last char (&nbsp;)
@@ -114,7 +113,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                         colorMessage(scripts);
                     }
                 }
-            // There is no extra argument
+                // There is no extra argument
             } else if (parsedCommand.args.length === 1 && !tabCommandSaved.endsWith(" ")) {
 
                 // The user has typed TAB, we need to retrieve the closest command, then we override the current input
@@ -125,7 +124,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
             } else { // there are extra arguments
                 // We get the last argument
                 let lastArgument = "";
-                if(!tabCommandSaved.endsWith(" "))
+                if (!tabCommandSaved.endsWith(" "))
                     lastArgument = parsedCommand.args[parsedCommand.args.length - 1];
 
                 // We get the objects that are the closest to the last argument
@@ -148,7 +147,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                     colorMessage(objectNames);
                 } else if (objects.length === 1) {
                     // We need to remove what the user has written with the write object name
-                    if(!tabCommandSaved.endsWith(" "))
+                    if (!tabCommandSaved.endsWith(" "))
                         inputTextFirst.innerText = inputTextFirst.innerText.substring(0, inputTextFirst.innerText.length - lastArgument.length) + objects[0].name;
                     else
                         inputTextFirst.innerText += objects[0].name;
@@ -177,13 +176,13 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                 } else {
                     let correctPassword = true;
 
-                    if (pseudo in signedUsers){
+                    if (pseudo in signedUsers) {
                         askingForPassword = true;
                         userAskingForPassword = pseudo;
                         correctPassword = false;
                         printMessage("Veuillez entrer votre mot de passe :");
-                    } else if (askingForPassword){
-                        if(signedUsers[userAskingForPassword] !== hashCode(pseudo)){
+                    } else if (askingForPassword) {
+                        if (signedUsers[userAskingForPassword] !== hashCode(pseudo)) {
                             printMessage("Mauvais mot de passe, veuillez réessayer :");
                             correctPassword = false;
                         } else {
@@ -192,7 +191,7 @@ document.getElementsByClassName("textInput")[0].addEventListener("keydown", func
                         }
                     }
 
-                    if(correctPassword){
+                    if (correctPassword) {
                         // Init the engine with the user pseudo
                         Main.init(pseudo);
 
@@ -470,7 +469,7 @@ function hashCode(str, seed = 0) {
         h1 = Math.imul(h1 ^ ch, 2654435761);
         h2 = Math.imul(h2 ^ ch, 1597334677);
     }
-    h1 = Math.imul(h1 ^ h1>>>16, 2246822507) ^ Math.imul(h2 ^ h2>>>13, 3266489909);
-    h2 = Math.imul(h2 ^ h2>>>16, 2246822507) ^ Math.imul(h1 ^ h1>>>13, 3266489909);
-    return 4294967296 * (2097151 & h2) + (h1>>>0);
+    h1 = Math.imul(h1 ^ h1 >>> 16, 2246822507) ^ Math.imul(h2 ^ h2 >>> 13, 3266489909);
+    h2 = Math.imul(h2 ^ h2 >>> 16, 2246822507) ^ Math.imul(h1 ^ h1 >>> 13, 3266489909);
+    return 4294967296 * (2097151 & h2) + (h1 >>> 0);
 }

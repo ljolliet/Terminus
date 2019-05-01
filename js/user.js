@@ -235,7 +235,7 @@ class User {
         if (this.currentQuest === null) {   // if a quest is not already launched
             for (let q of this.currentLocation.quests)
                 if (q.name === questName) {
-                    if(!q.execAccess)
+                    if (!q.execAccess)
                         return COMMAND_STATUS.PERMISSION_ISSUE;
                     if (q.status === STATUS.DONE)   // if quest already finished
                         return INFO.FINISHED;
@@ -259,7 +259,7 @@ class User {
     launchScript(scriptName, args) {
         for (let script of this.currentLocation.scripts) {
             if (script.name === scriptName) {
-                if(!script.execAccess)
+                if (!script.execAccess)
                     return COMMAND_STATUS.PERMISSION_ISSUE;
                 return script.run(args); // will return INCORRECT_1 or CORRECT
             }
@@ -308,7 +308,7 @@ class User {
         }
         //if it exists
         if (index !== -1 && item !== null) {
-            if(!item.writeAccess)
+            if (!item.writeAccess)
                 return COMMAND_STATUS.PERMISSION_ISSUE;
             switch (destination) {
                 case placeConst :  // current location
@@ -342,7 +342,7 @@ class User {
                     break;
                 default : // son
                     let place;
-                    if(destination.startsWith('$'))
+                    if (destination.startsWith('$'))
                         return COMMAND_STATUS.INCORRECT_2;
                     if ((place = this.currentLocation.getPlace(destination)) === null)
                         item.name = destination;

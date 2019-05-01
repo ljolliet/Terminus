@@ -91,7 +91,7 @@ class Main {
      * @param {int} id The id of the place
      * @returns {Place}
      */
-    static findPlace(id){
+    static findPlace(id) {
 
         return PlaceTab.find(function (place) {
             return (place.id === id);
@@ -103,7 +103,7 @@ class Main {
      * @param {int} id The id of the Quest
      * @returns {Quest}
      */
-    static findQuest(id){
+    static findQuest(id) {
 
         return QuestTab.find(function (quest) {
             return (quest.id === id);
@@ -116,8 +116,8 @@ class Main {
      * @param message Message to this.print.
      * @param path Optional. If true, the function will this.print the path before the message.
      */
-    static print(message, path = false){
-        if(this.printAllowed){
+    static print(message, path = false) {
+        if (this.printAllowed) {
             printMessage(message, path);
         }
     }
@@ -130,8 +130,8 @@ class Main {
      *          - 0: string to write
      *          - 1: string corresponding to the color
      */
-    static colorPrint(colorMsg){
-        if(this.printAllowed){
+    static colorPrint(colorMsg) {
+        if (this.printAllowed) {
             colorMessage(colorMsg);
         }
     }
@@ -141,19 +141,19 @@ class Main {
      * It calls executeCommand(input, command) correctly by handling pipes.
      * @param {string} command a command typed by the user.
      */
-    static executeCommand(command){
-        if(this.isYesno){
-            if(command === "y" || command === "yes"){
+    static executeCommand(command) {
+        if (this.isYesno) {
+            if (command === "y" || command === "yes") {
                 this.yesnoAnswer = 1;
                 command = this.yesnoCommand;
                 this.isYesno = false;
                 this.yesnoCommand = null;
-            }else if(command === "n" || command === "no"){
+            } else if (command === "n" || command === "no") {
                 this.yesnoAnswer = 0;
                 command = this.yesnoCommand;
                 this.isYesno = false;
                 this.yesnoCommand = null;
-            }else{
+            } else {
                 this.yesnoAnswer = -1;
                 this.isYesno = true;
                 this.print("Mauvais argument. Yes or no (y or n)?");
@@ -166,20 +166,20 @@ class Main {
 
         Main.questAdvancement(parsedCommand.toString());
 
-        if(parsedCommand.isPipe){
+        if (parsedCommand.isPipe) {
             this.printAllowed = false;
             let output = "";
-            for(let i = 0; i < parsedCommand.size; i ++){
-                if(i === parsedCommand.size - 1) this.printAllowed = true;
+            for (let i = 0; i < parsedCommand.size; i++) {
+                if (i === parsedCommand.size - 1) this.printAllowed = true;
 
                 let command = parsedCommand.getCommand(i);
 
-                if(command.args[0] === "yes")
+                if (command.args[0] === "yes")
                     printMessage("Il est interdit d'utiliser yes avec pipe.");
                 else
                     output = this._executeCommand(output, command);
             }
-        }else{
+        } else {
             this._executeCommand("", parsedCommand);
         }
     }
@@ -284,7 +284,7 @@ class Main {
 
             case COMMAND_TYPE.WRITE:
             case COMMAND_TYPE.APPEND:
-                if(isValid) {
+                if (isValid) {
                     // We need to execute the command that is before the redirection token
                     let beforeCommand = new Command([parsedCommand.args.slice(0, -2)]);
 
@@ -293,7 +293,7 @@ class Main {
                     this.printAllowed = true;
 
                     // Now we can write the result in the file
-                    if(commandChecker.getCommandType() === COMMAND_TYPE.WRITE) {
+                    if (commandChecker.getCommandType() === COMMAND_TYPE.WRITE) {
                         Main.write(result, parsedCommand.args[parsedCommand.args.length - 1]);
                     } else {
                         Main.append(result, parsedCommand.args[parsedCommand.args.length - 1]);
@@ -306,7 +306,7 @@ class Main {
         }
 
         // Change the path that is print before the command input
-        if(this.printUserPath){
+        if (this.printUserPath) {
             printConsolePath();
         }
 
@@ -324,13 +324,13 @@ class Main {
             this.user.currentQuest = null;
         } else {
             this.print("Es-tu sur de quitter Terminus ? (yes/no)");
-            if(this.yesnoAnswer === -1){
+            if (this.yesnoAnswer === -1) {
                 this.yesnoCommand = "exit";
                 this.isYesno = true;
-            }else if(this.yesnoAnswer === 0){
+            } else if (this.yesnoAnswer === 0) {
                 this.print("Annulation.");
                 this.yesnoAnswer = -1;
-            }else{
+            } else {
                 reload();
             }
         }
@@ -366,7 +366,7 @@ class Main {
             message = this.permissionMessage("cd", args[1]);
         //else : move done
 
-        if(message !== "")
+        if (message !== "")
             this.print(message);
 
         return message;
@@ -458,12 +458,12 @@ class Main {
 
         // We try to launch the script
         let scriptLaunched = this.user.launchScript(scriptName, args);
-        if(scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
+        if (scriptLaunched === COMMAND_STATUS.PERMISSION_ISSUE)
             message = this.permissionMessage("./", scriptName);
         else if (scriptLaunched === COMMAND_STATUS.INCORRECT_1)
             message = "script: Argument innatendu ou incorrect";
         // If it did not launch, we check if it is a quest
-        else if (scriptLaunched===COMMAND_STATUS.INCORRECT_2) {
+        else if (scriptLaunched === COMMAND_STATUS.INCORRECT_2) {
             let info;
             if ((info = this.user.launchQuest(scriptName)) === INFO.UNKNOWN || info === INFO.LOCKED) // if quest doesn't exist
                 message = "lancement de quête : " + scriptName + " : Aucune quête de ce type.";
@@ -493,15 +493,15 @@ class Main {
     static mv(source, destination) {
         let message = "";
         let status = this.user.moveItem(source, destination);
-        if ( status === COMMAND_STATUS.INCORRECT_1) // if move refused
+        if (status === COMMAND_STATUS.INCORRECT_1) // if move refused
             message = "mv: impossible d'évaluer '" + source + "' Aucun item ce type";
-        else if ( status === COMMAND_STATUS.INCORRECT_2) // if move refused
+        else if (status === COMMAND_STATUS.INCORRECT_2) // if move refused
             message = "mv: destination impossible '" + destination + "'. Impossible créer un item commençant par '$'";
         else if (status === COMMAND_STATUS.PERMISSION_ISSUE)
             message = this.permissionMessage("mv", source);
         //else : move done
 
-        if(message !== "")
+        if (message !== "")
             this.print(message);
 
         return message;
@@ -535,7 +535,7 @@ class Main {
      */
     static grep(input, options) {
         let message = "";
-        if(input !== undefined) {
+        if (input !== undefined) {
             for (let line of input.split("\n")) {
                 for (let word of line.split(" ")) {
                     if (word.includes(options)) {
@@ -546,7 +546,7 @@ class Main {
             }
         }
 
-        if(message === "")
+        if (message === "")
             this.print("Aucune occurence trouvée.");
         else
             this.print(message);
@@ -579,15 +579,15 @@ class Main {
         if (this.user.currentQuest !== null) { // check the quest advancement.
             let quest;
             if ((quest = this.user.checkQuest(command)) !== null) {
-                if( quest.endText !== null)
-                    message+=quest.endText+"\n";
+                if (quest.endText !== null)
+                    message += quest.endText + "\n";
                 message += "Quête : " + quest.name + " terminée.\n";
                 if (quest.commandRewards.length !== 0)
                     message += "Commande(s) : " + quest.commandRewards + " dévérouillée(s).";
             }
         }
 
-        if(message !== "")
+        if (message !== "")
             this.print(message);
 
         return message;
@@ -606,9 +606,9 @@ class Main {
         let content = parser.find(cmd => cmd.name === command);
 
         let message;
-        if(content === undefined){
+        if (content === undefined) {
             message = "Impossible de trouver le manuel correspondant à la commande " + command + ".";
-        }else{
+        } else {
             message = content["manual"];
         }
 
@@ -627,7 +627,7 @@ class Main {
 
         let message = "";
         this.actualProcess = window.setInterval(() => {
-            if(isPipe)
+            if (isPipe)
                 message += arg;
             else
                 this.print(arg);
@@ -662,7 +662,7 @@ class Main {
         else if (object.setRights(options) === false)    // set the rights
             message = "chmod: mode incorrect : '" + options + "'";
 
-        if(message !== "")
+        if (message !== "")
             this.print(message);
 
         return message;
@@ -683,7 +683,7 @@ class Main {
      * @param {string} text content,
      * @param {string} file filename.
      */
-    static write(text, file){
+    static write(text, file) {
         this._edit(text, file, false);
     }
 
@@ -693,7 +693,7 @@ class Main {
      * @param {string} text content,
      * @param {string} file filename.
      */
-    static append(text, file){
+    static append(text, file) {
         this._edit(text, file, true);
     }
 
@@ -703,24 +703,24 @@ class Main {
      * @param {string} file file,
      * @param {boolean} append true means that it won't override the content.
      */
-    static _edit(text, file, append=false){
+    static _edit(text, file, append = false) {
         let entities = this.user.currentLocation.entities;
 
         let found = 0;
         let index = 0;
-        while(!found && index < entities.length) {
+        while (!found && index < entities.length) {
             let entity = entities[index];
-            if(entity.name === file) {
+            if (entity.name === file) {
                 found = true;
             } else {
-                index ++;
+                index++;
             }
         }
 
-        if(found) {
+        if (found) {
             let file = entities[index];
-            if(file.writeAccess) {
-                if(append)
+            if (file.writeAccess) {
+                if (append)
                     file.text += text;
                 else
                     file.text = text;

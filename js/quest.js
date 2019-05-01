@@ -20,14 +20,14 @@ const INFO = {
     FINISHED: 4 // already finished
 };
 
-class Quest extends UnixObject{
+class Quest extends UnixObject {
 
     /**
      * Quest constructor
      * @param {String} name The name of the quest.
      * @param {int} id The id of it.
      */
-    constructor(name, id=-1) {
+    constructor(name, id = -1) {
         super(name);
         this._id = id;
         this._status = STATUS.TODO;

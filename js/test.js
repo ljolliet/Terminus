@@ -488,7 +488,7 @@ QUnit.test("parser.js (depends on command.js)", function (assert) {
 
     parser.setCommand("cmd arg > file");
     cmd = parser.getParsedCommand();
-    assert.deepEqual(cmd.args,["cmd", "arg", ">", "file"]);
+    assert.deepEqual(cmd.args, ["cmd", "arg", ">", "file"]);
 });
 
 /**

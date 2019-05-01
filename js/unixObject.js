@@ -19,7 +19,9 @@ class UnixObject {
      * Here null because a UnixObject is not an object that should be used alone,
      * but as a mother-class.
      */
-    description(base, shift, id) { return null;}
+    description(base, shift, id) {
+        return null;
+    }
 
     /**
      * To set the rwx access of the object.
@@ -27,7 +29,7 @@ class UnixObject {
      * @param {Boolean} write The write access.
      * @param {Boolean} exec The execution access.
      */
-    setAccesses(read, write, exec){
+    setAccesses(read, write, exec) {
         this.readAccess = read;
         this.writeAccess = write;
         this.execAccess = exec;
@@ -39,10 +41,10 @@ class UnixObject {
      * @param {Boolean} write The write access.
      * @param {Boolean} exec The execution access.
      */
-    addAccesses(read, write, exec){
-        if(read != null) this.readAccess = true;
-        if(write != null) this.writeAccess = true;
-        if(exec != null) this.execAccess = true;
+    addAccesses(read, write, exec) {
+        if (read != null) this.readAccess = true;
+        if (write != null) this.writeAccess = true;
+        if (exec != null) this.execAccess = true;
     }
 
     /**
@@ -51,10 +53,10 @@ class UnixObject {
      * @param {Boolean} write The write access.
      * @param {Boolean} exec The execution access.
      */
-    removeAccesses(read, write, exec){
-        if(read != null) this.readAccess = false;
-        if(write != null) this.writeAccess = false;
-        if(exec != null) this.execAccess = false;
+    removeAccesses(read, write, exec) {
+        if (read != null) this.readAccess = false;
+        if (write != null) this.writeAccess = false;
+        if (exec != null) this.execAccess = false;
     }
 
     /**
@@ -84,38 +86,37 @@ class UnixObject {
                         return false;
                 }
             }
-            if (value.startsWith("+") )
-                this.addAccesses(r,w,x);
-            else if (value.startsWith("-") )
-                this.removeAccesses(r,w,x);
-            else if (value.startsWith("=") )
-                this.setAccesses(r,w,x);
-            }
-        else        // if pattern chmod 647 object
+            if (value.startsWith("+"))
+                this.addAccesses(r, w, x);
+            else if (value.startsWith("-"))
+                this.removeAccesses(r, w, x);
+            else if (value.startsWith("="))
+                this.setAccesses(r, w, x);
+        } else        // if pattern chmod 647 object
             switch (parseInt(value)) {
                 case 0 :
-                    this.setAccesses(false,false,false);
+                    this.setAccesses(false, false, false);
                     break;
                 case 1 :
-                    this.setAccesses(false,false,true);
+                    this.setAccesses(false, false, true);
                     break;
                 case 2 :
-                    this.setAccesses(false,true,false);
+                    this.setAccesses(false, true, false);
                     break;
                 case 3 :
-                    this.setAccesses(false,true,true);
+                    this.setAccesses(false, true, true);
                     break;
                 case 4 :
-                    this.setAccesses(true,false,false);
+                    this.setAccesses(true, false, false);
                     break;
                 case 5 :
-                    this.setAccesses(true,false,true);
+                    this.setAccesses(true, false, true);
                     break;
                 case 6 :
-                    this.setAccesses(true,true,false);
+                    this.setAccesses(true, true, false);
                     break;
                 case 7 :
-                    this.setAccesses(true,true,true);
+                    this.setAccesses(true, true, true);
                     break;
                 default :
                     return false;
@@ -144,6 +145,7 @@ class UnixObject {
     get readAccess() {
         return this._readAccess;
     }
+
     /**
      * @returns {boolean} True if the write access is authorized.
      */

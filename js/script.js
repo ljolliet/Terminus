@@ -25,22 +25,22 @@ class Script extends UnixObject {
         for (let i = 0; i < this.args.length; i++)
             if (this.args[i].toLowerCase() !== args[i].toLowerCase())
                 correctArgs = false;
-                if (correctArgs && this.args.length === args.length) {
-                    let index = 0;
-                    let that = this;
-                    let runner = setInterval(function () {
-                        if (index === that.content.length) {
-                            clearInterval(runner)
-                            printConsolePath();
-                            Main.printUserPath = true;
-                        } else {
-                            Main.printUserPath = false;
-                            Main.executeCommand(that.content[index]);
-                            index++;
-                        }
-                    }, 50);
-                    return COMMAND_STATUS.CORRECT;
+        if (correctArgs && this.args.length === args.length) {
+            let index = 0;
+            let that = this;
+            let runner = setInterval(function () {
+                if (index === that.content.length) {
+                    clearInterval(runner)
+                    printConsolePath();
+                    Main.printUserPath = true;
+                } else {
+                    Main.printUserPath = false;
+                    Main.executeCommand(that.content[index]);
+                    index++;
                 }
+            }, 50);
+            return COMMAND_STATUS.CORRECT;
+        }
         return COMMAND_STATUS.INCORRECT_1;
     }
 

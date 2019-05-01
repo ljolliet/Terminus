@@ -10,12 +10,12 @@ const COMMAND_TYPE = {
     MV: "mv",
     TREE: "tree",
     GREP: "grep",
-    JOBS : "jobs",
-    CLEAR : "clear",
-    MAN : "man",
-    YES : "yes",
-    CHMOD : "chmod",
-    TOUCH : "touch",
+    JOBS: "jobs",
+    CLEAR: "clear",
+    MAN: "man",
+    YES: "yes",
+    CHMOD: "chmod",
+    TOUCH: "touch",
     WRITE: ">",
     APPEND: ">>"
 };
@@ -94,18 +94,18 @@ class Checker {
         let options = "";
         let args = command.args.slice();
         let delCount = 0;
-        for(let i = 0; i < args.length; i ++){
-            if(args[i].startsWith("-")){
+        for (let i = 0; i < args.length; i++) {
+            if (args[i].startsWith("-")) {
                 // We need to check if the option is expected
-                if(expectedOptions.includes(args[i])){
+                if (expectedOptions.includes(args[i])) {
                     //if(delCount === 0) options = "-";
                     options += args[i];
                     command.args.splice(i - delCount, 1);
-                    delCount ++;
+                    delCount++;
                 }
             }
         }
-        if(delCount !== 0) command.args.push(options);
+        if (delCount !== 0) command.args.push(options);
 
         if (!this._user.commandsAuthorized.includes(command.args[0])) {
             this._errorMessage = "Vous n'avez pas accès à cette commande.";
@@ -137,7 +137,7 @@ class Checker {
         }
 
         // Redirection commands: WRITE // APPEND
-        if(this._command.args.includes(">") || this._command.args.includes(">>")){
+        if (this._command.args.includes(">") || this._command.args.includes(">>")) {
             this._type = this._command.args.includes(">") ? COMMAND_TYPE.WRITE : COMMAND_TYPE.APPEND;
 
             // We need to get everything before ">" to build a new command
@@ -145,27 +145,27 @@ class Checker {
             let beforeArgs = [];
             let file = "";
             let afterCounter = 0;
-            for(let i = 0; i < this._command.args.length; i ++){
+            for (let i = 0; i < this._command.args.length; i++) {
                 let arg = this._command.args[i];
 
-                if(arg === (this._command.args.includes(">") ? ">" : ">>")){
+                if (arg === (this._command.args.includes(">") ? ">" : ">>")) {
                     before = false;
-                } else if(before) {
+                } else if (before) {
                     beforeArgs.push(arg);
-                } else if(!before && afterCounter == 0){
+                } else if (!before && afterCounter == 0) {
                     file = arg;
-                    afterCounter ++;
-                } else if(!before) {
-                    afterCounter ++;
+                    afterCounter++;
+                } else if (!before) {
+                    afterCounter++;
                 }
             }
 
-            if(file === "") {
+            if (file === "") {
                 this._isValid = false;
                 this._errorMessage = "redirection: Mauvais format pour le fichier de destination ('')."
-            } else if(afterCounter !== 1) {
+            } else if (afterCounter !== 1) {
                 this._isValid = false;
-                if(afterCounter < 1) {
+                if (afterCounter < 1) {
                     this._errorMessage = "redirection: Un fichier attendu, alors qu'aucun n'a été donné.";
                 } else {
                     this._errorMessage = "redirection: Un fichier attendu, alors que plusieurs ont été donnés.";
@@ -177,7 +177,7 @@ class Checker {
 
             return;
         }
-        
+
         // Other commands
         switch (this._command.args[0]) {
             case "exit":
@@ -201,7 +201,7 @@ class Checker {
                 break;
 
             case "mv":
-                this._checkCommand(this._command, COMMAND_TYPE.MV, [2], [],  "Mauvais usage de mv. 2 arguments attendus: source et destination.");
+                this._checkCommand(this._command, COMMAND_TYPE.MV, [2], [], "Mauvais usage de mv. 2 arguments attendus: source et destination.");
                 break;
 
             case "tree":
@@ -225,7 +225,7 @@ class Checker {
                 break;
 
             case "yes":
-                this._checkCommand(this._command, COMMAND_TYPE.YES, [0,1]);
+                this._checkCommand(this._command, COMMAND_TYPE.YES, [0, 1]);
                 break;
 
             case "chmod":

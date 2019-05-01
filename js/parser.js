@@ -12,7 +12,7 @@ class Parser {
      * @param {string} command the command that the user typed.
      * @param {boolean} verbose if true, it writes information about parsing
      */
-        constructor(command, verbose = false) {
+    constructor(command, verbose = false) {
         this._command = command;
         this._verbose = verbose;
         this._commands = [];
@@ -51,8 +51,8 @@ class Parser {
                 let args = cmds[i].split(" ");
 
                 let fixedArgs = [];
-                for(let j = 0; j < args.length; j++){
-                    if(args[j] !== ""){
+                for (let j = 0; j < args.length; j++) {
+                    if (args[j] !== "") {
                         fixedArgs.push(args[j]);
                     }
                 }

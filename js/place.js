@@ -5,7 +5,7 @@ class Place extends UnixObject {
      * @param {String} name The name of the Place.
      * @param {int} id The id of it.
      */
-    constructor(name, id=-1) {
+    constructor(name, id = -1) {
         super(name);
         this._id = id;
         this._places = [];
@@ -63,10 +63,10 @@ class Place extends UnixObject {
      */
     getStartWith(pattern) {
         let list = [];
-        if("$INVENTAIRE".startsWith(pattern))
+        if ("$INVENTAIRE".startsWith(pattern))
             list.push(new Place("$INVENTAIRE"));
-        for (let o of this.all){
-            if (o.name.toLowerCase().startsWith(pattern.toLowerCase())){
+        for (let o of this.all) {
+            if (o.name.toLowerCase().startsWith(pattern.toLowerCase())) {
                 list.push(o);
             }
         }
@@ -215,6 +215,7 @@ class Place extends UnixObject {
     }
 
 }
+
 //inelegant but that works ..
 Place.home = null;
 Place.root = null;

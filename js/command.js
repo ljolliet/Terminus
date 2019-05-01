@@ -3,10 +3,10 @@
  * @type {{CORRECT: number, PERMISSION_ISSUE: number, INCORRECT_1: number, INCORRECT_2: number}}
  */
 const COMMAND_STATUS = {
-    CORRECT : 0,
-    INCORRECT_1 : 1,
-    INCORRECT_2 : 2,    // used when the second argument is the issue
-    PERMISSION_ISSUE : 3
+    CORRECT: 0,
+    INCORRECT_1: 1,
+    INCORRECT_2: 2,    // used when the second argument is the issue
+    PERMISSION_ISSUE: 3
 };
 
 
@@ -22,10 +22,10 @@ class Command {
             this._args = args;
         }
 
-        try{
+        try {
             // test if args is an array of array
             let v = this._args[0];
-        }catch(ignored){
+        } catch (ignored) {
             throw ignored;
             //throw "Illegal argument: Command constructor needs [ [ string ] ] parameter.";
         }
@@ -43,14 +43,14 @@ class Command {
     /**
      * @return {string} it returns the original command formatted correctly.
      */
-    toString(){
+    toString() {
         let cmd = "";
-        for(let i = 0; i < this._args.length; i ++){
-            for(let j = 0; j < this._args[i].length; j ++){
-                if(j === this._args[i].length - 1) cmd += this._args[i][j];
+        for (let i = 0; i < this._args.length; i++) {
+            for (let j = 0; j < this._args[i].length; j++) {
+                if (j === this._args[i].length - 1) cmd += this._args[i][j];
                 else cmd += this._args[i][j] + " ";
             }
-            if(i !== this._args.length - 1) cmd += " | ";
+            if (i !== this._args.length - 1) cmd += " | ";
         }
         return cmd;
     }
@@ -102,14 +102,14 @@ class Command {
      * @param {string} unformattedOptions something like "-abc"
      * @returns {[string]} something like ["a", "b", "c"]
      */
-    static formatOptions(unformattedOptions){
-        if(unformattedOptions === "" || unformattedOptions == null) return [];
+    static formatOptions(unformattedOptions) {
+        if (unformattedOptions === "" || unformattedOptions == null) return [];
 
         unformattedOptions = unformattedOptions.replaceAll("-", "");
         unformattedOptions = unformattedOptions.replaceAll(" ", "");
 
         let formattedOptions = [];
-        for(let i = 0; i < unformattedOptions.length; i ++){
+        for (let i = 0; i < unformattedOptions.length; i++) {
             formattedOptions.push(unformattedOptions[i]);
         }
         return formattedOptions;
@@ -121,15 +121,15 @@ class Command {
      * @param prefix {string} command prefix,
      * @return {[string]} the closest commands.
      */
-    static getClosestCommands(prefix){
+    static getClosestCommands(prefix) {
         let matches = [];
 
         for (let key in COMMAND_TYPE) {
             if (COMMAND_TYPE.hasOwnProperty(key)) {
                 // Check if the command starts with the command typed
-                if(COMMAND_TYPE[key].startsWith(prefix)){
+                if (COMMAND_TYPE[key].startsWith(prefix)) {
                     // Check if the command is authorized
-                    if(Main.user.commandsAuthorized.indexOf(COMMAND_TYPE[key]) > -1){
+                    if (Main.user.commandsAuthorized.indexOf(COMMAND_TYPE[key]) > -1) {
                         matches.push(COMMAND_TYPE[key]);
                     }
                 }

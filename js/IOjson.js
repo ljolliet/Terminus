@@ -1,4 +1,4 @@
-class IOjson{
+class IOjson {
 
     /**
      * It is used to read and write in json files.
@@ -6,7 +6,7 @@ class IOjson{
 
 
     /**
-     * @param {string} file the file to read or write.
+     * @param {string} json the file to read or write.
      */
     constructor(json) {
         let strWorldJson = JSON.stringify(json);
@@ -17,7 +17,7 @@ class IOjson{
     /**
      * @returns {Object[]} Object[] that contains all json's Places
      */
-    getAllPlaces(){
+    getAllPlaces() {
         return this._json.World.Places;
     }
 
@@ -26,19 +26,18 @@ class IOjson{
      * @param {int} id of the Place
      * @returns {Object} Object corresponding to the place with id = id
      */
-    getPlace(id){
+    getPlace(id) {
         let places = this.getAllPlaces();
-        let place = places.find( (place) => {
+        return places.find((place) => {
             return (place.id === id);
         });
-        return place;
     }
 
     /**
      * @param {int} id of the Place
      * @returns {Object[]} Object[] corresponding to all quests available in the Place with id = id
      */
-    getPlaceQuests(id){
+    getPlaceQuests(id) {
         return this.getPlace(id).quests;
     }
 
@@ -46,7 +45,7 @@ class IOjson{
      * @param {int} id of the Place
      * @returns {Object[]} Object[] corresponding to all places accessible from the Place with id = id
      */
-    getAccessiblePlace(id){
+    getAccessiblePlace(id) {
         return this.getPlace(id).next_Place;
     }
 
@@ -54,7 +53,7 @@ class IOjson{
      * @param {int} id of the Place
      * @returns {Object[]} Object[] corresponding to all PNJs present in the Place with id = id
      */
-    getPlacePNJ(id){
+    getPlacePNJ(id) {
         return this.getPlace(id).pnj;
     }
 
@@ -62,7 +61,7 @@ class IOjson{
      * @param {int} id of the Place
      * @returns {Object[]} Object[] corresponding to all Items present in the Place with id = id
      */
-    getPlaceItems(id){
+    getPlaceItems(id) {
         return this.getPlace(id).items;
     }
 
@@ -70,7 +69,7 @@ class IOjson{
      * @param {int} id of the Place
      * @returns {Object[]} Object[] corresponding to all scripts present in the Place with id = id
      */
-    getPlaceScript(id){
+    getPlaceScript(id) {
         return this.getPlace(id).script;
     }
 
@@ -79,7 +78,7 @@ class IOjson{
     /**
      * @returns {Object[]} Object[] that contains all json's Places
      */
-    getAllQuests(){
+    getAllQuests() {
         return this._json.World.Quests;
     }
 
@@ -87,7 +86,7 @@ class IOjson{
      * @param {int} id of the Quest
      * @returns {Object} Object corresponding to the quest with id = id
      */
-    getQuest(id){
+    getQuest(id) {
         let quests = this.getAllQuests();
         return quests.find((quest) => {
             return quest.id === id;
@@ -98,7 +97,7 @@ class IOjson{
      * @param {int} id of the Quest
      * @returns {Object[]} Object[] corresponding to all quests required in the Quest with id = id
      */
-    getQuestRequirements(id){
+    getQuestRequirements(id) {
         return this.getQuest(id).requirement;
     }
 
@@ -106,7 +105,7 @@ class IOjson{
      * @param {int} id of the Quest
      * @returns {String[]} String[] that contains all commands rewards in the Quest with id = id
      */
-    getQuestCommandsRewards(id){
+    getQuestCommandsRewards(id) {
         return this.getQuest(id).commands_Rewards;
     }
 
@@ -114,7 +113,7 @@ class IOjson{
      * @param {int} id of the Quest
      * @returns {String} Status of the Quest with id = id
      */
-    getQuestStatus(id){
+    getQuestStatus(id) {
         return this.getQuest(id).status;
     }
 
@@ -122,7 +121,7 @@ class IOjson{
      * @param {int} id of the Quest
      * @returns {String} Text start of the Quest with id = id
      */
-    getQuestTextStart(id){
+    getQuestTextStart(id) {
         return this.getQuest(id).text_Start;
     }
 
@@ -130,7 +129,7 @@ class IOjson{
      * @param {int} id of the Quest
      * @returns {String} Text end of the Quest with id = id
      */
-    getQuestTextEnd(id){
+    getQuestTextEnd(id) {
         return this.getQuest(id).text_End;
     }
 
@@ -138,7 +137,7 @@ class IOjson{
      * @param {int} id of the Quest
      * @returns {String[]} String[] that contains all commands required to end the Quest with id = id
      */
-    getQuestCommandRequired(id){
+    getQuestCommandRequired(id) {
         return this.getQuest(id).commandRequired;
     }
 
@@ -147,19 +146,20 @@ class IOjson{
     /**
      * @returns {Object} Object that contains all user's information
      */
-    getUser(){
+    getUser() {
         return this._json.World.User;
     }
 
     /**
-     * @returns {String[]} String[] that contains all commands available for the user at the begining of the game
+     * @returns {String[]} String[] that contains all commands available for the user at the beginning of the game
      */
-    getUserCommands(){
+    getUserCommands() {
         return this.getUser().commands;
     }
 
     /**
      * Set the user commands available. Transform string from getUserCommands() into a COMMAND_TYPE in order to add the command to user.
+     * @param {User} user The user.
      */
     setUserCommands(user) {
         this.getUserCommands().forEach((command) => {
@@ -243,19 +243,19 @@ class IOjson{
      * Initilize the world. Recover all objects from IOjson's functions and create object Places and Quests.
      * Add this object into PlaceTab and QuestTab in order that they will be accessible into main.js.
      */
-    init(login, PlaceTab, QuestTab){
+    init(login, PlaceTab, QuestTab) {
         // translate quests from json
         for (let q of this.getAllQuests()) {
             QuestTab.push(new Quest(q.name, q.id));
         }
 
         // Create Quests
-        QuestTab.forEach( (quest) => {
+        QuestTab.forEach((quest) => {
 
             let questRequirementTab = this.getQuestRequirements(quest.id);
 
             //add quest's quest required
-            questRequirementTab.forEach( (questRequired) => {
+            questRequirementTab.forEach((questRequired) => {
                 let q = this.findQuest(questRequired);
 
                 quest.addQuestsRequired(q);
@@ -268,17 +268,16 @@ class IOjson{
             quest.endText = this.getQuestTextEnd(quest.id);
 
             //add quest's commands required
-            this.getQuestCommandRequired(quest.id).forEach( (command) => {
+            this.getQuestCommandRequired(quest.id).forEach((command) => {
 
-                if (command.includes('#login')){
+                if (command.includes('#login')) {
                     quest.addCommandRequired(command.replace('#login', login));
-                }
-                else
+                } else
                     quest.addCommandRequired(command);
             });
 
             //add quest's commands rewards
-            this.getQuestCommandsRewards(quest.id).forEach( (command) => {
+            this.getQuestCommandsRewards(quest.id).forEach((command) => {
                 switch (command) {
                     case "exit":
                         quest.addCommandRewards(COMMAND_TYPE.EXIT);
@@ -355,19 +354,19 @@ class IOjson{
         }
 
         // create Places
-        PlaceTab.forEach( (place) => {
+        PlaceTab.forEach((place) => {
 
             let nextPlaceTab = this.getAccessiblePlace(place.id);
 
             //add accessible places from place
-            nextPlaceTab.forEach( (nextPlace) => {
+            nextPlaceTab.forEach((nextPlace) => {
                 let next = this.findPlace(nextPlace);
 
                 place.addPlace(next);
             });
 
             // add place's quests
-            this.getPlaceQuests(place.id).forEach( (quest) => {
+            this.getPlaceQuests(place.id).forEach((quest) => {
                 let q = this.findQuest(quest);
                 if (login === "admin") {
                     q.questsRequired = [];
@@ -377,19 +376,19 @@ class IOjson{
             });
 
             // add place's PNJ
-            this.getPlacePNJ(place.id).forEach( (pnj) => {
+            this.getPlacePNJ(place.id).forEach((pnj) => {
                 let pnj1 = new PNJ(pnj.name, pnj.text);
                 place.addEntity(pnj1);
             });
 
             // add place's Items
-            this.getPlaceItems(place.id).forEach( (item) => {
+            this.getPlaceItems(place.id).forEach((item) => {
                 let i = new Item(item.name, item.text);
                 place.addEntity(i);
             });
 
             // add place's scripts
-            if (this.getPlaceScript(place.id)[0] !== undefined){
+            if (this.getPlaceScript(place.id)[0] !== undefined) {
 
                 let obj = this.getPlaceScript(place.id)[0];
                 let script = new Script(obj.name, obj.args);
@@ -406,7 +405,7 @@ class IOjson{
      * @param {int} id The id of the Place
      * @returns {Place}
      */
-    findPlace(id){
+    findPlace(id) {
 
         return PlaceTab.find(function (place) {
             return (place.id === id);
@@ -415,10 +414,10 @@ class IOjson{
 
     /**
      * Search in PlaceTab and return a place
-     * @param {int} id The id of the Quest
+     * @param {Object} id The id of the Quest
      * @returns {Quest}
      */
-    findQuest(id){
+    findQuest(id) {
 
         return QuestTab.find(function (quest) {
             return (quest.id === id);
